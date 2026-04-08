@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:00:25 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/08 15:09:20 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/08 15:16:26 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static void	dispatch(t_command *str, int fd_in, int fd_out)
 {
 	if (!ft_strncmp(str->cmd, "cd", 3))
-		exec_cd(str);
+		exec_cd(str, fd_in, fd_out);
 	if (!ft_strncmp(str->cmd, "export", 7))
-		exec_export(str);
+		exec_export(str, fd_in, fd_out);
 	if (!ft_strncmp(str->cmd, "unset", 6))
-		exec_unset(str);
+		exec_unset(str, fd_in, fd_out);
 	if (!ft_strncmp(str->cmd, "exit", 5))
-		exec_exit(str);
-	exec_child(str);
+		exec_exit(str, fd_in, fd_out);
+	exec_child(str, fd_in, fd_out);
 }
 
 int	execute(const t_token *tokens)
