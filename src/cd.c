@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:13:51 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/08 18:37:02 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/09 10:35:08 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	set_env(const char *var_name, char *new_val, t_env *env)
 		*var_val = new_val;
 }
 
-static void	cd_old_wd(t_env *env, char **dest, int fd_out)
+static void	cd_old_wd(t_env *env, char **dest, const int fd_out)
 {
 	char	**path;
 	int		size;
@@ -34,7 +34,7 @@ static void	cd_old_wd(t_env *env, char **dest, int fd_out)
 	write(fd_out, "\n", 1);
 }
 
-static void	cd_home(const t_command *cmd, t_env *env, char **dest)
+static void	cd_home(t_env *env, char **dest)
 {
 	char	**home;
 
@@ -43,13 +43,13 @@ static void	cd_home(const t_command *cmd, t_env *env, char **dest)
 		*dest = *home;
 }
 
-int	exec_cd(const t_command *cmd, int fd_out, t_env *env)
+int	exec_cd(const t_command *cmd, const int fd_out, t_env *env)
 {
 	char	*path;
 	char	*dest;
 
 	if (!cmd->next)
-		cd_home(cmd, env, &dest);
+		cd_home(env, &dest);
 	else if (!ft_strncmp(cmd->next->str, "-", 2))
 		cd_old_wd(env, &dest, fd_out);
 	else
@@ -67,4 +67,5 @@ int	exec_cd(const t_command *cmd, int fd_out, t_env *env)
 	if (!path)
 		return (0);
 	set_env("PWD", path, env);
+	return (1);
 }
