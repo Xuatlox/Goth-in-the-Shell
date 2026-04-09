@@ -6,23 +6,23 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:00:25 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/08 16:12:33 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/09 16:32:32 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-static void	dispatch(t_command *str, int fd_in, int fd_out, t_env *env)
+static void	dispatch(t_command *cmd, int fd_in, int fd_out, t_env *env)
 {
-	if (!ft_strncmp(str->str, "cd", 3))
-		exec_cd(str, fd_out, env);
-	if (!ft_strncmp(str->str, "export", 7))
-		exec_export(str, fd_out);
-	if (!ft_strncmp(str->str, "unset", 6))
-		exec_unset(str, fd_out);
-	if (!ft_strncmp(str->str, "exit", 5))
-		exec_exit(str, fd_out);
-	exec_child(str, fd_in, fd_out);
+	if (!ft_strncmp(cmd->str, "cd", 3))
+		exec_cd(cmd->next, fd_out, env);
+	if (!ft_strncmp(cmd->str, "export", 7))
+		exec_export(cmd->next, fd_out, env);
+	if (!ft_strncmp(cmd->str, "unset", 6))
+		exec_unset(cmd->next, fd_out);
+	if (!ft_strncmp(cmd->str, "exit", 5))
+		exec_exit(cmd->next, fd_out);
+	exec_child(cmd, fd_in, fd_out);
 }
 
 int	execute(const t_token *tokens, t_env *env)

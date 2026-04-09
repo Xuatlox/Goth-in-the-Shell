@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 16:20:20 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/08 16:52:00 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/09 16:31:34 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,13 @@ char	**get_env(t_env *env, const char *name)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void	set_env(const char *var_name, char *new_val, t_env *env)
+{
+	char	**var_val;
+
+	var_val = get_env(env, var_name);
+	if (var_val)
+		*var_val = new_val;
 }
