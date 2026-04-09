@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   func_dec.h                                         :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/08 18:45:35 by mcrenn           ###   ########.fr       */
+/*   Created: 2026/04/08 13:57:29 by mcrenn            #+#    #+#             */
+/*   Updated: 2026/04/08 14:17:48 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FUNC_DEC_H
-#define FUNC_DEC_H
+#include "../inc/minishell.h"
 
-#include "struct.h"
+/*
+	Convert command line to node with command inside
+	IF "<", ">", "<<", ">>" open the corresponded fd
+	IF "|" New node
+*/
+void lexer()
+{
 
-void	exec_cd(const t_command *cmd, int fd_in, int fd_out);
+}
 
-t_token	*ft_lst_token(int infile, int outfile, char *cmd);
-
-#endif
