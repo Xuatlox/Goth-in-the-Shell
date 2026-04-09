@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 10:57:56 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/08 15:27:45 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/09 15:51:23 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@
 # include <unistd.h>
 # include "../libft/libft.h"
 # include "func_dec.h"
+//# include "struct.h"
 
 #endif

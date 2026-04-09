@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/08 15:59:02 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/09 15:27:47 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ typedef enum e_token
 	PIPE
 }	t_type_token;
 
+typedef enum e_quote_state
+{
+	NO_QTE,
+	SIMPLE_QTE,
+	DOUBLE_QTE
+}	t_quote_state;
+
 typedef struct s_command
 {
 	char				*str;
@@ -24,10 +31,10 @@ typedef struct s_command
 
 typedef struct s_token
 {
-	int				infile;
-	int				outfile;
-	t_command		*str;
-	struct s_token	*next;
+		int				infile;
+		int				outfile;
+		t_command		*str;
+		struct s_token	*next;
 }					t_token;
 
 typedef struct s_env

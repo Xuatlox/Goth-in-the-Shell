@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/09 13:02:41 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/09 15:54:43 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,4 @@ char	**get_env(t_env *env, const char *name);
 t_token	*ft_lst_token(int infile, int outfile, char *cmd);
 
 #endif
-s
+
