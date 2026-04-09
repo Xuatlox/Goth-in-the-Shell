@@ -15,12 +15,14 @@
 
 #include "struct.h"
 
-// ENV MANIPULATION
+int		exec_cd(const t_command *command, int fd_out, t_env *env);
 char	**get_env(t_env *env, const char *name);
 void	set_env(const char *var_name, char *new_val, t_env *env);
 
 // BUILTIN CMDS
 int		exec_cd(const t_command *args, int fd_out, t_env *env);
 int		exec_export(const t_command *args, int fd_out, t_env *env);
+
+t_token	*ft_lst_token(int infile, int outfile, char *cmd);
 
 #endif
