@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 15:13:49 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/10 17:40:34 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/04/10 15:46:15 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/10 17:42:04 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-int exec_env(t_command *args, int fd_out, t_env *env)
+int exec_echo(t_command *args, int fd_out, t_env *env)
 {
-	int	size;
+	int	newline;
+	int	i;
 
-	if (!args)
+	newline = 1;
+	i = 1;
+	while (args && args->str[0] == '-')
 	{
-		printf("No arguments allowed for env\n");
-		return (0);
-	}
-	while (env)
-	{
-		if (env->val)
+		while (args->str[i] == 'n')
+			++i;
+		if (!args->str[i] && i > 1)
 		{
-			size = ft_strlen(env->name);
-			write(fd_out, env->name, size);
-			write(fd_out, "=", 1);
-			size = ft_strlen(env->val);
-			write(fd_out, env->val, size);
-			write(fd_out, "\n", 1);
+			newline = 0;
+			args = args->next;
 		}
-		env = env->next;
+		else
+			break ;
 	}
-	return (1);
+	while (args)
+	{
+		write(fd_out, args->str, args->str);
+		args = args->next;
+	}
+	if (newline)
+		write(fd_out, "\n", 1);
 }

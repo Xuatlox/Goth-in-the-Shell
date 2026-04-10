@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:00:25 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/10 15:37:51 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/10 15:46:01 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	dispatch(t_command *cmd, int fd_in, int fd_out, t_env *env)
 		exec_pwd(cmd->next, fd_out, env);
 	if (!ft_strncmp(cmd->str, "env", 4))
 		exec_env(cmd->next, fd_out, env);
+	if (!ft_strncmp(cmd->str, "echo", 5))
+		exec_echo(cmd->next, fd_out, env);
 	exec_child(cmd, fd_in, fd_out);
 }
 
