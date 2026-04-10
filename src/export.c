@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:06:27 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/09 17:18:37 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/10 15:26:46 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_var_name(const char *str, char **name, char **val)
 	if (str[i] == '=')
 		*val = ft_strdup(&str[i + 1]);
 	else
-		*val = ft_strdup("");
+		*val = NULL;
 	*name = ft_calloc(i + 1, sizeof(char));
 	return (1);
 }
@@ -92,7 +92,11 @@ static void	add_env(t_env *env, char *name, char *value)
 
 	get = get_env(env, name);
 	if (get)
+	{
+		if (*get)
+			free(*get);
 		*get = value;
+	}
 	else
 	{
 		new = malloc(sizeof(t_env));

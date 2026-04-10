@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 11:00:25 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/09 19:05:05 by xuatlox          ###   ########.fr       */
+/*   Updated: 2026/04/10 15:37:51 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	dispatch(t_command *cmd, int fd_in, int fd_out, t_env *env)
 		exec_export(cmd->next, fd_out, env);
 	if (!ft_strncmp(cmd->str, "pwd", 4))
 		exec_pwd(cmd->next, fd_out, env);
+	if (!ft_strncmp(cmd->str, "env", 4))
+		exec_env(cmd->next, fd_out, env);
 	exec_child(cmd, fd_in, fd_out);
 }
 
