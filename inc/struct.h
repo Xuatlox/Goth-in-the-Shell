@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/09 15:27:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/13 02:21:42 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ typedef enum e_quote_state
 	DOUBLE_QTE
 }	t_quote_state;
 
+typedef enum e_status
+{
+	SUCCESS,
+	FAILURE,
+	BAD_ARG,
+	ALLOCATION_FAILURE
+}	t_status;
+
+typedef enum e_redirect
+{
+	NONE,
+	INPUT,
+	HEREDOC,
+	TRUNC,
+	APPEND
+}	t_redirect;
+
 typedef struct s_command
 {
 	char				*str;
@@ -33,7 +50,7 @@ typedef struct s_token
 {
 		int				infile;
 		int				outfile;
-		t_command		*str;
+		t_command		*cmd;
 		struct s_token	*next;
 }					t_token;
 

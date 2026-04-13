@@ -6,23 +6,31 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/09 17:50:53 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/13 04:04:27 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FUNC_DEC_H
-#define FUNC_DEC_H
+# define FUNC_DEC_H
 
-#include "struct.h"
+# include "struct.h"
+# include <stdlib.h>
 
-int		exec_cd(const t_command *command, int fd_out, t_env *env);
-char	**get_env(t_env *env, const char *name);
-void	set_env(const char *var_name, char *new_val, t_env *env);
+int			exec_cd(const t_command *command, int fd_out, t_env *env);
+char		**get_env(t_env *env, const char *name);
+void		set_env(const char *var_name, char *new_val, t_env *env);
 
 // BUILTIN CMDS
-int		exec_cd(const t_command *args, int fd_out, t_env *env);
-int		exec_export(const t_command *args, int fd_out, t_env *env);
+int			exec_cd(const t_command *args, int fd_out, t_env *env);
+int			exec_export(const t_command *args, int fd_out, t_env *env);
 
-t_token	*ft_lst_token(int infile, int outfile, char *cmd);
+// LEXER
+t_token		*lexer(const char* cmd, t_status *status);
+t_token		*lst_newtoken(t_status *status);
+t_token		*ft_lstlast_token(t_token *lst);
+t_command	*lst_newcommand(char c, t_status *status);
+t_status	charjoin(t_command *src, char c);
+void		ft_lstadd_token(t_token **lst, t_status *status);
+void		ft_lstadd_command(t_token *last_tkn, char c, t_status *status);
 
 #endif
