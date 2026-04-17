@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/13 04:58:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/16 14:26:05 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,33 @@ void	ft_lstadd_command(t_token *last_tkn, char c, t_status *status)
 		else
 			*status = charjoin(ft_lstlast_command(last_tkn->cmd), c);
 	}
+}
+#include <stdio.h>
+void	ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
+			t_status *status)
+{
+	int	i;
+
+	i = 0;
+	if (!last_tkn->cmd)
+			 last_tkn->cmd = lst_newcommand(0, status);
+		else if (ft_lstlast_command(last_tkn->cmd)->str)
+			ft_lstlast_command(last_tkn->cmd)->next = lst_newcommand(0, status);
+	if (redirect == INPUT)
+		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i]);
+	else if (redirect == HEREDOC)
+	{
+		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i]);
+		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i + 1]);
+	}
+	else if (redirect == TRUNC)
+		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i]);
+	else if (redirect == APPEND)
+	{
+		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i]);
+		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i + 1]);
+	}
+	ft_lstlast_command(last_tkn->cmd)->next = lst_newcommand(0, status);
 }
 
 t_token		*lst_newtoken(t_status *status)

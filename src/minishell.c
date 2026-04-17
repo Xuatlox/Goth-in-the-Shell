@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/13 03:28:23 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/16 17:14:17 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(void)
 
 	status = SUCCESS;
 	i = 0;
-	while (i != 3)
+	while (i != 5)
 	{
 		line = readline("Write input: ");
 		lex = lexer(line, &status);
@@ -35,6 +35,10 @@ int	main(void)
 			}
 			lex = lex->next;
 		}
+		if (line[0] != 0)
+			add_history(line);
+		//parsing(lex);
 		i++;
 	}
+	rl_clear_history();
 }

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/13 04:04:27 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/13 16:18:32 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,17 @@ int			exec_cd(const t_command *args, int fd_out, t_env *env);
 int			exec_export(const t_command *args, int fd_out, t_env *env);
 
 // LEXER
-t_token		*lexer(const char* cmd, t_status *status);
-t_token		*lst_newtoken(t_status *status);
-t_token		*ft_lstlast_token(t_token *lst);
-t_command	*lst_newcommand(char c, t_status *status);
+t_token		*lexer(char* cmd, t_status *status);
 t_status	charjoin(t_command *src, char c);
+t_redirect	check_redirect(char *str);
+void		check_quotes(char c, t_quote_state *quote_state);
+// LST
+t_token		*lst_newtoken(t_status *status);
+t_command	*lst_newcommand(char c, t_status *status);
+t_token		*ft_lstlast_token(t_token *lst);
 void		ft_lstadd_token(t_token **lst, t_status *status);
 void		ft_lstadd_command(t_token *last_tkn, char c, t_status *status);
+void		ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
+			t_status *status);
 
 #endif
