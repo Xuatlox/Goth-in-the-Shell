@@ -6,7 +6,7 @@ SRC_DIR = src/
 INC_DIR = inc/
 INC_FILES = minishell.h
 INC = $(addprefix $(INC_DIR), $(INC_FILES))
-SRC_FILES = minishell.c lexer.c lst_manager.c utils_parsing.c
+SRC_FILES = minishell.c lexer.c lst_manager.c lst_token.c utils_parsing.c
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 LIBFT_DIR = libft/

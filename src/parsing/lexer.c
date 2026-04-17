@@ -6,36 +6,20 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/16 13:28:59 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/17 14:40:29 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-	Allocate a new space for the gived string, size of len.
-*/
-t_status	charjoin(t_command *src, char c)
+int *redirect_manager(char *cmd, t_token *tkn_node, t_status *status,
+	t_redirect redir_state, int *i)
 {
-	char	*tmp;
-	size_t		size;
-
-	if (!c || !src)
-		return (SUCCESS);
-	if (!src->str)
-		size = 2;
-	else
-		size = ft_strlen(src->str) + 2;
-	tmp = ft_calloc(size, 1);
-	if (!tmp)
-		return (ALLOCATION_FAILURE);
-	if (src->str)
-		ft_strlcat(tmp, src->str, size - 1);
-	ft_strlcat(tmp, &c, size);
-	if (src->str)
-		free(src->str);
-	src->str = tmp;
-	return (SUCCESS);
+	ft_lstadd_redirect(ft_lstlast_token(tkn_node), cmd, redir_state,
+		status);
+	if (redir_state == HEREDOC || redir_state == APPEND)
+		return (i++);
+	return (i);
 }
 
 /*
@@ -64,12 +48,7 @@ t_token *lexer(char* cmd, t_status *status)
 			ft_lstadd_command(ft_lstlast_token(tkn_node), 0, status);
 		else if (redir_state != NONE && quote_state == NO_QTE
 			&& *status == SUCCESS)
-		{
-			ft_lstadd_redirect(ft_lstlast_token(tkn_node), cmd + i, redir_state,
-				status);
-			if (redir_state == HEREDOC || redir_state == APPEND)
-				i++;
-		}
+			redirect_manager(cmd + i, tkn_node, status, redir_state, &i);
 		else
 			ft_lstadd_command(ft_lstlast_token(tkn_node), cmd[i], status);
 		i++;

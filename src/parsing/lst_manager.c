@@ -6,30 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/16 14:26:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/17 14:58:13 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/func_dec.h"
-
-t_token	*ft_lstlast_token(t_token *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_lstadd_token(t_token **lst, t_status *status)
-{
-	if (!lst)
-		return ;
-	if (!*lst)
-		*lst = lst_newtoken(status);
-	else
-		ft_lstlast_token(*lst)->next = lst_newtoken(status);
-}
 
 t_command	*ft_lstlast_command(t_command *lst)
 {
@@ -82,7 +63,7 @@ void	ft_lstadd_command(t_token *last_tkn, char c, t_status *status)
 			*status = charjoin(ft_lstlast_command(last_tkn->cmd), c);
 	}
 }
-#include <stdio.h>
+
 void	ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
 			t_status *status)
 {
@@ -108,21 +89,4 @@ void	ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
 		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i + 1]);
 	}
 	ft_lstlast_command(last_tkn->cmd)->next = lst_newcommand(0, status);
-}
-
-t_token		*lst_newtoken(t_status *status)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-	{
-		*status = ALLOCATION_FAILURE;
-		return (NULL);
-	}
-	token->infile = -1;
-	token->outfile = -1;
-	token->cmd = NULL;
-	token->next = NULL;
-	return (token);
 }
