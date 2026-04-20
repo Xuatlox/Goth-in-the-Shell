@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/13 02:21:42 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/20 16:44:26 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef enum e_status
 	SUCCESS,
 	FAILURE,
 	BAD_ARG,
-	ALLOCATION_FAILURE
+	ALLOCATION_FAILURE,
+	PIPE_FAILURE
 }	t_status;
 
 typedef enum e_redirect
