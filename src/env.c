@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 15:13:49 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/10 17:40:34 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/20 12:55:25 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-int exec_env(t_command *args, int fd_out, t_env *env)
+int exec_env(const t_command *args, const int fd_out, const t_env *env)
 {
 	int	size;
 

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/17 13:44:35 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/20 17:35:25 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,24 @@
 # include "struct.h"
 # include <stdlib.h>
 
-int			exec_cd(const t_command *command, int fd_out, t_env *env);
+// ENV MANAGEMENT
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);
+int			exec_echo(t_command *args, int fd_out);
 int			exec_export(const t_command *args, int fd_out, t_env *env);
+int			exec_env(const t_command *args, int fd_out, const t_env *env);
+int			exec_pwd(int fd_out, t_env *env);
+int			exec_unset(const t_command *args, t_env *env);
 
 // LEXER
 t_token		*lexer(char* cmd, t_status *status);
 t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 void		check_quotes(char c, t_quote_state *quote_state);
+
 // LST
 t_token		*lst_newtoken(t_status *status);
 t_command	*lst_newcommand(char c, t_status *status);

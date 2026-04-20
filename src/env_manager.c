@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 15:16:26 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/10 15:16:30 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/20 17:30:18 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
