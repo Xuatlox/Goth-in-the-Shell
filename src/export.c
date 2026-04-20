@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/20 17:10:29 by ansimonn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 11:06:27 by ansimonn          #+#    #+#             */
@@ -120,14 +132,18 @@ int	exec_export(const t_command *args, const int fd_out, t_env *env)
 		print_sorted_env(env, fd_out);
 		return (1);
 	}
-	if (!check_var_name(args->str, &name, &val))
-		return (0);
-	i = 0;
-	while (args->str[i] && args->str[i] != '=')
+	while (args)
 	{
-		name[i] = args->str[i];
-		++i;
+		if (!check_var_name(args->str, &name, &val))
+			return (0);
+		i = 0;
+		while (args->str[i] && args->str[i] != '=')
+		{
+			name[i] = args->str[i];
+			++i;
+		}
+		add_env(env, name, val);
+		args = args->next;
 	}
-	add_env(env, name, val);
 	return (1);
 }

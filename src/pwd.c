@@ -12,7 +12,7 @@
 
 # include "../inc/minishell.h"
 
-int exec_pwd(t_command *cmd, int fd_out, t_env *env)
+int exec_pwd(int fd_out, t_env *env)
 {
 	char	*path;
 	int		size;
