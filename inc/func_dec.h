@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/21 14:04:51 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/21 15:30:57 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int			exec_env(const t_command *args, int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env *env);
 int			exec_exit(t_command *cmd, t_env *env);
+int			exec_child(t_command *cmd, int fd_in, int fd_out, t_env *env);
 
 // LEXER
 t_token		*lexer(char* cmd, t_status *status);

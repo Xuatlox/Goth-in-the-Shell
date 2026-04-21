@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static void	cd_old_wd(t_env *env, char **dest, const int fd_out)
 {

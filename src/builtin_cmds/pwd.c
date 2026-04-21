@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int exec_pwd(int fd_out, t_env *env)
 {

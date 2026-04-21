@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static t_env	*find_prev(t_env *env, const char *to_find, const int size)
 {

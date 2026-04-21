@@ -22,7 +22,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static int	check_var_name(const char *str, char **name, char **val)
 {
