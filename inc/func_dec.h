@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/21 15:30:57 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/22 13:47:48 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 void		check_quotes(char c, t_quote_state *quote_state);
+void	redirect_manager(char *str, t_token *tkn_node, t_status *status, size_t *i);
+void		redirect_opening(t_token *tkn_node, t_status *status, t_redirect *redir, char *file_name);
 
 // LST
 t_token		*lst_newtoken(t_status *status);
