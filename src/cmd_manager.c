@@ -1,51 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_manager.c                                      :+:      :+:    :+:   */
+/*   cmd_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/22 16:54:08 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/04/22 16:45:23 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/22 16:54:38 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-int	get_env_size(const t_env *env)
+int	get_cmd_size(const t_command *cmd)
 {
 	int	size;
 
 	size = 0;
-	while (env)
+	while (cmd)
 	{
 		++size;
-		env = env->next;
+		cmd = cmd->next;
 	}
 	return (size);
-}
-
-char	**get_env(t_env *env, const char *name)
-{
-	int	size;
-
-	if (!name)
-		return (NULL);
-	size = ft_strlen(name);
-	while (env)
-	{
-		if (!ft_strncmp(env->name, name, size + 1))
-			return (&env->val);
-		env = env->next;
-	}
-	return (NULL);
-}
-
-void	set_env(const char *var_name, char *new_val, t_env *env)
-{
-	char	**var_val;
-
-	var_val = get_env(env, var_name);
-	if (var_val)
-		*var_val = new_val;
 }
