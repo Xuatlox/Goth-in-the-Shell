@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/22 13:47:48 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/23 22:59:34 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 # include "struct.h"
 # include <stdlib.h>
 
+// CMD MANAGEMENT
+int			get_cmd_size(const t_command *cmd);
+
 // ENV MANAGEMENT
+int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
 
