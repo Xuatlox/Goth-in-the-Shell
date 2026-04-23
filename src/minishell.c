@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/20 17:28:49 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/22 15:07:09 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ int	main(void)
 		while (lex)
 		{
 			printf("New Node:\n");
-			while (lex->cmd)
+			if (lex->cmd)
 			{
-				printf("CMD: %s\n", lex->cmd->str);
-				lex->cmd = lex->cmd->next;
+				while (lex->cmd)
+				{
+					printf("CMD: %s\n", lex->cmd->str);
+					lex->cmd = lex->cmd->next;
+				}
 			}
 			lex = lex->next;
 		}
