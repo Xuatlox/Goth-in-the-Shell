@@ -51,19 +51,19 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	ar -rcs $(NAME) $(OBJ)
+	@ar -rcs $(NAME) $(OBJ)
 
 $(OBJ) : $(SRC) | $(OBJ_DIR)
-	cd $(OBJ_DIR) && $(CC) $(CFLAGS) -c $(addprefix ../, $(SRC))
+	@cd $(OBJ_DIR) && $(CC) $(CFLAGS) -c $(addprefix ../, $(SRC))
 
 $(OBJ_DIR) :
 	mkdir $(OBJ_DIR)
 
 clean :
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
 
 fclean : clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re : fclean $(NAME)
 

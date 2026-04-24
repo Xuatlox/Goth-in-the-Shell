@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/17 14:58:13 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/24 17:39:26 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,37 @@ void	ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
 		*status = charjoin(ft_lstlast_command(last_tkn->cmd), cmd[i + 1]);
 	}
 	ft_lstlast_command(last_tkn->cmd)->next = lst_newcommand(0, status);
+}
+
+void	lst_clear_tkn(t_token **tkn)
+{
+	t_token	*next_node;
+
+	if (tkn == NULL)
+		return ;
+	while (*tkn)
+	{
+		next_node = (*tkn)->next;
+		lst_clear_cmd(&(*tkn)->cmd);
+		free(*tkn);
+		*tkn = next_node;
+	}
+	*tkn = NULL;
+}
+
+void	lst_clear_cmd(t_command **cmd)
+{
+	t_command	*next_node;
+
+	if (cmd == NULL)
+		return ;
+	while (*cmd)
+	{
+		next_node = (*cmd)->next;
+		if ((*cmd)->str)
+			free((*cmd)->str);
+		free(*cmd);
+		*cmd = next_node;
+	}
+	*cmd = NULL;
 }

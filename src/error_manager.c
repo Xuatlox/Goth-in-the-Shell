@@ -1,34 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   error_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/24 17:52:53 by mcrenn           ###   ########.fr       */
+/*   Created: 2026/04/24 16:38:26 by mcrenn            #+#    #+#             */
+/*   Updated: 2026/04/24 17:08:35 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(void)
+void	error_parsing(char c)
 {
-	char		*line;
-	int			i;
-	t_status	status;
-	t_token		*tkn_node;
-
-	status = SUCCESS;
-	i = 0;
-	while (i != 5)
-	{
-		line = readline("Write input: ");
-		if (line[0] != 0)
-			add_history(line);
-		tkn_node = parsing(line, &status);
-		lst_clear_tkn(&tkn_node);
-		i++;
-	}
-	rl_clear_history();
+	write(2, "Minishell: syntax error near unexpected token `", 47);
+	write(2, &c, 1);
+	write(2, "'\n", 2);
 }

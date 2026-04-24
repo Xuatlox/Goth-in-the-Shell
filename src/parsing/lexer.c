@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/23 22:39:02 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/24 17:08:12 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_token *lexer(char* cmd, t_status *status)
 	tkn_node = lst_newtoken(status);
 	while (cmd[i] && *status == SUCCESS)
 	{
-		//printf("|'%s'|'%d' '%c'|\n", cmd, cmd[i], cmd[i]);
 		check_quotes(cmd[i], &quote_state);
 		if (cmd[i] == '|' && quote_state == NO_QTE && *status == SUCCESS)
 			pipe_manager(&tkn_node, status);
@@ -66,5 +65,6 @@ t_token *lexer(char* cmd, t_status *status)
 			ft_lstadd_command(ft_lstlast_token(tkn_node), cmd[i], status);
 		i++;
 	}
+	free (cmd);
 	return (tkn_node);
 }

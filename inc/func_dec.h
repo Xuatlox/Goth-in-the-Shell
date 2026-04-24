@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/23 22:59:34 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/24 17:54:04 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 void		check_quotes(char c, t_quote_state *quote_state);
-void	redirect_manager(char *str, t_token *tkn_node, t_status *status, size_t *i);
-void		redirect_opening(t_token *tkn_node, t_status *status, t_redirect *redir, char *file_name);
+t_token		*parsing(char *line, t_status *status);
+void		redirect_manager(char *str, t_token *tkn_node, t_status *status, size_t *i);
 
 // LST
 t_token		*lst_newtoken(t_status *status);
@@ -51,5 +51,10 @@ void		ft_lstadd_token(t_token **lst, t_status *status);
 void		ft_lstadd_command(t_token *last_tkn, char c, t_status *status);
 void		ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
 			t_status *status);
+void		lst_clear_tkn(t_token **tkn);
+void		lst_clear_cmd(t_command **cmd);
+
+// ERRORS
+void		error_parsing(char c);
 
 #endif
