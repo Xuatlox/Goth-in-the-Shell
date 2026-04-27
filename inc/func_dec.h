@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/24 17:54:04 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/27 17:47:00 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "struct.h"
 # include <stdlib.h>
+
+// EXEC FUNCTION
+void		execute(t_token *tokens, t_env *env);
 
 // CMD MANAGEMENT
 int			get_cmd_size(const t_command *cmd);
@@ -33,6 +36,9 @@ int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env *env);
 int			exec_exit(t_command *cmd, t_env *env);
 int			exec_child(t_command *cmd, int fd_in, int fd_out, t_env *env);
+
+// SIGNALS
+int			detect_sig(void);
 
 // LEXER
 t_token		*lexer(char* cmd, t_status *status);

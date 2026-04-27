@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/22 17:18:39 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/27 11:26:15 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	exec_child(t_command *cmd, const int fd_in, const int fd_out, t_env *env)
 	char	*absolute_cmd;
 	char	**envp;
 	char	**argv;
+	int		exit_code;
 
 	if (!cmd)
 		return (0);
@@ -132,8 +133,12 @@ int	exec_child(t_command *cmd, const int fd_in, const int fd_out, t_env *env)
 		if (dup2(fd_in, STDIN_FILENO) < 0
 				|| dup2(fd_out, STDOUT_FILENO) < 0)
 			exit(0);
+		close(fd_in);
+		close(fd_out);
 		execve(absolute_cmd, argv, envp);
+		exit(0);
 	}
+	waitpid(pid, &exit_code, 0);
 	free_all(envp, argv);
-	return (1);
+	return (exit_code);
 }

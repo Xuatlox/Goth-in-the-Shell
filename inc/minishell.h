@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 10:57:56 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/13 04:04:20 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/04/27 16:25:52 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <signal.h>
 # include "../libft/libft.h"
 # include "func_dec.h"
 
