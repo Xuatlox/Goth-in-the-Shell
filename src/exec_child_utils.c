@@ -1,33 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_handler.c                                      :+:      :+:    :+:   */
+/*   exec_child_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/28 10:06:10 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/04/28 15:59:48 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/28 16:57:03 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-extern volatile sig_atomic_t	sig_ind;
-
-static void sig_handler(int sig)
+void	clean_child(t_env *env, t_token *token)
 {
-	if (sig == SIGQUIT)
-		return ;
-	sig_ind = sig;
-}
+	t_env		*tmp_env;
+	t_command	*tmp_cmd;
 
-int detect_sig(void)
-{
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &sig_handler;
-	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
-	return (1);
+	if (token->infile > -1)
+		close(token->infile);
+	if (token->outfile > -1)
+		close(token->outfile);
+	while (env)
+	{
+		tmp_env = env->next;
+		free(env->name);
+		free(env->val);
+		free(env);
+		env = tmp_env;
+	}
+	while (token->cmd)
+	{
+		tmp_cmd = token->cmd->next;
+		free(token->cmd->str);
+		free(token->cmd);
+		token->cmd = tmp_cmd;
+	}
+	free(token);
 }

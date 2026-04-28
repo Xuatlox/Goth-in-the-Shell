@@ -6,48 +6,54 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/27 15:38:26 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:57:38 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-static void	dispatch(t_command *cmd, int fd_in, int fd_out, t_env *env)
+static int	dispatch(t_command *cmd, int fd_out, t_env *env)
 {
+	int	ret;
+
 	if (!ft_strncmp(cmd->str, "cd", 3))
-		exec_cd(cmd->next, fd_out, env);
+		ret = exec_cd(cmd->next, fd_out, env);
 	else if (!ft_strncmp(cmd->str, "export", 7))
-		exec_export(cmd->next, fd_out, env);
+		ret = exec_export(cmd->next, fd_out, env);
 	else if (!ft_strncmp(cmd->str, "pwd", 4))
-		exec_pwd(fd_out, env);
+		ret = exec_pwd(fd_out, env);
 	else if (!ft_strncmp(cmd->str, "env", 4))
-		exec_env(cmd->next, fd_out, env);
+		ret = exec_env(cmd->next, fd_out, env);
 	else if (!ft_strncmp(cmd->str, "echo", 5))
-		exec_echo(cmd->next, fd_out);
+		ret = exec_echo(cmd->next, fd_out);
 	else if (!ft_strncmp(cmd->str, "unset", 6))
-		exec_unset(cmd->next, env);
+		ret = exec_unset(cmd->next, env);
 	else if (!ft_strncmp(cmd->str, "exit", 5))
-		exec_exit(cmd, env);
+		ret = exec_exit(cmd, env);
 	else
-		exec_child(cmd, fd_in, fd_out, env);
+		return (-1);
+	return (ret);
 }
 
 void	execute(t_token *tokens, t_env *env)
 {
 	t_command	*tmp;
 
-	while (tokens)
+	if (!tokens || !env)
+		return ;
+	if (tokens->next)
+		exec_pipe(tokens, env);
+	else if (dispatch(tokens->cmd, tokens->outfile, env) == -1)
 	{
-		dispatch(tokens->cmd, tokens->infile, tokens->outfile, env);
-		close(tokens->infile);
-		close(tokens->outfile);
-		while (tokens->cmd)
-		{
-			tmp = tokens->cmd->next;
-			free(tokens->cmd->str);
-			free(tokens->cmd);
-			tokens->cmd = tmp;
-		}
-		tokens = tokens->next;
+		exec_child(tokens, env);
+	}
+	close(tokens->infile);
+	close(tokens->outfile);
+	while (tokens->cmd)
+	{
+		tmp = tokens->cmd->next;
+		free(tokens->cmd->str);
+		free(tokens->cmd);
+		tokens->cmd = tmp;
 	}
 }

@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sig_handler.c                                      :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/28 10:06:10 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/04/28 16:41:05 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-extern volatile sig_atomic_t	sig_ind;
-
-static void sig_handler(int sig)
+int	exec_pipe(t_token *tokens, t_env *env)
 {
-	if (sig == SIGQUIT)
-		return ;
-	sig_ind = sig;
-}
-
-int detect_sig(void)
-{
-	struct sigaction	act;
-
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &sig_handler;
-	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGQUIT, &act, NULL);
-	return (1);
+	(void) tokens;
+	(void) env;
+	return (0);
 }

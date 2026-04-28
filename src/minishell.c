@@ -6,13 +6,13 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/27 17:07:03 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/28 10:38:02 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	sig_ind;
+volatile sig_atomic_t	sig_ind = 0;
 
 int	main(void)
 {

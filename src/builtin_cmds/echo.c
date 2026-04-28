@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/20 11:17:11 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:34:55 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	is_newline(t_command **args)
 		{
 			res = 0;
 			*args = (*args)->next;
+			i = 1;
 		}
 		else
 			break ;

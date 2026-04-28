@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/22 16:54:08 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/28 17:11:35 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,8 @@ void	set_env(const char *var_name, char *new_val, t_env *env)
 
 	var_val = get_env(env, var_name);
 	if (var_val)
+	{
+		free(*var_val);
 		*var_val = new_val;
+	}
 }

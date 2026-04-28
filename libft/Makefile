@@ -57,7 +57,7 @@ $(OBJ) : $(SRC) | $(OBJ_DIR)
 	@cd $(OBJ_DIR) && $(CC) $(CFLAGS) -c $(addprefix ../, $(SRC))
 
 $(OBJ_DIR) :
-	mkdir $(OBJ_DIR)
+	@mkdir $(OBJ_DIR)
 
 clean :
 	@rm -rf $(OBJ_DIR)
