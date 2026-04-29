@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/28 17:11:35 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/29 16:33:23 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,29 @@ void	set_env(const char *var_name, char *new_val, t_env *env)
 	{
 		free(*var_val);
 		*var_val = new_val;
+	}
+}
+
+void	add_env(t_env *env, char *name, char *value)
+{
+	char	**get;
+	t_env	*new;
+
+	get = get_env(env, name);
+	if (get)
+	{
+		if (*get)
+			free(*get);
+		*get = value;
+	}
+	else
+	{
+		new = malloc(sizeof(t_env));
+		new->name = name;
+		new->val = value;
+		new->next = NULL;
+		while (env->next)
+			env = env->next;
+		env->next = new;
 	}
 }

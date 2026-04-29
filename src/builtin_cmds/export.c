@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/20 17:10:29 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:02:50 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	check_var_name(const char *str, char **name, char **val)
 
 	if (*str >= '0' && *str <= '9')
 	{
-		perror("not a valid identifier");
+		write(2, "goth_in_the_shell: export: not a valid identifier\n", 50);
 		return (0);
 	}
 	i = 0;
@@ -90,34 +90,13 @@ static void	print_sorted_env(t_env *env, const int fd_out)
 		size = ft_strlen(last);
 		write(fd_out, last, size);
 		write(fd_out, "=\"", 2);
-		size = ft_strlen(var->val);
-		write(fd_out, var->val, size);
+		if (var->val)
+		{
+			size = ft_strlen(var->val);
+			write(fd_out, var->val, size);
+		}
 		write(fd_out, "\"\n", 2);
 		var = find_next_var(env, last);
-	}
-}
-
-static void	add_env(t_env *env, char *name, char *value)
-{
-	char	**get;
-	t_env	*new;
-
-	get = get_env(env, name);
-	if (get)
-	{
-		if (*get)
-			free(*get);
-		*get = value;
-	}
-	else
-	{
-		new = malloc(sizeof(t_env));
-		new->name = name;
-		new->val = value;
-		new->next = NULL;
-		while (env->next)
-			env = env->next;
-		env->next = new;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/28 16:56:47 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:43:43 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int			get_cmd_size(const t_command *cmd);
 int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
+void		add_env(t_env *env, char *name, char *value);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);
@@ -39,7 +40,7 @@ int			exec_export(const t_command *args, int fd_out, t_env *env);
 int			exec_env(const t_command *args, int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env *env);
-int			exec_exit(t_command *cmd, t_env *env);
+int			exec_exit(t_token *token, t_env *env);
 
 // SIGNALS
 int			detect_sig(void);

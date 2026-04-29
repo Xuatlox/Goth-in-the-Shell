@@ -6,13 +6,13 @@
 /*   By: xuatlox <xuatlox@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:01:05 by xuatlox           #+#    #+#             */
-/*   Updated: 2026/04/10 14:48:00 by xuatlox          ###   ########.fr       */
+/*   Updated: 2026/04/29 17:43:56 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int exec_pwd(int fd_out, t_env *env)
+int exec_pwd(const int fd_out, t_env *env)
 {
 	char	*path;
 	int		size;
@@ -27,5 +27,6 @@ int exec_pwd(int fd_out, t_env *env)
 	size = ft_strlen(path);
 	write(fd_out, path, size);
 	write(fd_out, "\n", 1);
+	free(path);
 	return (1);
 }
