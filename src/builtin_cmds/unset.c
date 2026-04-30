@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:51:12 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/20 17:09:24 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:02:03 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	exec_unset(const t_command *args, t_env *env)
 	int		size;
 
 	if (!env)
-		return (0);
+		return (1);
 	while (args)
 	{
 		size = ft_strlen(args->str);
@@ -68,5 +68,5 @@ int	exec_unset(const t_command *args, t_env *env)
 			unset_node(&env, args->str, size);
 		args = args->next;
 	}
-	return (1);
+	return (0);
 }

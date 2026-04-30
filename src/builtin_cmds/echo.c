@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/28 17:34:55 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:55:46 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int exec_echo(t_command *args, const int fd_out)
 	}
 	if (newline)
 		write(fd_out, "\n", 1);
-	return (1);
+	return (0);
 }

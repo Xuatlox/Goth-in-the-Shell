@@ -6,7 +6,7 @@
 /*   By: xuatlox <xuatlox@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:01:05 by xuatlox           #+#    #+#             */
-/*   Updated: 2026/04/29 17:43:56 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:01:50 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int exec_pwd(const int fd_out, t_env *env)
 	{
 		path = *get_env(env, "PWD");
 		if (!path)
-			return (0);
+			return (1);
 	}
 	size = ft_strlen(path);
 	write(fd_out, path, size);
 	write(fd_out, "\n", 1);
 	free(path);
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/29 17:02:50 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:01:43 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	exec_export(const t_command *args, const int fd_out, t_env *env)
 	while (args)
 	{
 		if (!check_var_name(args->str, &name, &val))
-			return (0);
+			return (1);
 		i = 0;
 		while (args->str[i] && args->str[i] != '=')
 		{
@@ -124,5 +124,5 @@ int	exec_export(const t_command *args, const int fd_out, t_env *env)
 		add_env(env, name, val);
 		args = args->next;
 	}
-	return (1);
+	return (0);
 }

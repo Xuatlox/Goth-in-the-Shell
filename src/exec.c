@@ -6,13 +6,13 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/29 17:43:56 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:53:13 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-static int	dispatch(t_token *token, t_env *env)
+int	dispatch(t_token *token, t_env *env)
 {
 	int	ret;
 
@@ -35,23 +35,29 @@ static int	dispatch(t_token *token, t_env *env)
 	return (ret);
 }
 
-void	execute(t_token *tokens, t_env *env)
+int	execute(t_token *tokens, t_env *env)
 {
 	t_command	*tmp;
 	int			ret;
 
 	if (!tokens || !env)
-		return ;
+		return (EXIT_FAILURE);
 	if (tokens->next)
-		exec_pipe(tokens, env);
-	ret = dispatch(tokens, env);
-	close(tokens->infile);
-	close(tokens->outfile);
-	while (tokens->cmd)
+		ret = exec_pipe(tokens, env);
+	else
+		ret = dispatch(tokens, env);
+	while (tokens)
 	{
-		tmp = tokens->cmd->next;
-		free(tokens->cmd->str);
-		free(tokens->cmd);
-		tokens->cmd = tmp;
+		close(tokens->infile);
+		close(tokens->outfile);
+		while (tokens->cmd)
+		{
+			tmp = tokens->cmd->next;
+			free(tokens->cmd->str);
+			free(tokens->cmd);
+			tokens->cmd = tmp;
+		}
+		tokens = tokens->next;
 	}
+	return (ret);
 }

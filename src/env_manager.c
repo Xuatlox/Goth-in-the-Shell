@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/29 16:33:23 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 11:23:35 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,27 @@ void	add_env(t_env *env, char *name, char *value)
 			env = env->next;
 		env->next = new;
 	}
+}
+
+void	free_env_tokens(t_env *env, t_token *token)
+{
+	t_env		*tmp_env;
+	t_command	*tmp_cmd;
+
+	while (env)
+	{
+		tmp_env = env->next;
+		free(env->name);
+		free(env->val);
+		free(env);
+		env = tmp_env;
+	}
+	while (token->cmd)
+	{
+		tmp_cmd = token->cmd->next;
+		free(token->cmd->str);
+		free(token->cmd);
+		token->cmd = tmp_cmd;
+	}
+	free(token);
 }

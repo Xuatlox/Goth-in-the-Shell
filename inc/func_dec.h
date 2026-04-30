@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/29 17:43:43 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:52:57 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 # include <stdlib.h>
 
 // EXEC FUNCTION
-void		execute(t_token *tokens, t_env *env);
+int			execute(t_token *tokens, t_env *env);
 int			exec_pipe(t_token *tokens, t_env *env);
 int			exec_child(t_token *token, t_env *env);
+int			dispatch(t_token *token, t_env *env);
 
 // EXEC_CHILD UTILS
 void		clean_child(t_env *env, t_token *token);
@@ -32,6 +33,7 @@ int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
 void		add_env(t_env *env, char *name, char *value);
+void		free_env_tokens(t_env *env, t_token *token);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);

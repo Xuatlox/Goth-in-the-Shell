@@ -33,10 +33,10 @@ static int	cd_home(t_env *env, char **dest)
 	if (home)
 	{
 		*dest = *home;
-		return (1);
+		return (0);
 	}
 	write(2, "goth_in_the_shell: cd: HOME not set\n", 36);
-	return (0);
+	return (1);
 }
 
 int	exec_cd(const t_command *args, const int fd_out, t_env *env)
@@ -44,24 +44,24 @@ int	exec_cd(const t_command *args, const int fd_out, t_env *env)
 	char	*path;
 	char	*dest;
 
-	if (!args && !cd_home(env, &dest))
-		return (0);
+	if (!args && cd_home(env, &dest))
+		return (1);
 	if (!ft_strncmp(args->str, "-", 2))
 		cd_old_wd(env, &dest, fd_out);
 	else
 		dest = args->str;
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (0);
+		return (1);
 	if (chdir(dest))
 	{
 		free(path);
-		return (0);
+		return (1);
 	}
 	set_env("OLDPWD", path, env);
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (0);
+		return (1);
 	set_env("PWD", path, env);
-	return (1);
+	return (0);
 }

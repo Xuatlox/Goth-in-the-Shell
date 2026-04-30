@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/28 16:56:32 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:06:25 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,18 +130,18 @@ int	exec_child(t_token *token, t_env *env)
 	int		exit_code;
 
 	if (!token || !token->cmd)
-		return (0);
+		return (1);
 	absolute_cmd = valid_cmd(token->cmd, env);
 	argv = fill_argv(token->cmd);
 	envp = fill_envp(env);
 	if (!absolute_cmd || !envp || !argv)
 	{
 		free_all(envp, argv, absolute_cmd);
-		return (0);
+		return (1);
 	}
 	pid = fork();
 	if (pid == -1)
-		return (0);
+		return (1);
 	if (pid == 0)
 	{
 		if (dup2(token->infile, STDIN_FILENO) < 0
