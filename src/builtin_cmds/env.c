@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/20 12:55:25 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:56:15 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int exec_env(const t_command *args, const int fd_out, const t_env *env)
 {
 	int	size;
 
-	if (!args)
+	if (args)
 	{
-		printf("No arguments allowed for env\n");
-		return (0);
+		write(2, "No argument(s) allowed for env\n", 31);
+		return (1);
 	}
 	while (env)
 	{
@@ -34,5 +34,5 @@ int exec_env(const t_command *args, const int fd_out, const t_env *env)
 		}
 		env = env->next;
 	}
-	return (1);
+	return (0);
 }

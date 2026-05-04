@@ -6,33 +6,11 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/21 15:08:53 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/04/30 12:56:39 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static void	free_all(t_env *env, t_command *cmd)
-{
-	t_env		*tmp_env;
-	t_command	*tmp_cmd;
-
-	while (env)
-	{
-		tmp_env = env->next;
-		free(env->name);
-		free(env->val);
-		free(env);
-		env = tmp_env;
-	}
-	while (cmd)
-	{
-		tmp_cmd = cmd->next;
-		free(cmd->str);
-		free(cmd);
-		cmd = tmp_cmd;
-	}
-}
 
 static int	is_num(const char *str)
 {
@@ -51,19 +29,27 @@ static int	is_num(const char *str)
 	return (1);
 }
 
-int	exec_exit(t_command *cmd, t_env *env)
+int	exec_exit(t_token *token, t_env *env)
 {
 	int	code;
+	int	size;
 
-	write(STDOUT_FILENO, "exit\n", 5);
-	if (!is_num(cmd->next->str))
+	write(1, "exit\n", 5);
+	if (!token->cmd->next || !is_num(token->cmd->next->str))
 	{
-		free_all(env, cmd);
+		size = ft_strlen(token->cmd->next->str);
+		write(2, "goth_in_the_shell: exit: ", 25);
+		write(2, token->cmd->next->str, size);
+		write(2, "\n", 1);
+		free_env_tokens(env, token);
 		exit(2);
 	}
-	if (cmd->next->next->str)
-		return (0);
-	code = ft_atoi(cmd->next->str);
-	free_all(env, cmd);
+	if (token->cmd->next->next)
+	{
+		write(2, "goth_in_the_shell: exit: too many arguments\n", 44);
+		return (1);
+	}
+	code = ft_atoi(token->cmd->next->str);
+	free_env_tokens(env, token);
 	exit(code % 256);
 }

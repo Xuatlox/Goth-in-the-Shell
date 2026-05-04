@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/04 13:46:21 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/04 14:22:29 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 # include "struct.h"
 # include <stdlib.h>
 
+// EXEC FUNCTION
+int			execute(t_token *tokens, t_env *env);
+int			exec_pipe(t_token *tokens, t_env *env);
+int			exec_child(t_token *token, t_env *env);
+int			dispatch(t_token *token, t_env *env);
+
+// EXEC_CHILD UTILS
+void		clean_child(t_env *env, t_token *token);
+
 // CMD MANAGEMENT
 int			get_cmd_size(const t_command *cmd);
 
@@ -23,6 +32,8 @@ int			get_cmd_size(const t_command *cmd);
 int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
+void		add_env(t_env *env, char *name, char *value);
+void		free_env_tokens(t_env *env, t_token *token);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);
@@ -31,8 +42,10 @@ int			exec_export(const t_command *args, int fd_out, t_env *env);
 int			exec_env(const t_command *args, int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env *env);
-int			exec_exit(t_command *cmd, t_env *env);
-int			exec_child(t_command *cmd, int fd_in, int fd_out, t_env *env);
+int			exec_exit(t_token *token, t_env *env);
+
+// SIGNALS
+int			detect_sig(void);
 
 // PARSING
 t_token		*lexer(char* cmd, t_status *status);
