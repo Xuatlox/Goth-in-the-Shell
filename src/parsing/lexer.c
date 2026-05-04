@@ -6,35 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/24 17:08:12 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/04 13:42:19 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	pipe_manager(t_token **tkn_node, t_status *status)
-{
-	int	fd[2];
-	if (pipe(fd) == -1)
-	{
-		*status = PIPE_FAILURE;
-		return ;
-	}
-	if (ft_lstlast_token(*tkn_node)->outfile > 0)
-		close(ft_lstlast_token(*tkn_node)->outfile);
-	ft_lstlast_token(*tkn_node)->outfile = fd[1];
-	ft_lstadd_token(tkn_node, status);
-	if (*status != SUCCESS)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		ft_lstlast_token(*tkn_node)->outfile = -1;
-		return ;
-	}
-	if (ft_lstlast_token(*tkn_node)->infile > 0)
-		close(ft_lstlast_token(*tkn_node)->infile);
-	ft_lstlast_token(*tkn_node)->infile = fd[0];
-}
 
 /*
 	Convert command line to node with command inside
@@ -54,7 +30,7 @@ t_token *lexer(char* cmd, t_status *status)
 	{
 		check_quotes(cmd[i], &quote_state);
 		if (cmd[i] == '|' && quote_state == NO_QTE && *status == SUCCESS)
-			pipe_manager(&tkn_node, status);
+			ft_lstadd_token(&tkn_node, status);
 		else if (ft_isspace(cmd[i]) == 1
 			&& quote_state == NO_QTE && *status == SUCCESS)
 			ft_lstadd_command(ft_lstlast_token(tkn_node), 0, status);

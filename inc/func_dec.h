@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/24 17:54:04 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/04 13:46:21 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int			exec_unset(const t_command *args, t_env *env);
 int			exec_exit(t_command *cmd, t_env *env);
 int			exec_child(t_command *cmd, int fd_in, int fd_out, t_env *env);
 
-// LEXER
+// PARSING
 t_token		*lexer(char* cmd, t_status *status);
 t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 void		check_quotes(char c, t_quote_state *quote_state);
-t_token		*parsing(char *line, t_status *status);
+t_token		*parsing(char *line, t_status *status/* , char **envp */);
 void		redirect_manager(char *str, t_token *tkn_node, t_status *status, size_t *i);
 
 // LST
