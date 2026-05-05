@@ -6,12 +6,18 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 06:00:49 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/24 17:50:19 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/05 15:11:02 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
+/**
+ * @brief Function that check if all cmd in the lexer are correct.
+ *
+ * @param lexer The linked list which lexing.
+ * @return t_status
+ */
 static t_status	check_input(t_token *lexer)
 {
 	size_t	i;
@@ -39,7 +45,15 @@ static t_status	check_input(t_token *lexer)
 	return (SUCCESS);
 }
 
-t_token	*parsing(char *line, t_status *status)
+/**
+ * @brief Function that send the command to the lexer and check if all inputs
+ * are correct.
+ *
+ * @param line The line command.
+ * @param status The state of the line comand.
+ * @return t_token*
+ */
+t_token	*parsing(char *line, t_status *status/*, char **envp*/)
 {
 	t_token		*lex;
 	t_token		*head_tkn;
@@ -51,5 +65,8 @@ t_token	*parsing(char *line, t_status *status)
 		*status = check_input(lex);
 		lex = lex->next;
 	}
+
+	if (*status != SUCCESS)
+		lst_clear_tkn(&head_tkn);
 	return (head_tkn);
 }
