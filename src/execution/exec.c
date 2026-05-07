@@ -6,11 +6,11 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 12:53:13 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/07 13:53:38 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	dispatch(t_token *token, t_env *env)
 {
@@ -37,7 +37,6 @@ int	dispatch(t_token *token, t_env *env)
 
 int	execute(t_token *tokens, t_env *env)
 {
-	t_command	*tmp;
 	int			ret;
 
 	if (!tokens || !env)
@@ -45,19 +44,9 @@ int	execute(t_token *tokens, t_env *env)
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
 	else
-		ret = dispatch(tokens, env);
-	while (tokens)
 	{
-		close(tokens->infile);
-		close(tokens->outfile);
-		while (tokens->cmd)
-		{
-			tmp = tokens->cmd->next;
-			free(tokens->cmd->str);
-			free(tokens->cmd);
-			tokens->cmd = tmp;
-		}
-		tokens = tokens->next;
+		ret = dispatch(tokens, env);
+		free_tokens(tokens);
 	}
 	return (ret);
 }

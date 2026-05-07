@@ -6,11 +6,11 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 11:23:35 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/07 11:29:57 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int	get_env_size(const t_env *env)
 {
@@ -77,10 +77,9 @@ void	add_env(t_env *env, char *name, char *value)
 	}
 }
 
-void	free_env_tokens(t_env *env, t_token *token)
+void	free_env(t_env *env)
 {
 	t_env		*tmp_env;
-	t_command	*tmp_cmd;
 
 	while (env)
 	{
@@ -90,12 +89,4 @@ void	free_env_tokens(t_env *env, t_token *token)
 		free(env);
 		env = tmp_env;
 	}
-	while (token->cmd)
-	{
-		tmp_cmd = token->cmd->next;
-		free(token->cmd->str);
-		free(token->cmd);
-		token->cmd = tmp_cmd;
-	}
-	free(token);
 }
