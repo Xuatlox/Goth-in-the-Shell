@@ -34,7 +34,6 @@ static void	redirect_outfile(t_token *tkn_node, t_status *status, t_redirect red
 			return ;
 		}
 	}
-
 }
 
 static void	redirect_infile(t_token *tkn_node, t_status *status, t_redirect redir, char *file_name)
