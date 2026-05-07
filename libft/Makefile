@@ -42,7 +42,8 @@ SRC = ft_isalnum.c \
 		ft_lstdelone_bonus.c \
 		ft_lstclear_bonus.c \
 		ft_lstiter_bonus.c \
-		ft_lstmap_bonus.c
+		ft_lstmap_bonus.c \
+		free_ar.c
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
 NAME = libft.a
