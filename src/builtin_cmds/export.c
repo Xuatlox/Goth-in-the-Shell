@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 14:01:43 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:12:24 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int	check_var_name(const char *str, char **name, char **val)
 	while (str[i] && str[i] != '=')
 	{
 		if (!(str[i] >= '0' && str[i] <= '9')
-				&& !(str[i] >= 'A' && str[i] <= 'Z')
-				&& !(str[i] >= 'a' && str[i] <= 'z') && str[i] != '_')
+			&& !(str[i] >= 'A' && str[i] <= 'Z')
+			&& !(str[i] >= 'a' && str[i] <= 'z') && str[i] != '_')
 			return (0);
 		++i;
 	}
@@ -62,13 +62,13 @@ static t_env	*find_next_var(t_env *env, const char *last)
 		last_index = 0;
 		var_index = 0;
 		while (last[last_index] && env->name[last_index]
-				&& env->name[last_index] == last[last_index])
+			&& env->name[last_index] == last[last_index])
 			++last_index;
 		while (var && var->name[var_index] && env->name[var_index]
-				&& env->name[var_index] == var->name[var_index])
+			&& env->name[var_index] == var->name[var_index])
 			++var_index;
 		if (env->name[last_index] > last[last_index]
-				&& (!var || env->name[var_index] < var->name[var_index]))
+			&& (!var || env->name[var_index] < var->name[var_index]))
 			var = env;
 		env = env->next;
 	}

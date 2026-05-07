@@ -6,13 +6,13 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 12:56:15 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:11:33 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int exec_env(const t_command *args, const int fd_out, const t_env *env)
+int	exec_env(const t_command *args, const int fd_out, const t_env *env)
 {
 	int	size;
 

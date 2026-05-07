@@ -35,7 +35,7 @@ static int	is_newline(t_command **args)
 	return (res);
 }
 
-int exec_echo(t_command *args, const int fd_out)
+int	exec_echo(t_command *args, const int fd_out)
 {
 	int	newline;
 	int	size;
