@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 11:29:57 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:33:54 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	**get_env(t_env *env, const char *name)
 {
 	int	size;
 
-	if (!name)
+	if (!name || !env)
 		return (NULL);
 	size = ft_strlen(name);
 	while (env)
@@ -45,6 +45,8 @@ void	set_env(const char *var_name, char *new_val, t_env *env)
 {
 	char	**var_val;
 
+	if (!env)
+		return ;
 	var_val = get_env(env, var_name);
 	if (var_val)
 	{

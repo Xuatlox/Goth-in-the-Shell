@@ -39,7 +39,7 @@ int	execute(t_token *tokens, t_env *env)
 {
 	int			ret;
 
-	if (!tokens || !env)
+	if (!tokens)
 		return (EXIT_FAILURE);
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
