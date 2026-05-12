@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 13:53:38 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/12 14:32:06 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,20 @@ int	dispatch(t_token *token, t_env *env)
 	return (ret);
 }
 
+static void	set_outfile(t_token *tokens)
+{
+	while (tokens->next)
+		tokens = tokens->next;
+	tokens->outfile = STDOUT_FILENO;
+}
+
 int	execute(t_token *tokens, t_env *env)
 {
 	int			ret;
 
 	if (!tokens)
 		return (EXIT_FAILURE);
+	set_outfile(tokens);
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
 	else

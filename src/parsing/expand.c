@@ -60,7 +60,7 @@ void	expand(t_token *tkn_node, t_env *env, t_status *status)
 		{
 			qte_state = NO_QTE;
 			i = 0;
-			while (current_cmd && current_cmd->str[i])
+			while (current_cmd->str && current_cmd->str[i])
 			{
 				check_quotes(current_cmd->str[i], &qte_state);
 				// printf("QTE_STATE: %d\n", qte_state);
