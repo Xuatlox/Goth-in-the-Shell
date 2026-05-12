@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 13:35:27 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/12 14:01:20 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,29 @@ int			exec_pipe(t_token *tokens, t_env *env);
 int			exec_child(t_token *token, t_env *env);
 int			dispatch(t_token *token, t_env *env);
 
+// EXEC_PIPE UTILS
+void		pipe_child_proc(t_token *tokens, t_env *env);
+
 // EXEC_CHILD UTILS
 void		clean_child(t_env *env, t_token *token);
 
-// CMD MANAGEMENT
-int			get_cmd_size(const t_command *cmd);
+// EXEC MANAGEMENT
+void		free_exec(t_exec *exec);
+
+// TOKEN MANAGEMENT
+int			cmd_len(const t_command *cmd);
+void		free_tokens(t_token *tokens);
+int			tokens_len(const t_token *tokens);
+void		close_fds(const t_token *tokens);
+t_token		*jump_next_token(t_token *token);
 
 // ENV MANAGEMENT
 int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
-void		add_env(t_env *env, char *name, char *value);
-void		free_env_tokens(t_env *env, t_token *token);
+int			add_env(t_env *env, char *name, char *value);
+void		free_env(t_env *env);
+t_env		*build_env(char **envp);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);

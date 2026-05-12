@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_manager.c                                      :+:      :+:    :+:   */
+/*   free_ar.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/22 16:45:23 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/22 16:54:38 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/05/06 11:54:46 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/05/06 12:00:30 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include <stdlib.h>
 
-int	get_cmd_size(const t_command *cmd)
+void free_ar(char **ar)
 {
-	int	size;
+	int	i;
 
-	size = 0;
-	while (cmd)
+	if (!ar)
+		return ;
+	i = 0;
+	while (ar[i])
 	{
-		++size;
-		cmd = cmd->next;
+		free(ar[i]);
+		++i;
 	}
-	return (size);
+	free(ar);
 }

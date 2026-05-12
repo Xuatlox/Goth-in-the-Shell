@@ -57,8 +57,6 @@ void	ft_lstadd_command(t_token *last_tkn, char c, t_status *status)
 	{
 		if (!last_tkn->cmd)
 			 last_tkn->cmd = lst_newcommand(c, status);
-		else if (ft_lstlast_command(last_tkn->cmd)->str == NULL)
-			*status = charjoin(ft_lstlast_command(last_tkn->cmd), c);
 		else
 			*status = charjoin(ft_lstlast_command(last_tkn->cmd), c);
 	}

@@ -1,38 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exec_manager.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 14:11:33 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/05/07 14:00:54 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/05/07 14:03:14 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	exec_env(const t_command *args, const int fd_out, const t_env *env)
+void	free_exec(t_exec *exec)
 {
-	int	size;
+	int	i;
 
-	if (args)
+	if (exec->absolute_cmd)
+		free(exec->absolute_cmd);
+	if (exec->args)
 	{
-		write(2, "No argument(s) allowed for env\n", 31);
-		return (1);
-	}
-	while (env)
-	{
-		if (env->val)
+		i = 0;
+		while (exec->args[i])
 		{
-			size = ft_strlen(env->name);
-			write(fd_out, env->name, size);
-			write(fd_out, "=", 1);
-			size = ft_strlen(env->val);
-			write(fd_out, env->val, size);
-			write(fd_out, "\n", 1);
+			free(exec->args[i]);
+			++i;
 		}
-		env = env->next;
+		free(exec->args);
 	}
-	return (0);
+	if (exec->env)
+	{
+		i = 0;
+		while (exec->env[i])
+		{
+			free(exec->env[i]);
+			++i;
+		}
+		free(exec->env);
+	}
+	free(exec);
 }

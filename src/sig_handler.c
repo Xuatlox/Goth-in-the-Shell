@@ -6,12 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/10 14:53:56 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/12 14:03:27 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
-
 
 
 static void sig_handler(int sig)

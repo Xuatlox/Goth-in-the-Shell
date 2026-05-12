@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/07 11:34:12 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/12 14:01:37 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,10 @@ typedef struct s_env
 	char			*val;
 	struct s_env	*next;
 }					t_env;
+
+typedef struct s_exec
+{
+	char			*absolute_cmd;
+	char			**env;
+	char			**args;
+}					t_exec;

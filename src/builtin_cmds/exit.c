@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 12:56:39 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/07 12:16:20 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	exec_exit(t_token *token, t_env *env)
 		write(2, "goth_in_the_shell: exit: ", 25);
 		write(2, token->cmd->next->str, size);
 		write(2, "\n", 1);
-		free_env_tokens(env, token);
+		free_env(env);
+		free_tokens(token);
 		exit(2);
 	}
 	if (token->cmd->next->next)
@@ -50,6 +51,7 @@ int	exec_exit(t_token *token, t_env *env)
 		return (1);
 	}
 	code = ft_atoi(token->cmd->next->str);
-	free_env_tokens(env, token);
+	free_env(env);
+	free_tokens(token);
 	exit(code % 256);
 }
