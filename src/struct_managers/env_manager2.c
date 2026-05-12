@@ -1,25 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env_manager2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/24 10:43:59 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/11 14:19:03 by ansimonn         ###   ########.fr       */
+/*   Created: 2026/05/12 13:25:08 by ansimonn          #+#    #+#             */
+/*   Updated: 2026/05/12 13:30:33 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+# include "../../inc/minishell.h"
 
-size_t	ft_strlen(const char *s)
+t_env	*build_env(char **envp)
 {
-	size_t	i;
+	char	**sep;
+	t_env	*env;
+	t_env	*ret;
 
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	env = malloc(sizeof(t_env));
+	ft_bzero(env, sizeof(t_env));
+	while (*envp)
+	{
+		sep = ft_split(*envp, '=');
+		if (!sep || add_env(env, sep[0], sep[1]))
+		{
+			free_env(env);
+			return (NULL);
+		}
+		free(sep);
+		++envp;
+	}
+	ret = env->next;
+	free(env);
+	return (ret);
 }

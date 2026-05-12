@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 14:06:53 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:31:22 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ t_token		*jump_next_token(t_token *token);
 int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
-void		add_env(t_env *env, char *name, char *value);
+int			add_env(t_env *env, char *name, char *value);
 void		free_env(t_env *env);
+t_env		*build_env(char **envp);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);
