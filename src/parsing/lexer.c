@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/04 13:42:19 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/10 14:03:59 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	IF "<", ">", "<<", ">>" open the corresponded fd
 	IF "|" New node
 */
-t_token *lexer(char* cmd, t_status *status)
+t_token *lexer(char* cmd, t_status *status, t_env *env)
 {
 	size_t			i;
 	t_token			*tkn_node;
@@ -36,7 +36,7 @@ t_token *lexer(char* cmd, t_status *status)
 			ft_lstadd_command(ft_lstlast_token(tkn_node), 0, status);
 		else if ((cmd[i] == '<' || cmd[i] == '>') && quote_state == NO_QTE
 			&& *status == SUCCESS)
-			redirect_manager(cmd, tkn_node, status, &i);
+			*status = redirect_manager(cmd, tkn_node, &i, env);
 		else
 			ft_lstadd_command(ft_lstlast_token(tkn_node), cmd[i], status);
 		i++;

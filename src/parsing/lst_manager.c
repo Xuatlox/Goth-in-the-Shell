@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/24 17:39:26 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/10 15:13:23 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	ft_lstadd_command(t_token *last_tkn, char c, t_status *status)
 		return ;
 	if (!c)
 	{
-		if (!last_tkn->cmd || !ft_lstlast_command(last_tkn->cmd)->str)
-			return ;
+		// if (!last_tkn->cmd || !ft_lstlast_command(last_tkn->cmd)->str)
+		// 	return ;
 		ft_lstlast_command(last_tkn->cmd)->next = lst_newcommand(0, status);
 	}
 	else

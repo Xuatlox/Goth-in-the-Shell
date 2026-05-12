@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 10:57:56 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/27 16:25:52 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/10 14:39:48 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@
 # include <signal.h>
 # include "../libft/libft.h"
 # include "func_dec.h"
+
+extern int	g_sig_ind;
 
 #endif

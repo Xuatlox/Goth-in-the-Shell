@@ -7,7 +7,9 @@ INC_DIR = inc/
 INC_FILES = minishell.h
 INC = $(addprefix $(INC_DIR), $(INC_FILES))
 SRC_FILES = minishell.c lexer.c lst_manager.c lst_token.c utils_parsing.c \
-			parsing.c redirection.c error_manager.c
+			parsing.c redirection.c error_manager.c expand.c quote_manager.c \
+			utils_expand.c heredoc.c
+
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 LIBFT_DIR = libft/

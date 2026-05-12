@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 14:20:19 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/10 14:53:56 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
-extern volatile sig_atomic_t	sig_ind;
+
 
 static void sig_handler(int sig)
 {
-	sig_ind = sig;
+	g_sig_ind = sig;
 }
 
 int detect_sig(void)

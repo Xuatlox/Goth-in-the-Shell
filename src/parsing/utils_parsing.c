@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 06:45:16 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/20 17:18:31 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/07 16:53:16 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,6 @@ t_redirect	check_redirect(char *str)
 	else
 		redirect = NONE;
 	return (redirect);
-}
-
-void	check_quotes(char c, t_quote_state *quote_state)
-{
-	if (c == '\'')
-	{
-		if (*quote_state == NO_QTE)
-			*quote_state = SIMPLE_QTE;
-		else if (*quote_state == SIMPLE_QTE)
-			*quote_state = NO_QTE;
-	}
-	else if (c == '\"')
-	{
-		if (*quote_state == NO_QTE)
-			*quote_state = DOUBLE_QTE;
-		else if (*quote_state == DOUBLE_QTE)
-			*quote_state = NO_QTE;
-	}
 }
 
 t_status	charjoin(t_command *src, char c)

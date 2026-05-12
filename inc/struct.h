@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/04/20 16:44:26 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/07 11:34:12 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ typedef enum e_token
 
 typedef enum e_quote_state
 {
-	NO_QTE,
-	SIMPLE_QTE,
-	DOUBLE_QTE
+	NO_QTE = 0,
+	SIMPLE_QTE = 39,
+	DOUBLE_QTE = 34
 }	t_quote_state;
 
 typedef enum e_status
