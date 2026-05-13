@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 10:13:26 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:26:35 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	execute(t_token *tokens, t_env *env)
 {
 	int			ret;
 
-	if (!tokens)
+	if (!tokens || !tokens->cmd || !tokens->cmd->str)
 		return (EXIT_FAILURE);
 	set_outfile(tokens);
 	if (tokens->next)
