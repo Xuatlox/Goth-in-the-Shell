@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 14:01:38 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 15:14:05 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ int			exec_exit(t_token *token, t_env *env);
 int			detect_sig(void);
 
 // PARSING
+t_token		*parsing(char *line, t_status *status, t_minishell *minishell);
 t_token		*lexer(char* cmd, t_status *status, t_env *env);
 t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 int			check_quotes(char c, t_quote_state *quote_state);
-t_token		*parsing(char *line, t_status *status, t_env *env);
 t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env);
 int			pipe_heredoc(char *delimiter, t_env *env);
-void		expand(t_token *tkn_node, t_env *env, t_status *status);
+void		expand(t_minishell *minishell, t_status *status);
 void		remove_quotes(t_token *tkn_node, t_status *status);
 char		*make_env_val(t_env *env, char *env_var);
 char		*make_env_var(char *str);

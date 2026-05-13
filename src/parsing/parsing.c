@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 06:00:49 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/13 11:25:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 15:13:37 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,16 @@ static t_status	check_input(t_token **lexer)
  * @param status The state of the line comand.
  * @return t_token*
  */
-t_token	*parsing(char *line, t_status *status, t_env *env)
+t_token	*parsing(char *line, t_status *status, t_minishell *minishell)
 {
-	t_token		*lex;
-
-	lex = lexer(line, status, env);
+	minishell->tkn_node = lexer(line, status, minishell->env);
 	if (*status == SUCCESS)
-		*status = check_input(&lex);
+		*status = check_input(&(minishell->tkn_node));
 	if (!*status)
-		expand(lex, env, status);
+		expand(minishell, status);
 	if (!*status)
-		remove_quotes(lex, status);
+		remove_quotes(minishell->tkn_node, status);
 	else
-		lst_clear_tkn(&lex);
-	return (lex);
+		lst_clear_tkn(&(minishell->tkn_node));
+	return (minishell->tkn_node);
 }
