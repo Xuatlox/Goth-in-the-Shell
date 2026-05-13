@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 13:58:25 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 16:16:41 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ int	g_sig_ind = 0;
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
+	t_minishell	minishell;
 	t_status	status;
-	t_token		*tkn_node;
-	t_env		*env;
 
 	(void)argc;
 	(void)argv;
-	env = build_env(envp);
+	ft_bzero(&minishell, sizeof(minishell));
+	minishell.env = build_env(envp);
 	status = SUCCESS;
 	while (1)
 	{
-		line = readline("Minishell> ");
+		line = readline("goth_in_the_shell> ");
 		if (line[0] != 0)
 			add_history(line);
-		tkn_node = parsing(line, &status, env);
-		execute(tkn_node, env);
+		parsing(line, &status, &minishell);
+		execute(minishell.tkn_node, minishell.env);
 	}
 	rl_clear_history();
 }

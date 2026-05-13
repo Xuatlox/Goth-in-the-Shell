@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:00:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/08 17:16:45 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 15:28:41 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int isExpand(char *str, t_quote_state qte_state)
 	return (0);
 }
 
-t_status	expander(t_env *env, char **str, size_t *i)
+t_status	expander(t_minishell *minishell, char **str, size_t *i)
 {
 	char	*new_str;
 	char	*envar;
@@ -30,7 +30,7 @@ t_status	expander(t_env *env, char **str, size_t *i)
 	envar = make_env_var(*str + *i + 1);
 	if (!envar)
 		return	(ALLOCATION_FAILURE);
-	var = make_env_val(env, envar);
+	var = make_env_val(minishell->env, envar);
 	new_str = ft_calloc(ft_strlen(*str) - ft_strlen(envar) + ft_strlen(var), 1);
 	if (!new_str)
 	{
@@ -47,12 +47,14 @@ t_status	expander(t_env *env, char **str, size_t *i)
 	return (SUCCESS);
 }
 
-void	expand(t_token *tkn_node, t_env *env, t_status *status)
+void	expand(t_minishell *minishell, t_status *status)
 {
-	size_t	i;
+	size_t			i;
 	t_command		*current_cmd;
+	t_token			*tkn_node;
 	t_quote_state	qte_state;
 
+	tkn_node = minishell->tkn_node;
 	while (tkn_node)
 	{
 		current_cmd = tkn_node->cmd;
@@ -67,7 +69,7 @@ void	expand(t_token *tkn_node, t_env *env, t_status *status)
 				// printf("EXP: %d\n", isExpand(current_cmd->str + i, qte_state));
 				// printf("STR: %s\n", current_cmd->str + i);
 				if (current_cmd->str[i] == '$' && isExpand(current_cmd->str + i, qte_state) == 1)
-					*status = expander(env, &current_cmd->str, &i);
+					*status = expander(minishell, &current_cmd->str, &i);
 				else
 					i++;
 				if (*status)

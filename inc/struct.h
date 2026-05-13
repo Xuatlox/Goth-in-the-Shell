@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/12 14:01:37 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 14:33:47 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,3 +68,11 @@ typedef struct s_exec
 	char			**env;
 	char			**args;
 }					t_exec;
+
+typedef struct s_minishell
+{
+	t_token	*tkn_node;
+	t_env	*env;
+	int		old_error_code;
+}	t_minishell;
+
