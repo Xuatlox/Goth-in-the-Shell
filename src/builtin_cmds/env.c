@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 13:50:53 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:45:09 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_env(const int fd_out, const t_env *env)
 {
-	int	size;
+	size_t	size;
 
 	while (env)
 	{

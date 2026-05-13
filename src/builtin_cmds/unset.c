@@ -6,13 +6,13 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:51:12 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/04/30 14:02:03 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 17:19:39 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static t_env	*find_prev(t_env *env, const char *to_find, const int size)
+static t_env	*find_prev(t_env *env, const char *to_find, const size_t size)
 {
 	if (!env)
 		return (NULL);
@@ -36,7 +36,7 @@ static void	unset_head(t_env **env)
 	*env = node;
 }
 
-static void	unset_node(t_env **env, const char *name, int size)
+static void	unset_node(t_env **env, const char *name, const size_t size)
 {
 	t_env	*prev_node;
 	t_env	*node;
@@ -55,7 +55,7 @@ static void	unset_node(t_env **env, const char *name, int size)
 
 int	exec_unset(const t_command *args, t_env *env)
 {
-	int		size;
+	size_t	size;
 
 	if (!env)
 		return (1);

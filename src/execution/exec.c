@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 13:51:32 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:25:31 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	dispatch(t_token *token, t_env *env)
 		ret = exec_exit(token, env);
 	else
 		ret = exec_child(token, env);
+	free_tokens(token);
 	return (ret);
 }
 
@@ -48,14 +49,11 @@ int	execute(t_token *tokens, t_env *env)
 	int			ret;
 
 	if (!tokens || !tokens->cmd || !tokens->cmd->str)
-		return (EXIT_FAILURE);
+		return (1);
 	set_outfile(tokens);
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
 	else
-	{
 		ret = dispatch(tokens, env);
-		free_tokens(tokens);
-	}
 	return (ret);
 }

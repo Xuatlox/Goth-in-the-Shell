@@ -6,13 +6,13 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 13:34:33 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 17:14:33 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	check_var_name(const char *str, char **name, char **val)
+static int	is_valid_id(const char *str)
 {
 	int	i;
 
@@ -30,12 +30,36 @@ static int	check_var_name(const char *str, char **name, char **val)
 			return (0);
 		++i;
 	}
-	if (str[i] == '=')
-		*val = ft_strdup(&str[i + 1]);
-	else
-		*val = NULL;
-	*name = ft_calloc(i + 1, sizeof(char));
-	return (1);
+	return (i);
+}
+
+static int	check_var_name(const char *str, char **name, char **val)
+{
+	char	*tmp;
+	int		name_size;
+
+	*val = NULL;
+	name_size = is_valid_id(str);
+	if (!name_size)
+		return (1);
+	*name = ft_calloc(name_size + 1, sizeof(char));
+	if (!*name)
+	{
+		perror("goth_in_the_shell: export");
+		return (1);
+	}
+	tmp = ft_strchr(str, '=');
+	if (tmp)
+	{
+		*val = ft_strdup(tmp + 1);
+		if (!*val)
+		{
+			free(*name);
+			perror("goth_in_the_shell: export");
+			return (1);
+		}
+	}
+	return (0);
 }
 
 static t_env	*find_next_var(t_env *env, const char *last)
@@ -45,7 +69,7 @@ static t_env	*find_next_var(t_env *env, const char *last)
 	int		var_index;
 
 	var = NULL;
-	while (env)
+	while (env && last)
 	{
 		last_index = 0;
 		var_index = 0;
@@ -67,7 +91,7 @@ static void	print_sorted_env(t_env *env, const int fd_out)
 {
 	t_env	*var;
 	char	*last;
-	int		size;
+	size_t	size;
 
 	last = "";
 	var = find_next_var(env, last);
@@ -97,7 +121,7 @@ int	exec_export(const t_command *args, const int fd_out, t_env *env)
 	if (!args)
 	{
 		print_sorted_env(env, fd_out);
-		return (1);
+		return (0);
 	}
 	while (args)
 	{

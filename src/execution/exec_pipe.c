@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/11 10:45:47 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:23:33 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	exec_all(t_token *tokens, t_env *env)
 {
 	int		ret;
 
-	ret = 127;
+	ret = 0;
 	while (tokens)
 	{
 		ret = dispatch(tokens, env);
@@ -55,10 +55,13 @@ int	exec_pipe(t_token *tokens, t_env *env)
 	int		failed;
 
 	if (!tokens)
-		return (127);
+		return (0);
 	failed = pipe_all(tokens);
 	if (failed)
-		return (0);
+	{
+		perror("goth_in_the_shell: pipe_all");
+		return (1);
+	}
 	ret = exec_all(tokens, env);
 	return (ret);
 }
