@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/10 14:03:59 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 11:07:19 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token *lexer(char* cmd, t_status *status, t_env *env)
 	i = 0;
 	quote_state = NO_QTE;
 	tkn_node = lst_newtoken(status);
-	while (cmd[i] && *status == SUCCESS)
+	while (cmd && cmd[i] && *status == SUCCESS)
 	{
 		check_quotes(cmd[i], &quote_state);
 		if (cmd[i] == '|' && quote_state == NO_QTE && *status == SUCCESS)
@@ -36,10 +36,11 @@ t_token *lexer(char* cmd, t_status *status, t_env *env)
 			ft_lstadd_command(ft_lstlast_token(tkn_node), 0, status);
 		else if ((cmd[i] == '<' || cmd[i] == '>') && quote_state == NO_QTE
 			&& *status == SUCCESS)
-			*status = redirect_manager(cmd, tkn_node, &i, env);
+			*status = redirect_manager(cmd, ft_lstlast_token(tkn_node), &i, env);
 		else
 			ft_lstadd_command(ft_lstlast_token(tkn_node), cmd[i], status);
-		i++;
+		if (cmd && cmd[i] && *status == SUCCESS)
+			i++;
 	}
 	free (cmd);
 	return (tkn_node);

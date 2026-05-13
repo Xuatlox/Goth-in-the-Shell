@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 14:01:20 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 09:53:57 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ size_t		ft_strlen_bash(char *str);
 // LST
 t_token		*lst_newtoken(t_status *status);
 t_command	*lst_newcommand(char c, t_status *status);
+t_command	*ft_lstlast_command(t_command *lst);
 t_token		*ft_lstlast_token(t_token *lst);
 void		ft_lstadd_token(t_token **lst, t_status *status);
 void		ft_lstadd_command(t_token *last_tkn, char c, t_status *status);
@@ -86,6 +87,6 @@ void		lst_clear_cmd(t_command **cmd);
 
 // ERRORS
 void		error_parsing(char c);
-void		error_heredoc(char *s, int code);
+void		error_heredoc(char *s);
 
 #endif

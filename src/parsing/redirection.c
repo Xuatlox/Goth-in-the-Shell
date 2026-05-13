@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/12 14:04:03 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 09:57:06 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env)
 	char		*new_word;
 
 	new_word = NULL;
-	// if (ft_lstlast_command(ft_lstlast_token(tkn_node)) == NULL)
-	// 	ft_lstlast_token(tkn_node)->cmd = lst_newcommand(0, status);
-	// else
-	// 	ft_lstlast_command(ft_lstlast_token(tkn_node)->cmd);
+	status = SUCCESS;
 	redir_state = check_redirect(&str[*i]);
 	if (redir_state == HEREDOC || redir_state == APPEND)
 		(*i)++;
@@ -91,6 +88,13 @@ t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env)
 		}
 		(*i)++;
 	}
+	if (!new_word)
+	{
+		error_parsing(0);
+		return (BAD_ARG) ;
+	}
+	if (ft_lstlast_command(tkn_node->cmd) == NULL)
+		tkn_node->cmd = lst_newcommand(0, &status);
 	if (redir_state == INPUT || redir_state == HEREDOC)
 		status = redirect_infile(tkn_node, redir_state, new_word, env);
 	else

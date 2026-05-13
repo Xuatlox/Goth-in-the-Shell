@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 15:09:27 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:58:25 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	status = SUCCESS;
 	while (1)
 	{
-		line = readline("Write input: ");
+		line = readline("Minishell> ");
 		if (line[0] != 0)
 			add_history(line);
 		tkn_node = parsing(line, &status, env);

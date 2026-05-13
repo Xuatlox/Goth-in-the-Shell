@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:30:45 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/12 13:48:45 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 11:27:02 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@ static int heredoc(char *delimiter, int fd[2], t_env *env)
 {
 	char	*input;
 
-
 	close(fd[0]);
-	if (!delimiter)
-		error_heredoc(NULL, 1);
-	if (!delimiter)
-		return (-1);
 	while (1)
 	{
 		input = readline("> ");
@@ -29,7 +24,7 @@ static int heredoc(char *delimiter, int fd[2], t_env *env)
 			break ;
 		if (input == NULL)
 		{
-			error_heredoc(delimiter, 0);
+			error_heredoc(delimiter);
 			break ;
 		}
 		if (ft_strcmp(input, delimiter) == 0)
