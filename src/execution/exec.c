@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 14:32:06 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:51:32 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	dispatch(t_token *token, t_env *env)
 	else if (!ft_strncmp(token->cmd->str, "pwd", 4))
 		ret = exec_pwd(token->outfile, env);
 	else if (!ft_strncmp(token->cmd->str, "env", 4))
-		ret = exec_env(token->cmd->next, token->outfile, env);
+		ret = exec_env(token->outfile, env);
 	else if (!ft_strncmp(token->cmd->str, "echo", 5))
 		ret = exec_echo(token->cmd->next, token->outfile);
 	else if (!ft_strncmp(token->cmd->str, "unset", 6))
@@ -37,6 +37,7 @@ int	dispatch(t_token *token, t_env *env)
 
 static void	set_outfile(t_token *tokens)
 {
+	tokens->infile = STDIN_FILENO;
 	while (tokens->next)
 		tokens = tokens->next;
 	tokens->outfile = STDOUT_FILENO;
@@ -46,7 +47,7 @@ int	execute(t_token *tokens, t_env *env)
 {
 	int			ret;
 
-	if (!tokens)
+	if (!tokens || !tokens->cmd || !tokens->cmd->str)
 		return (EXIT_FAILURE);
 	set_outfile(tokens);
 	if (tokens->next)

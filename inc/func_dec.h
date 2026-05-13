@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 09:53:57 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 14:01:38 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_env		*build_env(char **envp);
 int			exec_cd(const t_command *args, int fd_out, t_env *env);
 int			exec_echo(t_command *args, int fd_out);
 int			exec_export(const t_command *args, int fd_out, t_env *env);
-int			exec_env(const t_command *args, int fd_out, const t_env *env);
+int			exec_env(int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env *env);
 int			exec_exit(t_token *token, t_env *env);

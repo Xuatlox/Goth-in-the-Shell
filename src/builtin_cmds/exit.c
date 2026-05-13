@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 12:16:20 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/12 18:37:08 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,34 @@ static int	is_num(const char *str)
 	return (1);
 }
 
-int	exec_exit(t_token *token, t_env *env)
+static void	exit_default(t_token *token, t_env *env)
 {
-	int	code;
-	int	size;
+	size_t	size;
 
-	write(1, "exit\n", 5);
-	if (!token->cmd->next || !is_num(token->cmd->next->str))
+	if (token->cmd->next)
 	{
 		size = ft_strlen(token->cmd->next->str);
 		write(2, "goth_in_the_shell: exit: ", 25);
 		write(2, token->cmd->next->str, size);
 		write(2, "\n", 1);
-		free_env(env);
-		free_tokens(token);
-		exit(2);
 	}
+	free_env(env);
+	free_tokens(token);
+	rl_clear_history();
+	exit(2);
+}
+
+int	exec_exit(t_token *token, t_env *env)
+{
+	int		code;
+
+	write(1, "exit\n", 5);
+	if (!token->cmd->next || !is_num(token->cmd->next->str))
+		exit_default(token, env);
 	if (token->cmd->next->next)
 	{
 		write(2, "goth_in_the_shell: exit: too many arguments\n", 44);
-		return (1);
+		return (127);
 	}
 	code = ft_atoi(token->cmd->next->str);
 	free_env(env);
