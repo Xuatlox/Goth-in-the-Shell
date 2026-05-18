@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/14 12:02:07 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/18 13:53:35 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,21 @@ char	*make_env_var(char *str)
 char	*make_env_val(t_minishell *minishell, char *env_var)
 {
 	char	*error_code;
+	t_env	*env;
 
 	if (!minishell->env)
 		return (NULL);
-	while (minishell->env)
+	env = minishell->env;
+	while (env)
 	{
-		if (ft_strcmp(env_var, minishell->env->name) == 0)
+		if (ft_strcmp(env_var, env->name) == 0)
 		{
-			error_code = ft_strdup(minishell->env->val);
+			error_code = ft_strdup(env->val);
 			if (!error_code)
 				return (NULL);
 			return (error_code);
 		}
-		minishell->env = minishell->env->next;
+		env = env->next;
 	}
 	if (ft_strcmp(env_var, "?") == 0)
 	{
