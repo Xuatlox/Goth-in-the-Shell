@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 10:43:59 by ansimonn          #+#    #+#             */
-/*   Updated: 2025/10/28 10:58:49 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:17:51 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 15:47:48 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 16:23:11 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	exec_pwd(const int fd_out, t_env *env)
 {
 	char	*path;
-	int		size;
+	size_t	size;
 
 	path = getcwd(NULL, 0);
 	if (!path)

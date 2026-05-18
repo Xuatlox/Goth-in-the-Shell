@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:13:51 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 18:01:00 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:28:51 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	cd_home(t_env *env, char **dest)
 		*dest = *home;
 		return (0);
 	}
-	write(2, "goth_in_the_shell: cd: HOME not set\n", 36);
+	write(STDERR_FILENO, "goth_in_the_shell: cd: HOME not set\n", 36);
 	return (1);
 }
 
@@ -50,7 +50,10 @@ static int	change_directory(char *dest, t_env *env)
 
 	path = getcwd(NULL, 0);
 	if (!path)
+	{
+		perror("goth_in_the_shell: cd");
 		return (1);
+	}
 	if (chdir(dest))
 	{
 		perror("goth_in_the_shell: cd");
@@ -60,7 +63,10 @@ static int	change_directory(char *dest, t_env *env)
 	set_env("OLDPWD", path, env);
 	path = getcwd(NULL, 0);
 	if (!path)
+	{
+		perror("goth_in_the_shell: cd");
 		return (1);
+	}
 	set_env("PWD", path, env);
 	return (0);
 }

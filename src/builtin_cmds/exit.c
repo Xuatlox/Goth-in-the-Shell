@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/12 18:37:08 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:47:08 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	exec_exit(t_token *token, t_env *env)
 	if (token->cmd->next->next)
 	{
 		write(2, "goth_in_the_shell: exit: too many arguments\n", 44);
-		return (127);
+		return (1);
 	}
 	code = ft_atoi(token->cmd->next->str);
 	free_env(env);
