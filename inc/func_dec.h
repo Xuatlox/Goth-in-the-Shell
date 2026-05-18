@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 15:14:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/14 10:24:28 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env);
 int			pipe_heredoc(char *delimiter, t_env *env);
 void		expand(t_minishell *minishell, t_status *status);
 void		remove_quotes(t_token *tkn_node, t_status *status);
-char		*make_env_val(t_env *env, char *env_var);
+char		*make_env_val(t_minishell *minishell, char *env_var);
 char		*make_env_var(char *str);
 size_t		ft_strlen_bash(char *str);
 

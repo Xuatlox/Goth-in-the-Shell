@@ -6,17 +6,12 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/13 14:50:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/13 17:19:36 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-	Convert command line to node with command inside
-	IF "<", ">", "<<", ">>" open the corresponded fd
-	IF "|" New node
-*/
 t_token *lexer(char* cmd, t_status *status, t_env *env)
 {
 	size_t			i;

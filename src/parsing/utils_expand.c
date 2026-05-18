@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/07 16:52:51 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/14 12:02:07 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen_bash(char *str)
 	size_t	i;
 
 	i = 0;
-	if (ft_isalpha(str[i]) || str[i] != '_')
+	if (ft_isalpha(str[i]) || str[i] == '_')
 	{
 		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 			i++;
@@ -42,15 +42,29 @@ char	*make_env_var(char *str)
 	return (env_var);
 }
 
-char	*make_env_val(t_env *env, char *env_var)
+char	*make_env_val(t_minishell *minishell, char *env_var)
 {
-	if (!env)
+	char	*error_code;
+
+	if (!minishell->env)
 		return (NULL);
-	while (env)
+	while (minishell->env)
 	{
-		if (ft_strcmp(env_var, env->name) == 0)
-			return (env->val);
-		env = env->next;
+		if (ft_strcmp(env_var, minishell->env->name) == 0)
+		{
+			error_code = ft_strdup(minishell->env->val);
+			if (!error_code)
+				return (NULL);
+			return (error_code);
+		}
+		minishell->env = minishell->env->next;
+	}
+	if (ft_strcmp(env_var, "?") == 0)
+	{
+		error_code = ft_itoa(minishell->old_error_code);
+		if (!error_code)
+			return (NULL);
+		return (error_code);
 	}
 	return (NULL);
 }
