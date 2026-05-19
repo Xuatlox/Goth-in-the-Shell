@@ -6,13 +6,13 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 14:23:33 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/18 14:11:22 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static int	exec_all(t_token *tokens, t_env *env)
+static int	exec_all(t_token *tokens, t_env **env)
 {
 	int		ret;
 
@@ -49,7 +49,7 @@ static int	pipe_all(t_token *tokens)
 	return (0);
 }
 
-int	exec_pipe(t_token *tokens, t_env *env)
+int	exec_pipe(t_token *tokens, t_env **env)
 {
 	int		ret;
 	int		failed;

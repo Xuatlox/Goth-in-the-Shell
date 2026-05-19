@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 17:14:33 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:40:50 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,17 +112,14 @@ static void	print_sorted_env(t_env *env, const int fd_out)
 	}
 }
 
-int	exec_export(const t_command *args, const int fd_out, t_env *env)
+int	exec_export(const t_command *args, const int fd_out, t_env **env)
 {
 	char	*name;
 	char	*val;
 	int		i;
 
 	if (!args)
-	{
-		print_sorted_env(env, fd_out);
-		return (0);
-	}
+		print_sorted_env(*env, fd_out);
 	while (args)
 	{
 		if (!check_var_name(args->str, &name, &val))
@@ -133,7 +130,11 @@ int	exec_export(const t_command *args, const int fd_out, t_env *env)
 			name[i] = args->str[i];
 			++i;
 		}
-		if (!add_env(env, name, val))
+		if (*env && !add_env(*env, name, val))
+			return (1);
+		if (!*env)
+			*env = new_env(name, val);
+		if (!*env)
 			return (1);
 		args = args->next;
 	}

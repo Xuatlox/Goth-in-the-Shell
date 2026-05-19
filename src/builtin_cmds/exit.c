@@ -61,5 +61,6 @@ int	exec_exit(t_token *token, t_env *env)
 	code = ft_atoi(token->cmd->next->str);
 	free_env(env);
 	free_tokens(token);
+	rl_clear_history();
 	exit(code % 256);
 }
