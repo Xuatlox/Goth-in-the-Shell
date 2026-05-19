@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/18 13:39:43 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/18 14:16:17 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ int	main(int argc, char **argv, char **envp)
 	ft_bzero(&minishell, sizeof(t_minishell));
 	minishell.env = build_env(envp);
 	status = SUCCESS;
+	line = NULL;
 	while (1)
 	{
 		line = readline("goth_in_the_shell> ");
+		if (!line)
+			break ;
 		if (line[0] != 0)
 			add_history(line);
 		parsing(line, &status, &minishell);
@@ -38,4 +41,5 @@ int	main(int argc, char **argv, char **envp)
 		minishell.tkn_node = NULL;
 	}
 	rl_clear_history();
+	return (minishell.old_error_code);
 }
