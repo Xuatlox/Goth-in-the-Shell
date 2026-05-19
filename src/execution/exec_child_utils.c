@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 13:43:22 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:21:50 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 	free_tokens(token);
 	if (dup_ret != -1)
 		execve(exec->absolute_cmd, exec->args, exec->env);
-	perror("goth_in_the_shell: child_proc");
+	perror(exec->absolute_cmd);
 	free_exec(exec);
 	exit(1);
 }
