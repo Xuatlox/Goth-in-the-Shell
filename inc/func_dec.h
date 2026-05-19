@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 12:55:37 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:11:05 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
 int			add_env(t_env *env, char *name, char *value);
-void		free_env(t_env *env);
+void		up_shlvl(t_env *env);
+
+// ENV BUILDING
 t_env		*build_env(char **envp);
 t_env		*new_env(char *name, char *value);
+void		free_env(t_env *env);
 
 // BUILTIN CMDS
 int			exec_cd(const t_command *args, int fd_out, t_env *env);

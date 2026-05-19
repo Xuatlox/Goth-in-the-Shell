@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 13:02:19 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 16:12:47 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,19 @@ int	add_env(t_env *env, char *name, char *value)
 		env->next = new;
 	}
 	return (0);
+}
+
+void	up_shlvl(t_env *env)
+{
+	int		conv;
+	char	**sh_lvl;
+
+	sh_lvl = get_env(env, "SHLVL");
+	if (!sh_lvl)
+		return ;
+	conv = ft_atoi(*sh_lvl);
+	if (!conv)
+		return ;
+	free(*sh_lvl);
+	*sh_lvl = ft_itoa(conv + 1);
 }

@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 13:40:50 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:48:54 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	exec_export(const t_command *args, const int fd_out, t_env **env)
 		print_sorted_env(*env, fd_out);
 	while (args)
 	{
-		if (!check_var_name(args->str, &name, &val))
+		if (check_var_name(args->str, &name, &val))
 			return (1);
 		i = 0;
 		while (args->str[i] && args->str[i] != '=')
