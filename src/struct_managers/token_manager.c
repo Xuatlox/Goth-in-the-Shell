@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:45:23 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 14:05:22 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:16:23 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	free_tokens(t_token *tokens)
 		while (tokens->cmd)
 		{
 			tmp_cmd = tokens->cmd->next;
-			free(tokens->cmd->str);
+			if (tokens->cmd->str)
+				free(tokens->cmd->str);
 			free(tokens->cmd);
 			tokens->cmd = tmp_cmd;
 		}

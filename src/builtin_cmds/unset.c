@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:51:12 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/13 17:19:39 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/18 14:34:55 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@ static void	unset_node(t_env **env, const char *name, const size_t size)
 	prev_node->next = next_node;
 }
 
-int	exec_unset(const t_command *args, t_env *env)
+int	exec_unset(const t_command *args, t_env **env)
 {
 	size_t	size;
 
-	if (!env)
+	if (!env || !*env)
 		return (1);
 	while (args)
 	{
 		size = ft_strlen(args->str);
-		if (!ft_strncmp(env->name, args->str, size + 1))
-			unset_head(&env);
+		if (!ft_strncmp((*env)->name, args->str, size + 1))
+			unset_head(env);
 		else
-			unset_node(&env, args->str, size);
+			unset_node(env, args->str, size);
 		args = args->next;
 	}
 	return (0);

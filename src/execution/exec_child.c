@@ -6,38 +6,37 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 14:16:16 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:09:08 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	fill_valid_cmd(const t_command *cmd, t_env *env, t_exec *exec)
+static void	fill_valid_cmd(char *cmd, t_env *env, t_exec *exec)
 {
 	int		i;
 	char	**paths;
-	char	*paths_var;
+	char	**paths_var;
 	char	*cmd_tmp;
+	char	*tmp;
 
-	if (*cmd->str == '/' && access(cmd->str, X_OK) == 0)
-	{
-		exec->absolute_cmd = cmd->str;
+	paths_var = get_env(env, "PATH");
+	if (!paths_var)
 		return ;
-	}
-	paths_var = *get_env(env, "PATH");
-	paths = ft_split(paths_var, ':');
+	paths = ft_split(*paths_var, ':');
 	i = 0;
-	exec->absolute_cmd = NULL;
 	while (paths && paths[i])
 	{
-		paths_var = ft_strjoin(paths[i], "/");
-		cmd_tmp = ft_strjoin(paths_var, cmd->str);
-		free(paths_var);
+		tmp = ft_strjoin(paths[i], "/");
+		cmd_tmp = ft_strjoin(tmp, cmd);
+		free(tmp);
 		if (!exec->absolute_cmd && access(cmd_tmp, X_OK) == 0)
 			exec->absolute_cmd = ft_strdup(cmd_tmp);
 		free(cmd_tmp);
 		++i;
 	}
+	if (!exec->absolute_cmd)
+		exec->absolute_cmd = ft_strdup(cmd);
 	free_ar(paths);
 }
 
@@ -88,46 +87,22 @@ static void	fill_env(const t_env *env, t_exec *exec)
 	}
 }
 
-static void	child_proc(t_env *env, t_token *token, t_exec *exec)
-{
-	int		dup_ret;
-
-	dup_ret = dup2(token->infile, STDIN_FILENO);
-	if (dup_ret != -1)
-		dup_ret = dup2(token->outfile, STDOUT_FILENO);
-	close_fds(token);
-	free_env(env);
-	free_tokens(token);
-	if (dup_ret != -1)
-		execve(exec->absolute_cmd, exec->args, exec->env);
-	free_exec(exec);
-	exit(0);
-}
-
 int	exec_child(t_token *token, t_env *env)
 {
-	pid_t	pid;
 	t_exec	*exec;
 	int		exit_code;
 
-	if (!token || !token->cmd)
-		return (1);
-	exec = malloc(sizeof(t_exec));
+	exec = ft_calloc(1, sizeof(t_exec));
 	if (!exec)
 		return (1);
-	fill_valid_cmd(token->cmd, env, exec);
+	fill_valid_cmd(token->cmd->str, env, exec);
 	fill_args(token->cmd, exec);
 	fill_env(env, exec);
-	pid = fork();
-	if (!exec->absolute_cmd || !exec->env || !exec->args || pid < 0)
+	if (!exec->absolute_cmd || !exec->env || !exec->args)
 	{
 		free_exec(exec);
 		return (1);
 	}
-	if (pid == 0)
-		child_proc(env, token, exec);
-	close_fds(token);
-	waitpid(pid, &exit_code, 0);
-	free_exec(exec);
+	exit_code = manage_child(env, token, exec);
 	return (exit_code);
 }
