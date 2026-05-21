@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 15:09:08 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/20 17:49:56 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ static void	fill_env(const t_env *env, t_exec *exec)
 	}
 }
 
-int	exec_child(t_token *token, t_env *env)
+pid_t	exec_child(t_token *token, t_env *env)
 {
 	t_exec	*exec;
-	int		exit_code;
+	pid_t	pid;
 
 	exec = ft_calloc(1, sizeof(t_exec));
 	if (!exec)
@@ -103,6 +103,6 @@ int	exec_child(t_token *token, t_env *env)
 		free_exec(exec);
 		return (1);
 	}
-	exit_code = manage_child(env, token, exec);
-	return (exit_code);
+	pid = manage_child(env, token, exec);
+	return (pid);
 }

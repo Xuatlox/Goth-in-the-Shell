@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 16:11:05 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/21 11:08:02 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 // EXEC FUNCTION
 int			execute(t_token *tokens, t_env **env);
 int			exec_pipe(t_token *tokens, t_env **env);
-int			exec_child(t_token *token, t_env *env);
-int			dispatch(t_token *token, t_env **env);
+pid_t		exec_child(t_token *token, t_env *env);
+int			dispatch(t_token *token, t_env **env, pid_t *pid);
 
 // EXEC_PIPE UTILS
 void		pipe_child_proc(t_token *tokens, t_env *env);
 
 // EXEC_CHILD UTILS
 void		clean_child(t_env *env, t_token *token);
-int			manage_child(t_env *env, t_token *token, t_exec *exec);
+pid_t		manage_child(t_env *env, t_token *token, t_exec *exec);
 
 // EXEC MANAGEMENT
 void		free_exec(t_exec *exec);
@@ -45,6 +45,9 @@ char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
 int			add_env(t_env *env, char *name, char *value);
 void		up_shlvl(t_env *env);
+
+// PID LIST MANAGEMENT
+void		free_pid_list(t_pid_list *pid_list);
 
 // ENV BUILDING
 t_env		*build_env(char **envp);

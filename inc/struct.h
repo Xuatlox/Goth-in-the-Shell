@@ -6,9 +6,13 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/13 14:33:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/21 13:02:23 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef STRUCT_H
+# define STRUCT_H
+
+#include <unistd.h>
 
 typedef enum e_token
 {
@@ -69,6 +73,12 @@ typedef struct s_exec
 	char			**args;
 }					t_exec;
 
+typedef struct s_pid_list
+{
+	pid_t				pid;
+	struct s_pid_list	*next;
+}						t_pid_list;
+
 typedef struct s_minishell
 {
 	t_token	*tkn_node;
@@ -76,3 +86,4 @@ typedef struct s_minishell
 	int		old_error_code;
 }	t_minishell;
 
+#endif
