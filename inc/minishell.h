@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 10:57:56 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/10 14:39:48 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/21 14:04:09 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <dirent.h>
+# include <errno.h>
 # include "../libft/libft.h"
 # include "func_dec.h"
 

@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/20 15:14:28 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/21 15:12:19 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 {
 	int		ret;
+	int		size;
 
 	ret = dup2(token->infile, STDIN_FILENO);
 	if (ret != -1)
@@ -25,7 +26,12 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 	if (ret != -1)
 		ret = execve(exec->absolute_cmd, exec->args, exec->env);
 	if (ret == -1)
-		perror(exec->absolute_cmd);
+	{
+		write(2, "goth_in_the_shell: ", 19);
+		size = ft_strlen(exec->args[0]);
+		write(2, exec->args[0], size);
+		write(2, ": command not found\n", 20);
+	}
 	free_exec(exec);
 	exit(1);
 }
