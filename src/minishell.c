@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 15:37:57 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/22 20:21:04 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_bzero(&shell, sizeof(t_minishell));
 	shell.env = build_env(envp);
+	up_shlvl(shell.env);
 	status = SUCCESS;
 	line = NULL;
 	while (1)

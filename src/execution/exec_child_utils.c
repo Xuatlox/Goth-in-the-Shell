@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 15:21:50 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/21 15:12:19 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,31 @@
 
 static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 {
-	int		dup_ret;
+	int		ret;
+	int		size;
 
-	dup_ret = dup2(token->infile, STDIN_FILENO);
-	if (dup_ret != -1)
-		dup_ret = dup2(token->outfile, STDOUT_FILENO);
+	ret = dup2(token->infile, STDIN_FILENO);
+	if (ret != -1)
+		ret = dup2(token->outfile, STDOUT_FILENO);
 	close_fds(token);
 	free_env(env);
 	free_tokens(token);
-	if (dup_ret != -1)
-		execve(exec->absolute_cmd, exec->args, exec->env);
-	perror(exec->absolute_cmd);
+	if (ret != -1)
+		ret = execve(exec->absolute_cmd, exec->args, exec->env);
+	if (ret == -1)
+	{
+		write(2, "goth_in_the_shell: ", 19);
+		size = ft_strlen(exec->args[0]);
+		write(2, exec->args[0], size);
+		write(2, ": command not found\n", 20);
+	}
 	free_exec(exec);
 	exit(1);
 }
 
-int	manage_child(t_env *env, t_token *token, t_exec *exec)
+pid_t	manage_child(t_env *env, t_token *token, t_exec *exec)
 {
 	pid_t	pid;
-	int		exit_code;
 
 	pid = fork();
 	if (pid < 0)
@@ -42,9 +48,6 @@ int	manage_child(t_env *env, t_token *token, t_exec *exec)
 	}
 	if (pid == 0)
 		child_proc(env, token, exec);
-	close_fds(token);
-	waitpid(pid, &exit_code, 0);
-	exit_code = WEXITSTATUS(exit_code);
 	free_exec(exec);
-	return (exit_code);
+	return (pid);
 }

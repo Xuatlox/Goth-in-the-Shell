@@ -10,7 +10,8 @@ SRC_FILES = minishell.c lexer.c lst_manager.c lst_token.c utils_parsing.c \
 			parsing.c redirection.c cd.c echo.c env.c exit.c export.c \
 			pwd.c unset.c exec.c exec_child.c exec_pipe.c env_manager.c \
 			error_manager.c expand.c quote_manager.c utils_expand.c heredoc.c \
-			exec_manager.c token_manager.c env_builder.c exec_child_utils.c
+			exec_manager.c token_manager.c env_builder.c exec_child_utils.c \
+			pid_list_manager.c
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(SRC_FILES:.c=.o))
 LIBFT_DIR = libft/
