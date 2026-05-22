@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 15:36:36 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/19 15:37:57 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ int	main(int argc, char **argv, char **envp)
 		shell.tkn_node = NULL;
 	}
 	rl_clear_history();
-	return (minishell.old_error_code);
+	return (shell.old_error_code);
 }
