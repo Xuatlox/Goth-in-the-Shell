@@ -6,13 +6,26 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 16:13:31 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:30:48 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 int	g_sig_ind = 0;
+
+int	check_line(char *line, t_env *env)
+{
+	if (line)
+	{
+		if (line[0] != 0)
+			add_history(line);
+		return (0);
+	}
+	free_env(env);
+	rl_clear_history();
+	return (1);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -22,6 +35,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	if (detect_sig())
+		return (0);
 	ft_bzero(&shell, sizeof(t_minishell));
 	shell.env = build_env(envp);
 	up_shlvl(shell.env);
@@ -29,8 +44,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("goth_in_the_shell> ");
-		if (line[0] != 0)
-			add_history(line);
+		if (check_line(line, shell.env))
+			return (0);
 		parsing(line, &status, &shell);
 		shell.old_error_code = (int)status;
 		if (!status)
