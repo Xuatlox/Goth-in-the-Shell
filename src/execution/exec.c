@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/21 15:15:54 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:41:02 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ int	dispatch(t_token *token, t_env **env, pid_t *pid)
 
 static void	set_outfile(t_token *tokens)
 {
-	tokens->infile = STDIN_FILENO;
+	if (tokens->infile == -1)
+		tokens->infile = STDIN_FILENO;
 	while (tokens->next)
 		tokens = tokens->next;
-	tokens->outfile = STDOUT_FILENO;
+	if (tokens->outfile == -1)
+		tokens->outfile = STDOUT_FILENO;
 }
 
 static int	check_cmd(t_token *tokens)

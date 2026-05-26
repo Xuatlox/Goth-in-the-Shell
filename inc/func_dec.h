@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/21 11:08:02 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:00:16 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,16 @@ int			detect_sig(void);
 
 // PARSING
 t_token		*parsing(char *line, t_status *status, t_minishell *minishell);
-t_token		*lexer(char* cmd, t_status *status, t_env *env);
+t_token		*lexer(char* cmd, t_status *status, t_minishell *shell);
 t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 int			check_quotes(char c, t_quote_state *quote_state);
-t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env);
-int			pipe_heredoc(char *delimiter, t_env *env);
+t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_minishell *shell);
+int			pipe_heredoc(char *delimiter, t_minishell *shell);
 void		expand(t_minishell *minishell, t_status *status);
+int			check_expand(char **cmd, t_minishell *shell, t_status *status);
+t_status	expander(t_minishell *minishell, char **str, size_t *i);
 void		remove_quotes(t_token *tkn_node, t_status *status);
 char		*make_env_val(t_minishell *minishell, char *env_var);
 char		*make_env_var(char *str);

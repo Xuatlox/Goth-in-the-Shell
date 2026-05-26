@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 16:52:52 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/08 16:33:38 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/26 15:49:29 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	remove_quotes(t_token *tkn_node, t_status *status)
 			qte_counter = quote_counter(current_cmd->str);
 			if (qte_counter)
 				*status = str_without_qte(&current_cmd->str, qte_counter);
-			if (status)
+			if (*status)
 				return ;
 			current_cmd = current_cmd->next;
 		}

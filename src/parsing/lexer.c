@@ -6,13 +6,13 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/13 17:19:36 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/26 16:40:47 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-t_token *lexer(char* cmd, t_status *status, t_env *env)
+t_token	*lexer(char* cmd, t_status *status, t_minishell *shell)
 {
 	size_t			i;
 	t_token			*tkn_node;
@@ -31,7 +31,7 @@ t_token *lexer(char* cmd, t_status *status, t_env *env)
 			ft_lstadd_command(ft_lstlast_token(tkn_node), 0, status);
 		else if ((cmd[i] == '<' || cmd[i] == '>') && quote_state == NO_QTE
 			&& *status == SUCCESS)
-			*status = redirect_manager(cmd, ft_lstlast_token(tkn_node), &i, env);
+			*status = redirect_manager(cmd, ft_lstlast_token(tkn_node), &i, shell);
 		else
 			ft_lstadd_command(ft_lstlast_token(tkn_node), cmd[i], status);
 		if (cmd && cmd[i] && *status == SUCCESS)

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/13 09:57:06 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/26 16:08:25 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_status	redirect_outfile(t_token *tkn_node, t_redirect redir, char *file
 	return (SUCCESS);
 }
 
-static t_status	redirect_infile(t_token *tkn_node, t_redirect redir, char *file_name, t_env *env)
+static t_status	redirect_infile(t_token *tkn_node, t_redirect redir, char *file_name, t_minishell *shell)
 {
 	if (tkn_node->infile != -1)
 		close(tkn_node->infile);
@@ -53,7 +53,7 @@ static t_status	redirect_infile(t_token *tkn_node, t_redirect redir, char *file_
 	}
 	if (redir == HEREDOC)
 	{
-		tkn_node->infile = pipe_heredoc(file_name, env);
+		tkn_node->infile = pipe_heredoc(file_name, shell);
 		if (tkn_node->infile == -1)
 		{
 			free(file_name);
@@ -64,7 +64,7 @@ static t_status	redirect_infile(t_token *tkn_node, t_redirect redir, char *file_
 	return (SUCCESS);
 }
 
-t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env)
+t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_minishell *shell)
 {
 	t_redirect	redir_state;
 	t_status	status;
@@ -96,7 +96,7 @@ t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_env *env)
 	if (ft_lstlast_command(tkn_node->cmd) == NULL)
 		tkn_node->cmd = lst_newcommand(0, &status);
 	if (redir_state == INPUT || redir_state == HEREDOC)
-		status = redirect_infile(tkn_node, redir_state, new_word, env);
+		status = redirect_infile(tkn_node, redir_state, new_word, shell);
 	else
 		status = redirect_outfile(tkn_node, redir_state, new_word);
 	return (status);
