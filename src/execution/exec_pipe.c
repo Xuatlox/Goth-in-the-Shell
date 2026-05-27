@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/21 11:20:18 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/27 18:24:24 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	exec_all(t_token *tokens, t_env **env)
 	t_pid_list	*pids;
 	t_pid_list	*head;
 
-	ret = 0;
 	pids = ft_calloc(1, sizeof(t_pid_list));
 	head = pids;
 	while (tokens)
@@ -30,6 +29,7 @@ static int	exec_all(t_token *tokens, t_env **env)
 	}
 	close_fds(tokens);
 	pids = head;
+	sig_exec();
 	while (pids)
 	{
 		waitpid(pids->pid, &ret, 0);

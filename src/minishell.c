@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/26 18:16:09 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/27 16:44:00 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	if (detect_sig())
-		return (0);
+	sig_inter();
 	ft_bzero(&shell, sizeof(t_minishell));
 	shell.env = build_env(envp);
-	up_shlvl(shell.env);
 	status = SUCCESS;
 	line = NULL;
 	while (1)
@@ -54,6 +52,4 @@ int	main(int argc, char **argv, char **envp)
 		status = SUCCESS;
 		shell.tkn_node = NULL;
 	}
-	rl_clear_history();
-	return (shell.old_error_code);
 }

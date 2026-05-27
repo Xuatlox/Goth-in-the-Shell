@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/26 17:41:02 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/27 18:27:22 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ int	execute(t_token *tokens, t_env **env)
 		if (pid)
 		{
 			close_fds(tokens);
+			sig_exec();
 			waitpid(pid, &ret, 0);
 			ret = WEXITSTATUS(ret);
 		}
 		free_tokens(tokens);
 	}
+	sig_inter();
 	return (ret);
 }

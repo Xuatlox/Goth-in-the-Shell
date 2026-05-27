@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/21 15:12:19 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/27 18:18:47 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 {
 	int		ret;
-	int		size;
+	size_t	size;
 
 	ret = dup2(token->infile, STDIN_FILENO);
 	if (ret != -1)

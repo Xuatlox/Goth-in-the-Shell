@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 13:25:08 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/19 14:09:52 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/26 14:10:15 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_env	*build_env(char **envp)
 	}
 	ret = env->next;
 	free(env);
+	up_shlvl(ret);
 	return (ret);
 }
 

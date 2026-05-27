@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:00:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/26 17:10:56 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/27 11:27:27 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ t_command *lst_word(char* cmd, t_status *status)
 	quote_state = NO_QTE;
 	tkn_node = lst_newtoken(status);
 	cmd_word = NULL;
-	printf("STR: |%s|", cmd);
 	while (cmd && cmd[i++] && *status == SUCCESS)
 	{
 		check_quotes(cmd[i - 1], &quote_state);

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/18 13:53:35 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/26 16:07:18 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,22 @@ char	*make_env_var(char *str)
 	return (env_var);
 }
 
+char	*fill_error_code(t_minishell *minishell)
+{
+	char	*error_code;
+
+	if (g_sig_ind == SIGINT)
+	{
+		error_code = ft_itoa(130);
+		g_sig_ind = 0;
+	}
+	else
+		error_code = ft_itoa(minishell->old_error_code);
+	if (!error_code)
+		return (NULL);
+	return (error_code);
+}
+
 char	*make_env_val(t_minishell *minishell, char *env_var)
 {
 	char	*error_code;
@@ -63,9 +79,7 @@ char	*make_env_val(t_minishell *minishell, char *env_var)
 	}
 	if (ft_strcmp(env_var, "?") == 0)
 	{
-		error_code = ft_itoa(minishell->old_error_code);
-		if (!error_code)
-			return (NULL);
+		error_code = fill_error_code(minishell);
 		return (error_code);
 	}
 	return (NULL);

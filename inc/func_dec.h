@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/26 17:00:16 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/27 18:25:46 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int			exec_unset(const t_command *args, t_env **env);
 int			exec_exit(t_token *token, t_env *env);
 
 // SIGNALS
-int			detect_sig(void);
+void		sig_exec(void);
+void		sig_inter(void);
 
 // PARSING
 t_token		*parsing(char *line, t_status *status, t_minishell *minishell);
