@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 14:00:54 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/07 14:03:14 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 16:34:44 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,16 @@ void	free_exec(t_exec *exec)
 		free(exec->env);
 	}
 	free(exec);
+}
+
+void	free_pid_list(t_pid_list *pid_list)
+{
+	t_pid_list	*tmp;
+
+	while (pid_list)
+	{
+		tmp = pid_list->next;
+		free(pid_list);
+		pid_list = tmp;
+	}
 }

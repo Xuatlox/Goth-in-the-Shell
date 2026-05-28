@@ -6,11 +6,11 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 13:25:08 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/26 14:10:15 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 17:00:37 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static int	get_val_name(char **name, char **val, char *env_var)
 {

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/26 16:40:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/28 16:43:42 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ t_token	*lexer(char* cmd, t_status *status, t_minishell *shell)
 		if (cmd && cmd[i] && *status == SUCCESS)
 			i++;
 	}
-	free (cmd);
+	free(cmd);
 	return (tkn_node);
 }

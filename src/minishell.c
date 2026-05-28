@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/28 14:40:37 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 16:08:17 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		check_sig(&shell.old_error_code);
 		parsing(line, &status, &shell);
 		shell.old_error_code = (int)status;
-		if (!status)
+		if (status == SUCCESS)
 			shell.old_error_code = execute(shell.tkn_node, &shell.env);
 		status = SUCCESS;
 		shell.tkn_node = NULL;

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/26 16:08:25 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/28 16:58:32 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_minishell *
 	if (!new_word)
 	{
 		error_parsing(0);
-		return (BAD_ARG) ;
+		return (BAD_ARG);
 	}
 	if (ft_lstlast_command(tkn_node->cmd) == NULL)
 		tkn_node->cmd = lst_newcommand(0, &status);
