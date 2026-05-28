@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/27 16:43:16 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 13:32:19 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ static void sigint_inter_handler(int sig)
 
 void	sig_inter(void)
 {
-	struct sigaction	act;
+	struct sigaction	act_int;
+	struct sigaction	act_quit;
 
-	ft_bzero(&act, sizeof(act));
-	act.sa_handler = &sigint_inter_handler;
-	if (sigaction(SIGINT, &act, NULL) < 0)
+	ft_bzero(&act_int, sizeof(act_int));
+	ft_bzero(&act_quit, sizeof(act_quit));
+	act_int.sa_handler = &sigint_inter_handler;
+	act_quit.sa_handler = SIG_IGN;
+	if (sigaction(SIGINT, &act_int, NULL) < 0
+		|| sigaction(SIGQUIT, &act_quit, NULL) < 0)
 		perror("goth_in_the_shell: sigaction");
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		perror("goth_in_the_shell: signal");
 }
 
 static void sigint_exec_handler(int sig)

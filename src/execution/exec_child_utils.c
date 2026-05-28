@@ -6,17 +6,37 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/27 18:18:47 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 13:45:11 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	reset_sig(void)
+{
+	struct sigaction	sa;
+
+	ft_bzero(&sa, sizeof(sa));
+	sa.sa_handler = SIG_DFL;
+	if (sigaction(SIGINT, &sa, NULL)
+		|| sigaction(SIGQUIT, &sa, NULL))
+	{
+		perror("goth_in_the_shell: sigaction");
+		return (1);
+	}
+	return (0);
+}
 
 static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 {
 	int		ret;
 	size_t	size;
 
+	if (reset_sig())
+	{
+		perror("goth_in_the_shell: reset_sig");
+		exit(1);
+	}
 	ret = dup2(token->infile, STDIN_FILENO);
 	if (ret != -1)
 		ret = dup2(token->outfile, STDOUT_FILENO);
