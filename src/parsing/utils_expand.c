@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/26 16:07:18 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:30:47 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,7 @@ char	*fill_error_code(t_minishell *minishell)
 {
 	char	*error_code;
 
-	if (g_sig_ind == SIGINT)
-	{
-		error_code = ft_itoa(130);
-		g_sig_ind = 0;
-	}
-	else
-		error_code = ft_itoa(minishell->old_error_code);
+	error_code = ft_itoa(minishell->old_error_code);
 	if (!error_code)
 		return (NULL);
 	return (error_code);

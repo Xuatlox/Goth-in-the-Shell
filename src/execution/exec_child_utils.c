@@ -6,13 +6,13 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/28 13:45:11 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:16:53 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	reset_sig(void)
+static int	reset_sig(void)
 {
 	struct sigaction	sa;
 
@@ -27,14 +27,23 @@ int	reset_sig(void)
 	return (0);
 }
 
+static void	print_cmd_not_found(t_exec *exec)
+{
+	size_t	size;
+
+	write(2, "goth_in_the_shell: ", 19);
+	size = ft_strlen(exec->args[0]);
+	write(2, exec->args[0], size);
+	write(2, ": command not found\n", 20);
+}
+
 static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 {
 	int		ret;
-	size_t	size;
 
 	if (reset_sig())
 	{
-		perror("goth_in_the_shell: reset_sig");
+		perror("goth_in_the_shell: sigaction");
 		exit(1);
 	}
 	ret = dup2(token->infile, STDIN_FILENO);
@@ -47,13 +56,13 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 		ret = execve(exec->absolute_cmd, exec->args, exec->env);
 	if (ret == -1)
 	{
-		write(2, "goth_in_the_shell: ", 19);
-		size = ft_strlen(exec->args[0]);
-		write(2, exec->args[0], size);
-		write(2, ": command not found\n", 20);
+		print_cmd_not_found(exec);
+		ret = 127;
 	}
+	else
+		ret = 1;
 	free_exec(exec);
-	exit(1);
+	exit(ret);
 }
 
 pid_t	manage_child(t_env *env, t_token *token, t_exec *exec)

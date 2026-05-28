@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/27 16:44:00 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:40:37 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ int	check_line(char *line, t_env *env)
 	return (1);
 }
 
+void	check_sig(int *ret)
+{
+	if (g_sig_ind)
+	{
+		*ret = 128 + g_sig_ind;
+		g_sig_ind = 0;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -45,6 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("goth_in_the_shell> ");
 		if (check_line(line, shell.env))
 			return (0);
+		check_sig(&shell.old_error_code);
 		parsing(line, &status, &shell);
 		shell.old_error_code = (int)status;
 		if (!status)
