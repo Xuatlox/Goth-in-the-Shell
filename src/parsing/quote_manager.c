@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 16:52:52 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/26 15:49:29 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/28 16:02:20 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_quotes(char c, t_quote_state *quote_state)
 			return (0);
 		return (1);
 	}
-	else if (c == '\"')
+	if (c == '\"')
 	{
 		if (*quote_state == NO_QTE)
 			*quote_state = DOUBLE_QTE;
@@ -45,6 +45,7 @@ static size_t	quote_counter(char *cmd)
 
 	i = 0;
 	qte_counter = 0;
+	qte_state = NO_QTE;
 	while (cmd[i])
 	{
 		if (check_quotes(cmd[i], &qte_state) == 1)
