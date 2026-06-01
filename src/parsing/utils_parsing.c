@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 06:45:16 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/07 16:53:16 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 09:52:16 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_redirect	check_redirect(char *str)
 {
-	int	i;
-	t_redirect redirect;
+	int			i;
+	t_redirect	redirect;
 
 	i = 0;
 	if (str[i + 1] && str[i] == '<' && str[i + 1] == '<')
@@ -34,7 +34,7 @@ t_redirect	check_redirect(char *str)
 t_status	charjoin(t_command *src, char c)
 {
 	char	*tmp;
-	size_t		size;
+	size_t	size;
 
 	if (!c || !src)
 		return (SUCCESS);
@@ -57,7 +57,7 @@ t_status	charjoin(t_command *src, char c)
 t_status	str_charjoin(char **src, char c)
 {
 	char	*tmp;
-	size_t		size;
+	size_t	size;
 
 	if (!c || !src)
 		return (SUCCESS);
@@ -76,5 +76,3 @@ t_status	str_charjoin(char **src, char c)
 	*src = tmp;
 	return (SUCCESS);
 }
-
-
