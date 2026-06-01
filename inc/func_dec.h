@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/27 18:25:46 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/05/31 22:19:44 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,45 +16,45 @@
 # include "struct.h"
 # include <stdlib.h>
 
-// EXEC FUNCTION
+/*---------------------------EXEC FUNCTION------------------------------------*/
 int			execute(t_token *tokens, t_env **env);
 int			exec_pipe(t_token *tokens, t_env **env);
 pid_t		exec_child(t_token *token, t_env *env);
 int			dispatch(t_token *token, t_env **env, pid_t *pid);
 
-// EXEC_PIPE UTILS
+/*---------------------------EXEC_PIPE UTILS----------------------------------*/
 void		pipe_child_proc(t_token *tokens, t_env *env);
 
-// EXEC_CHILD UTILS
+/*---------------------------EXEC_CHILD UTILS---------------------------------*/
 void		clean_child(t_env *env, t_token *token);
 pid_t		manage_child(t_env *env, t_token *token, t_exec *exec);
 
-// EXEC MANAGEMENT
+/*---------------------------EXEC MANAGEMENT----------------------------------*/
 void		free_exec(t_exec *exec);
 
-// TOKEN MANAGEMENT
+/*---------------------------TOKEN MANAGEMENT---------------------------------*/
 int			cmd_len(const t_command *cmd);
 void		free_tokens(t_token *tokens);
 int			tokens_len(const t_token *tokens);
 void		close_fds(const t_token *tokens);
 t_token		*jump_next_token(t_token *token);
 
-// ENV MANAGEMENT
+/*---------------------------ENV MANAGEMENT-----------------------------------*/
 int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(const char *var_name, char *new_val, t_env *env);
 int			add_env(t_env *env, char *name, char *value);
 void		up_shlvl(t_env *env);
 
-// PID LIST MANAGEMENT
+/*---------------------------PID LIST MANAGEMENT------------------------------*/
 void		free_pid_list(t_pid_list *pid_list);
 
-// ENV BUILDING
+/*---------------------------ENV BUILDING-------------------------------------*/
 t_env		*build_env(char **envp);
 t_env		*new_env(char *name, char *value);
 void		free_env(t_env *env);
 
-// BUILTIN CMDS
+/*---------------------------BUILTIN CMDS-------------------------------------*/
 int			exec_cd(const t_command *args, int fd_out, t_env *env);
 int			exec_echo(t_command *args, int fd_out);
 int			exec_export(const t_command *args, int fd_out, t_env **env);
@@ -63,11 +63,11 @@ int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env **env);
 int			exec_exit(t_token *token, t_env *env);
 
-// SIGNALS
+/*---------------------------SIGNALS------------------------------------------*/
 void		sig_exec(void);
 void		sig_inter(void);
 
-// PARSING
+/*---------------------------PARSING------------------------------------------*/
 t_token		*parsing(char *line, t_status *status, t_minishell *minishell);
 t_token		*lexer(char* cmd, t_status *status, t_minishell *shell);
 t_status	charjoin(t_command *src, char c);
@@ -84,7 +84,7 @@ char		*make_env_val(t_minishell *minishell, char *env_var);
 char		*make_env_var(char *str);
 size_t		ft_strlen_bash(char *str);
 
-// LST
+/*---------------------------LST----------------------------------------------*/
 t_token		*lst_newtoken(t_status *status);
 t_command	*lst_newcommand(char c, t_status *status);
 t_command	*ft_lstlast_command(t_command *lst);
@@ -96,7 +96,7 @@ void		ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
 void		lst_clear_tkn(t_token **tkn);
 void		lst_clear_cmd(t_command **cmd);
 
-// ERRORS
+/*---------------------------ERRORS-------------------------------------------*/
 void		error_parsing(char c);
 void		error_heredoc(char *s);
 
