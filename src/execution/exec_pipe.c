@@ -12,6 +12,13 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Executes all the token list and waits for every process to end.
+ *
+ * @param tokens List of tokens to be executed
+ * @param env List of environmental variables
+ * @return Exit status of the last command of the token list
+ */
 static int	exec_all(t_token *tokens, t_env **env)
 {
 	int			ret;
@@ -40,6 +47,12 @@ static int	exec_all(t_token *tokens, t_env **env)
 	return (ret);
 }
 
+/**
+ * @brief Open a pipe between each token and stores them in the token list
+ *
+ * @param tokens List of tokens to be executed
+ * @return 0 on success, 1 if an error occurred
+ */
 static int	pipe_all(t_token *tokens)
 {
 	int	fds[2];
@@ -64,6 +77,13 @@ static int	pipe_all(t_token *tokens)
 	return (0);
 }
 
+/**
+ * @brief Executes every subfunctions needed to execute the piped commands
+ *
+ * @param tokens List of tokens to be executed
+ * @param env List of environmental variables
+ * @return The exit status of the piped commands sent
+ */
 int	exec_pipe(t_token *tokens, t_env **env)
 {
 	int		ret;

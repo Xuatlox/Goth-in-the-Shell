@@ -6,12 +6,18 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 11:11:48 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Checks whether str contains a valid exit code or not
+ *
+ * @param str First argument given after the 'exit' command
+ * @return 1 if str is valid, else 0
+ */
 static int	is_num(const char *str)
 {
 	if (!str)
@@ -29,6 +35,12 @@ static int	is_num(const char *str)
 	return (1);
 }
 
+/**
+ * @brief Exits the program with the default error code (2)
+ *
+ * @param token List of tokens to free before exit
+ * @param env List of environmental variables to free before exit
+ */
 static void	exit_default(t_token *token, t_env *env)
 {
 	size_t	size;
@@ -46,6 +58,13 @@ static void	exit_default(t_token *token, t_env *env)
 	exit(2);
 }
 
+/**
+ * @brief Mimics the behavior of the exit command in bash
+ *
+ * @param token List of tokens to free before exit
+ * @param env List of environmental variables to free before exit
+ * @return 1 if an error occurred
+ */
 int	exec_exit(t_token *token, t_env *env)
 {
 	int		code;

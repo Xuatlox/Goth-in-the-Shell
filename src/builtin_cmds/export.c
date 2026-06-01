@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 13:37:52 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Checks if the name given is valid and gives its length in this case
+ *
+ * @param str Name of the variable to be exported
+ * @return The size of the given variable name, or 0 if not valid
+ */
 static int	is_valid_id(const char *str)
 {
 	int	i;
@@ -33,7 +39,15 @@ static int	is_valid_id(const char *str)
 	return (i);
 }
 
-static int	check_var_name(const char *str, char **name, char **val)
+/**
+ * @brief Allocates the new variable to be exported
+ *
+ * @param str Argument given after the 'export' command
+ * @param name Pointer to the name of the variable to be exported
+ * @param val Pointer to the value of the variable to be exported
+ * @return 0 on success, 1 if an error occurred
+ */
+static int	alloc_var(const char *str, char **name, char **val)
 {
 	char	*tmp;
 	int		name_size;
@@ -62,6 +76,14 @@ static int	check_var_name(const char *str, char **name, char **val)
 	return (0);
 }
 
+/**
+ * @brief Search through the env for the next variable following 'last' in
+ * alphanumeric order
+ *
+ * @param env List of environmental variables
+ * @param last Last variable returned
+ * @return Next variable found
+ */
 static t_env	*find_next_var(t_env *env, const char *last)
 {
 	t_env	*var;
@@ -87,6 +109,12 @@ static t_env	*find_next_var(t_env *env, const char *last)
 	return (var);
 }
 
+/**
+ * @brief Prints all env variables following the alphanumerical order
+ *
+ * @param env List of environmental variables
+ * @param fd_out Fd where the output must be sent
+ */
 static void	print_sorted_env(t_env *env, const int fd_out)
 {
 	t_env	*var;
@@ -112,6 +140,14 @@ static void	print_sorted_env(t_env *env, const int fd_out)
 	}
 }
 
+/**
+ * @brief Mimics the behavior of the export command in bash
+ *
+ * @param args Argument list following the 'export' command
+ * @param fd_out Fd where the output must be sent
+ * @param env List of environmental variables
+ * @return 0 on success, 1 if an error occurred
+ */
 int	exec_export(const t_command *args, const int fd_out, t_env **env)
 {
 	char	*name;
@@ -122,7 +158,7 @@ int	exec_export(const t_command *args, const int fd_out, t_env **env)
 		print_sorted_env(*env, fd_out);
 	while (args)
 	{
-		if (check_var_name(args->str, &name, &val))
+		if (alloc_var(args->str, &name, &val))
 			return (1);
 		i = 0;
 		while (args->str[i] && args->str[i] != '=')

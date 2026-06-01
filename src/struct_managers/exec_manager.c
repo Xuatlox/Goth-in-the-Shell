@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/**
+ * @brief Free all 'exec' nodes and their attributes
+ *
+ * @param exec Structure containing every data needed to execute execve()
+ */
 void	free_exec(t_exec *exec)
 {
 	int	i;
@@ -41,6 +46,11 @@ void	free_exec(t_exec *exec)
 	free(exec);
 }
 
+/**
+ * @brief Free the pid list given
+ *
+ * @param pid_list List of the pids of every command in a pipe command
+ */
 void	free_pid_list(t_pid_list *pid_list)
 {
 	t_pid_list	*tmp;

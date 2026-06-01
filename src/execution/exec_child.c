@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/29 11:00:23 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ *
+ * @brief Searches a valid path for the command
+ *
+ * @param cmd List of arguments of the command
+ * @param env List of environmental variables
+ * @param exec Structure containing every data needed to execute execve()
+ */
 static void	fill_valid_cmd(char *cmd, t_env *env, t_exec *exec)
 {
 	int		i;
@@ -40,6 +48,13 @@ static void	fill_valid_cmd(char *cmd, t_env *env, t_exec *exec)
 	free_ar(paths);
 }
 
+/**
+ *
+ * @brief Creates a char **args and stores it in the exec structure
+ *
+ * @param cmd List of arguments of the command
+ * @param exec Structure containing every data needed to execute execve()
+ */
 static void	fill_args(const t_command *cmd, t_exec *exec)
 {
 	int		i;
@@ -60,6 +75,13 @@ static void	fill_args(const t_command *cmd, t_exec *exec)
 	}
 }
 
+/**
+ *
+ * @brief Creates a char **env and stores it in the exec structure
+ *
+ * @param env List of environmental variables
+ * @param exec Structure containing every data needed to execute execve()
+ */
 static void	fill_env(const t_env *env, t_exec *exec)
 {
 	int		i;
@@ -87,6 +109,14 @@ static void	fill_env(const t_env *env, t_exec *exec)
 	}
 }
 
+/**
+ *
+ * @brief Executes a command that is non-builtin
+ *
+ * @param token List of tokens to be executed
+ * @param env List of environmental variables
+ * @return Pid of the new children created
+ */
 pid_t	exec_child(t_token *token, t_env *env)
 {
 	t_exec	*exec;

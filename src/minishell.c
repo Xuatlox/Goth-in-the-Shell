@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/28 16:08:17 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/01 15:06:47 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 int	g_sig_ind = 0;
 
+/**
+ * @brief Checks 'line' and eventually adds it to history
+ *
+ * @param line readline() return value
+ * @param env List of environmental variables
+ * @return 0 if 'line' is correct, else 1
+ */
 int	check_line(char *line, t_env *env)
 {
 	if (line)
@@ -27,6 +34,12 @@ int	check_line(char *line, t_env *env)
 	return (1);
 }
 
+/**
+ * @brief Checks if a signal occurred and sets the corresponding return value
+ * if yes
+ *
+ * @param ret Pointer to the return value to eventually change
+ */
 void	check_sig(int *ret)
 {
 	if (g_sig_ind)

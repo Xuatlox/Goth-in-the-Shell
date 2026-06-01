@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/05/29 10:24:18 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ *
+ * @brief Sends the program to the associated function to execute the command
+ *
+ * @param token List of tokens to be executed
+ * @param env List of environmental variables
+ * @param pid Pointer to the eventual pid of the command to be executed
+ * @return Return value of the function executed
+ */
 int	dispatch(t_token *token, t_env **env, pid_t *pid)
 {
 	int		ret;
@@ -36,7 +45,13 @@ int	dispatch(t_token *token, t_env **env, pid_t *pid)
 	return (ret);
 }
 
-static void	set_outfile(t_token *tokens)
+/**
+ *
+ * @brief Initializes the first command's infile and the last command's outfile
+ *
+ * @param tokens List of tokens to be executed
+ */
+static void	set_in_outfile(t_token *tokens)
 {
 	if (tokens->infile == -1)
 		tokens->infile = STDIN_FILENO;
@@ -46,6 +61,13 @@ static void	set_outfile(t_token *tokens)
 		tokens->outfile = STDOUT_FILENO;
 }
 
+/**
+ *
+ * @brief Checks if the token list contains a valid command to be executed
+ *
+ * @param tokens List of tokens to be executed
+ * @return 1 if the command is valid, else 0
+ */
 static int	check_cmd(t_token *tokens)
 {
 	size_t	size;
@@ -66,6 +88,14 @@ static int	check_cmd(t_token *tokens)
 	return (0);
 }
 
+/**
+ *
+ * @brief Main execution function that executes a given token list
+ *
+ * @param tokens List of tokens to be executed
+ * @param env List of environmental variables
+ * @return Return value of the command executed, 1 if an error occurred
+ */
 int	execute(t_token *tokens, t_env **env)
 {
 	int			ret;
@@ -73,7 +103,7 @@ int	execute(t_token *tokens, t_env **env)
 
 	if (check_cmd(tokens))
 		return (1);
-	set_outfile(tokens);
+	set_in_outfile(tokens);
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
 	else
