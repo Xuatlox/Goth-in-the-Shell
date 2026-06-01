@@ -6,11 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:00:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/27 11:27:27 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 /**
  * @brief Function that compare every char of a string with special char and return an int which mean if it's expandable (1) or not (0)
@@ -111,6 +111,7 @@ void	lst_add_word(t_command **current_cmd, t_status *status)
 	(*current_cmd)->next = stock_next;
 }
 
+
 int	check_expand(char **cmd, t_minishell *shell, t_status *status)
 {
 	t_quote_state	qte_state;
@@ -137,10 +138,14 @@ int	check_expand(char **cmd, t_minishell *shell, t_status *status)
 }
 
 /**
- * @brief Function that check for each argument if the managing of the quote is valid,  it start by '$' and if it's expandable. If all conditions are met, it calling expander which expand the argument.
+ * @brief Function that check for each argument
+ * if the managing of the quote is valid,
+ * it start by '$' and if it's expandable.
+ * If all conditions are met, it calling expander which expand the argument.
  *
  * @param minishell A structure that contain the token & the env chained list.
- * @param status An enum which describe if the actual operation is valid (SUCCESS), or not (FAILURE, [...]).
+ * @param status An enum which describe if the actual operation
+ * is valid (SUCCESS), or not (FAILURE, [...]).
  */
 void	expand(t_minishell *minishell, t_status *status)
 {

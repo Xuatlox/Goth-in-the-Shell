@@ -6,13 +6,18 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:30:45 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/26 17:48:16 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
-static int heredoc(char *delimiter, int fd[2], t_minishell *shell)
+// char *qte_remove(char *delimiter)
+// {
+
+// }
+
+static int	heredoc(char *delimiter, int fd[2], t_minishell *shell)
 {
 	char		*input;
 	t_status	status;
@@ -36,6 +41,7 @@ static int heredoc(char *delimiter, int fd[2], t_minishell *shell)
 		write(fd[1], "\n", 1);
 		if (input)
 			free(input);
+		printf("test");
 	}
 	free(delimiter);
 	if (input)

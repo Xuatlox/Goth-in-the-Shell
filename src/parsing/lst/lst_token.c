@@ -6,11 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:57:02 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:29:43 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 10:46:08 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 t_token	*ft_lstlast_token(t_token *lst)
 {
@@ -46,4 +46,20 @@ t_token	*lst_newtoken(t_status *status)
 	token->cmd = NULL;
 	token->next = NULL;
 	return (token);
+}
+
+void	lst_clear_tkn(t_token **tkn)
+{
+	t_token	*next_node;
+
+	if (tkn == NULL)
+		return ;
+	while (*tkn)
+	{
+		next_node = (*tkn)->next;
+		lst_clear_cmd(&(*tkn)->cmd);
+		free(*tkn);
+		*tkn = next_node;
+	}
+	*tkn = NULL;
 }

@@ -6,11 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 09:40:11 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 10:47:33 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 size_t	ft_strlen_bash(char *str)
 {

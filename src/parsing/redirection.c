@@ -6,11 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 02:59:56 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 static t_status	redirect_outfile(t_token *tkn_node, t_redirect redir,
 	char *file_nme)
