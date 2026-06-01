@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/28 14:30:47 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/01 09:40:11 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ size_t	ft_strlen_bash(char *str)
 			i++;
 	}
 	else if (str[0] == '?' || str[0] == '@' || str[0] == '*' || str[0] == '#'
-	|| str[0] == '$' || str[0] == '!' || str[0] == '-' || str[0] == '_'
-	|| ft_isdigit(str[0]))
+		|| str[0] == '$' || str[0] == '!' || str[0] == '-' || str[0] == '_'
+		|| ft_isdigit(str[0]))
 		i = 1;
 	return (i);
 }
@@ -78,5 +78,3 @@ char	*make_env_val(t_minishell *minishell, char *env_var)
 	}
 	return (NULL);
 }
-
-
