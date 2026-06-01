@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 16:52:52 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/28 16:02:20 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/01 09:34:33 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static t_status	str_without_qte(char **str, size_t qte_nb)
 	size_t			i;
 	size_t			j;
 
-	i= 0;
+	i = 0;
 	j = 0;
 	qte_state = NO_QTE;
 	new_str = ft_calloc(ft_strlen(*str) - qte_nb + 1, 1);
