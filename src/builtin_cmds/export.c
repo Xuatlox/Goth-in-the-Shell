@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 13:37:52 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/02 11:05:08 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 /**
  * @brief Checks if the name given is valid and gives its length in this case
  *
- * @param str Name of the variable to be exported
+ * @param str Argument given after the 'export' command
  * @return The size of the given variable name, or 0 if not valid
  */
-static int	is_valid_id(const char *str)
+static int	is_valid_id(char *str)
 {
-	int	i;
+	int		i;
 
-	if (*str >= '0' && *str <= '9')
+	if (!*str || (*str >= '0' && *str <= '9') || *str == '=')
 	{
-		write(2, "goth_in_the_shell: export: not a valid identifier\n", 50);
+		print_error_export(str);
 		return (0);
 	}
 	i = 0;
@@ -33,7 +33,10 @@ static int	is_valid_id(const char *str)
 		if (!(str[i] >= '0' && str[i] <= '9')
 			&& !(str[i] >= 'A' && str[i] <= 'Z')
 			&& !(str[i] >= 'a' && str[i] <= 'z') && str[i] != '_')
+		{
+			print_error_export(str);
 			return (0);
+		}
 		++i;
 	}
 	return (i);
@@ -47,7 +50,7 @@ static int	is_valid_id(const char *str)
  * @param val Pointer to the value of the variable to be exported
  * @return 0 on success, 1 if an error occurred
  */
-static int	alloc_var(const char *str, char **name, char **val)
+static int	alloc_var(char *str, char **name, char **val)
 {
 	char	*tmp;
 	int		name_size;
