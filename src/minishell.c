@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 15:06:47 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/03 17:21:24 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,20 @@ int	g_sig_ind = 0;
  * @param env List of environmental variables
  * @return 0 if 'line' is correct, else 1
  */
-int	check_line(char *line, t_env *env)
+static int	check_line(char **line, t_env *env)
 {
-	if (line)
+	int	i;
+
+	while (*line)
 	{
-		if (line[0] != 0)
-			add_history(line);
-		return (0);
+		i = 0;
+		if (*line != 0)
+			add_history(*line);
+		while (ft_isspace((*line)[i]))
+			++i;
+		if ((*line)[i])
+			return (0);
+		*line = readline("goth_in_the_shell> ");
 	}
 	free_env(env);
 	rl_clear_history();
@@ -40,7 +47,7 @@ int	check_line(char *line, t_env *env)
  *
  * @param ret Pointer to the return value to eventually change
  */
-void	check_sig(int *ret)
+static void	check_sig(int *ret)
 {
 	if (g_sig_ind)
 	{
@@ -65,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("goth_in_the_shell> ");
-		if (check_line(line, shell.env))
+		if (check_line(&line, shell.env))
 			return (0);
 		check_sig(&shell.old_error_code);
 		parsing(line, &status, &shell);
