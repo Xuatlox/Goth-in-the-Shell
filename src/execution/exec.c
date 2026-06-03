@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/29 10:24:18 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/03 16:24:26 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,45 +47,71 @@ int	dispatch(t_token *token, t_env **env, pid_t *pid)
 
 /**
  *
+ * @brief Prints an error message and returns the associated code
+ *
+ * @param cmd Invalid command written by the user
+ * @param msg Error message to print
+ * @return Error code associated to 'msg'
+ */
+static int	print_cmd_error(char *cmd, char *msg)
+{
+	size_t	size;
+
+	size = ft_strlen(cmd);
+	write(2, "goth_in_the_shell: ", 19);
+	write(2, cmd, size);
+	size = ft_strlen(msg);
+	write(2, msg, size);
+	if (!ft_strncmp(msg, ": Permission denied\n", 21)
+		|| !ft_strncmp(msg, ": Is a directory\n", 18))
+		return (126);
+	if (!ft_strncmp(msg, ": filename argument required\n", 29))
+		return (2);
+	if (!ft_strncmp(msg, ": No such file or directory\n", 29))
+		return (127);
+	return (1);
+}
+
+static int	is_directory(char *str)
+{
+	struct stat stats;
+
+	stat(str, &stats);
+	if (*str == '/' && S_ISDIR(stats.st_mode))
+		return (1);
+	return (0);
+}
+
+/**
+ *
  * @brief Initializes the first command's infile and the last command's outfile
+ * and checks the first command argument
  *
  * @param tokens List of tokens to be executed
  */
-static void	set_in_outfile(t_token *tokens)
+static int	init_check(t_token *tokens)
 {
+	int	ret;
+
+	if (!tokens || !tokens->cmd || !tokens->cmd->str)
+		return (1);
 	if (tokens->infile == -1)
 		tokens->infile = STDIN_FILENO;
 	while (tokens->next)
 		tokens = tokens->next;
 	if (tokens->outfile == -1)
 		tokens->outfile = STDOUT_FILENO;
-}
-
-/**
- *
- * @brief Checks if the token list contains a valid command to be executed
- *
- * @param tokens List of tokens to be executed
- * @return 1 if the command is valid, else 0
- */
-static int	check_cmd(t_token *tokens)
-{
-	size_t	size;
-
-	if (!tokens || !tokens->cmd || !tokens->cmd->str)
-		return (1);
-	if (*tokens->cmd->str == '/' || !ft_strncmp(tokens->cmd->str, ".", 2))
-	{
-		write(2, "goth_in_the_shell: ", 19);
-		size = ft_strlen(tokens->cmd->str);
-		write(2, tokens->cmd->str, size);
-		if (*tokens->cmd->str == '/')
-			write(2, ": Is a directory\n", 17);
-		else
-			write(2, ": filename argument required\n", 29);
-		return (1);
-	}
-	return (0);
+	ret = 0;
+	if (!ft_strncmp(tokens->cmd->str, ".", 2))
+		ret = print_cmd_error(tokens->cmd->str, ": filename argument required\n");
+	else if (is_directory(tokens->cmd->str))
+		ret = print_cmd_error(tokens->cmd->str, ": Is a directory\n");
+	else if ((*tokens->cmd->str == '/' || *tokens->cmd->str == '.')
+		&& access(tokens->cmd->str, F_OK) < 0)
+		ret = print_cmd_error(tokens->cmd->str, ": No such file or directory\n");
+	else if (tokens->cmd->str[0] == '.' && access(tokens->cmd->str, X_OK) < 0)
+		ret = print_cmd_error(tokens->cmd->str, ": Permission denied\n");
+	return (ret);
 }
 
 /**
@@ -101,9 +127,9 @@ int	execute(t_token *tokens, t_env **env)
 	int			ret;
 	int			pid;
 
-	if (check_cmd(tokens))
-		return (1);
-	set_in_outfile(tokens);
+	ret = init_check(tokens);
+	if (ret)
+		return (ret);
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
 	else
