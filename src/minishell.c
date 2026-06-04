@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/03 17:21:24 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/04 17:18:42 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = readline("goth_in_the_shell> ");
 		if (check_line(&line, shell.env))
-			return (0);
+			return (shell.old_error_code);
 		check_sig(&shell.old_error_code);
 		parsing(line, &status, &shell);
 		shell.old_error_code = (int)status;
