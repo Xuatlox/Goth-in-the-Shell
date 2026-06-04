@@ -6,11 +6,26 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/04 10:39:22 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/04 13:10:25 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Displays an error message if an 'export' argument is incorrect
+ *
+ * @param str Argument given after the 'export' command
+ */
+static void	print_error_export(char *str)
+{
+	size_t	size;
+
+	size = ft_strlen(str);
+	write(2, "goth_in_the_shell: export: `", 28);
+	write(2, str, size);
+	write(2, "': not a valid identifier\n", 26);
+}
 
 /**
  * @brief Checks if the name given is valid and gives its length in this case
@@ -48,7 +63,7 @@ static int	is_valid_id(char *str)
  * @param str Argument given after the 'export' command
  * @param name Pointer to the name of the variable to be exported
  * @param val Pointer to the value of the variable to be exported
- * @return 0 on success, 1 if an error occurred
+ * @return 0 on success, 1 if an error occurred, 2 if the id is invalid
  */
 static int	alloc_var(char *str, char **name, char **val)
 {
@@ -80,66 +95,20 @@ static int	alloc_var(char *str, char **name, char **val)
 }
 
 /**
- * @brief Search through the env for the next variable following 'last' in
- * alphanumeric order
+ * @brief Fills the "name" variable from the second argument given in "args"
  *
- * @param env List of environmental variables
- * @param last Last variable returned
- * @return Next variable found
+ * @param name Pointer to the string to fill with the name of the variable
+ * @param args List of arguments given after "export" command
  */
-static t_env	*find_next_var(t_env *env, const char *last)
+static void	fill_name(char **name, const t_command *args)
 {
-	t_env	*var;
-	int		last_index;
-	int		var_index;
+	int	i;
 
-	var = NULL;
-	while (env && last)
+	i = 0;
+	while (args->str[i] && args->str[i] != '=')
 	{
-		last_index = 0;
-		var_index = 0;
-		while (last[last_index] && env->name[last_index]
-			&& env->name[last_index] == last[last_index])
-			++last_index;
-		while (var && var->name[var_index] && env->name[var_index]
-			&& env->name[var_index] == var->name[var_index])
-			++var_index;
-		if (env->name[last_index] > last[last_index]
-			&& (!var || env->name[var_index] < var->name[var_index]))
-			var = env;
-		env = env->next;
-	}
-	return (var);
-}
-
-/**
- * @brief Prints all env variables following the alphanumerical order
- *
- * @param env List of environmental variables
- * @param fd_out Fd where the output must be sent
- */
-static void	print_sorted_env(t_env *env, const int fd_out)
-{
-	t_env	*var;
-	char	*last;
-	size_t	size;
-
-	last = "";
-	var = find_next_var(env, last);
-	while (var)
-	{
-		last = var->name;
-		write(fd_out, "export ", 7);
-		size = ft_strlen(last);
-		write(fd_out, last, size);
-		write(fd_out, "=\"", 2);
-		if (var->val)
-		{
-			size = ft_strlen(var->val);
-			write(fd_out, var->val, size);
-		}
-		write(fd_out, "\"\n", 2);
-		var = find_next_var(env, last);
+		(*name)[i] = args->str[i];
+		++i;
 	}
 }
 
@@ -155,27 +124,26 @@ int	exec_export(const t_command *args, const int fd_out, t_env **env)
 {
 	char	*name;
 	char	*val;
-	int		i;
+	int		ret;
 
 	if (!args)
 		print_sorted_env(*env, fd_out);
-	while (args)
+	ret = 0;
+	while (args && args->str)
 	{
-		if (alloc_var(args->str, &name, &val))
-			return (1);
-		i = 0;
-		while (args->str[i] && args->str[i] != '=')
+		if (!alloc_var(args->str, &name, &val))
 		{
-			name[i] = args->str[i];
-			++i;
+			fill_name(&name, args);
+			if (*env && add_env(*env, name, val))
+				return (1);
+			if (!*env)
+				*env = new_env(name, val);
+			if (!*env)
+				return (1);
 		}
-		if (*env && !add_env(*env, name, val))
-			return (1);
-		if (!*env)
-			*env = new_env(name, val);
-		if (!*env)
-			return (1);
+		else
+			ret = 1;
 		args = args->next;
 	}
-	return (0);
+	return (ret);
 }
