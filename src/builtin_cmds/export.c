@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/02 11:05:08 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/04 10:39:22 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ static void	print_sorted_env(t_env *env, const int fd_out)
 	while (var)
 	{
 		last = var->name;
-		write(fd_out, "declare -x ", 11);
+		write(fd_out, "export ", 7);
 		size = ft_strlen(last);
 		write(fd_out, last, size);
 		write(fd_out, "=\"", 2);
