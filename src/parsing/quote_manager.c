@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 16:52:52 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 14:20:12 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_quotes(char c, t_quote_state *quote_state)
 	return (0);
 }
 
-static size_t	quote_counter(char *cmd)
+size_t	quote_counter(char *cmd)
 {
 	size_t			i;
 	size_t			qte_counter;
@@ -55,7 +55,7 @@ static size_t	quote_counter(char *cmd)
 	return (qte_counter);
 }
 
-static t_status	str_without_qte(char **str, size_t qte_nb)
+t_status	str_without_qte(char **str, size_t qte_nb)
 {
 	char			*new_str;
 	t_quote_state	qte_state;

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/05/31 22:27:58 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/08 14:13:12 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,15 @@ typedef enum e_redirect
 	INPUT,
 	HEREDOC,
 	TRUNC,
-	APPEND
+	APPEND,
+	ERROR_REDIR
 }	t_redirect;
+
+typedef enum e_expand
+{
+	EXPAND,
+	NO_EXPAND
+}	t_expand;
 
 /*---------------------------TOKEN COMMAND------------------------------------*/
 typedef struct s_command

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/08 14:54:29 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_status	redirect_outfile(t_token *tkn_node, t_redirect redir,
 		tkn_node->outfile = open(file_nme, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (tkn_node->outfile == -1)
 		{
+			error_file(file_nme);
 			free(file_nme);
 			return (FAILURE);
 		}
@@ -31,6 +32,7 @@ static t_status	redirect_outfile(t_token *tkn_node, t_redirect redir,
 		tkn_node->outfile = open(file_nme, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (tkn_node->outfile == -1)
 		{
+			error_file(file_nme);
 			free(file_nme);
 			return (FAILURE);
 		}
@@ -49,6 +51,7 @@ static t_status	redirect_infile(t_token *tkn_node, t_redirect redir,
 		tkn_node->infile = open(file_name, O_RDONLY);
 		if (tkn_node->infile == -1)
 		{
+			error_file(file_name);
 			free(file_name);
 			return (FAILURE);
 		}
@@ -58,6 +61,7 @@ static t_status	redirect_infile(t_token *tkn_node, t_redirect redir,
 		tkn_node->infile = pipe_heredoc(file_name, shell);
 		if (tkn_node->infile == -1)
 		{
+			error_file(file_name);
 			free(file_name);
 			return (FAILURE);
 		}
@@ -96,6 +100,8 @@ t_status	redirect_manager(char *str, t_token *tkn_node,
 	new_word = NULL;
 	status = SUCCESS;
 	redir_state = check_redirect(&str[*i]);
+	if (redir_state == ERROR_REDIR)
+		return (FAILURE);
 	if (redir_state == HEREDOC || redir_state == APPEND)
 		(*i)++;
 	(*i)++;

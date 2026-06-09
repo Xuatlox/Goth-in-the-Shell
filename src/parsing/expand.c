@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:00:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 16:21:47 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  */
 int isExpand(char *str, t_quote_state qte_state)
 {
-	if ((isalpha(str[0]) || str[0] == '_' || str[0] == '?' || str[0] == '@'
+	if ((ft_isalpha(str[0]) || str[0] == '_' || str[0] == '?' || str[0] == '@'
 	|| str[0] == '*' || str[0] == '#' || str[0] == '$' || str[0] == '!'
 	|| str[0] == '-' || ft_isdigit(str[0])) && qte_state != SIMPLE_QTE)
 		return (1);
@@ -100,7 +100,7 @@ void	lst_add_word(t_command **current_cmd, t_status *status)
 
 
 	new_lst_cmd = lst_word((*current_cmd)->str, status);
-	if (*status)
+	if (*status || !new_lst_cmd)
 		return ;
 	stock_next = (*current_cmd)->next;
 	free((*current_cmd)->str);
@@ -112,7 +112,7 @@ void	lst_add_word(t_command **current_cmd, t_status *status)
 }
 
 
-int	check_expand(char **cmd, t_minishell *shell, t_status *status)
+int	check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex)
 {
 	t_quote_state	qte_state;
 	size_t			i;
@@ -124,7 +124,8 @@ int	check_expand(char **cmd, t_minishell *shell, t_status *status)
 	while (cmd && (*cmd)[i])
 	{
 		check_quotes((*cmd)[i], &qte_state);
-		if ((*cmd)[i] == '$' && isExpand(*cmd + i, qte_state) == 1)
+		if ((*cmd)[i] == '$' && isExpand(*cmd + i + 1, qte_state) == 1
+			&& ex == EXPAND)
 		{
 			*status = expander(shell, cmd, &i);
 			is_expand = 1;
@@ -159,7 +160,7 @@ void	expand(t_minishell *minishell, t_status *status)
 		current_cmd = tkn_node->cmd;
 		while (current_cmd && !*status)
 		{
-			if (check_expand(&current_cmd->str, minishell, status) == 1)
+			if (check_expand(&current_cmd->str, minishell, status, 0) == 1)
 				lst_add_word(&current_cmd, status);
 			current_cmd = current_cmd->next;
 		}

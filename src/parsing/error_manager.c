@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/24 16:38:26 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 14:11:14 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void	error_parsing(char c)
 	}
 	else
 		write(2, "syntax error near unexpected token `newline'\n", 45);
+}
+
+void	error_file(char *file_name)
+{
+	write(2, "goth_in_the_shell: ", 19);
+	write(2, file_name, ft_strlen(file_name));
+	write(2, ": No such file or directory\n", 28);
 }
 
 void	error_heredoc(char *s)

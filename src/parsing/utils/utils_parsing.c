@@ -6,30 +6,11 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 06:45:16 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/03 11:05:07 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_redirect	check_redirect(char *str)
-{
-	int			i;
-	t_redirect	redirect;
-
-	i = 0;
-	if (str[i + 1] && str[i] == '<' && str[i + 1] == '<')
-		redirect = HEREDOC;
-	else if (str[i + 1] && str[i] == '>' && str[i + 1] == '>')
-		redirect = APPEND;
-	else if (str[i] == '<')
-		redirect = INPUT;
-	else if (str[i] == '>')
-		redirect = TRUNC;
-	else
-		redirect = NONE;
-	return (redirect);
-}
 
 t_status	charjoin(t_command *src, char c)
 {
