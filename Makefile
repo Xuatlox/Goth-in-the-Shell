@@ -41,6 +41,7 @@ SRC_FILES := $(SRC_DIR)minishell.c \
 			 $(SRC_DIR)$(BUILT_DIR)env.c \
 			 $(SRC_DIR)$(BUILT_DIR)exit.c \
 			 $(SRC_DIR)$(BUILT_DIR)export.c \
+			 $(SRC_DIR)$(BUILT_DIR)print_sorted_env.c \
 			 $(SRC_DIR)$(BUILT_DIR)pwd.c \
 			 $(SRC_DIR)$(BUILT_DIR)unset.c \
 			 $(SRC_DIR)$(STRUCT_DIR)env_builder.c \

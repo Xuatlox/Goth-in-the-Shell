@@ -74,7 +74,7 @@ static t_status	check_input(t_token **lexer)
  * are correct.
  *
  * @param line The line command.
- * @param status The state of the line comand.
+ * @param status The state of the line command.
  * @return t_token*
  */
 t_token	*parsing(char *line, t_status *status, t_minishell *minishell)

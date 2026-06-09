@@ -6,12 +6,17 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/28 13:32:19 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/01 14:55:18 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../inc/minishell.h"
 
+/**
+ * @brief Resets readline to a new line after SIGINT in interactive mode
+ *
+ * @param sig Signal identifier
+ */
 static void sigint_inter_handler(int sig)
 {
 	(void) sig;
@@ -22,6 +27,9 @@ static void sigint_inter_handler(int sig)
 	rl_redisplay();
 }
 
+/**
+ * @brief Sets SIGINT and SIGQUIT behaviors for interactive mode
+ */
 void	sig_inter(void)
 {
 	struct sigaction	act_int;
@@ -36,6 +44,11 @@ void	sig_inter(void)
 		perror("goth_in_the_shell: sigaction");
 }
 
+/**
+ * @brief Go to new line after SIGINT during execution
+ *
+ * @param sig Signal identifier
+ */
 static void sigint_exec_handler(int sig)
 {
 	(void) sig;
@@ -43,6 +56,11 @@ static void sigint_exec_handler(int sig)
 	write(2, "\n", 1);
 }
 
+/**
+ * @brief Prints "Quit" and go to new line after SIGQUIT during execution
+ *
+ * @param sig Signal identifier
+ */
 static void sigquit_exec_handler(int sig)
 {
 	(void) sig;
@@ -50,6 +68,9 @@ static void sigquit_exec_handler(int sig)
 	write(2, "Quit\n", 5);
 }
 
+/**
+ * @brief Sets SIGINT and SIGQUIT behaviors for execution
+ */
 void	sig_exec(void)
 {
 	struct sigaction	act_int;

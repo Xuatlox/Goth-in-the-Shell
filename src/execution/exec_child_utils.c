@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 13:26:09 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Resets SIGINT and SIGQUIT default behaviors before execution
+ *
+ * @return 0 on success, 1 if an error occurred
+ */
 static int	reset_sig(void)
 {
 	struct sigaction	sa;
@@ -37,6 +42,13 @@ static void	print_cmd_not_found(t_exec *exec)
 	write(2, ": command not found\n", 20);
 }
 
+/**
+ * @brief Launches execve() for the current child process and exits on failure
+ *
+ * @param env List of environmental variables
+ * @param token Current token in the list to be executed
+ * @param exec Structure containing every data needed to execute execve()
+ */
 static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 {
 	int		ret;
@@ -65,6 +77,14 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 	exit(ret);
 }
 
+/**
+ * @brief Forks and sends the child into execution
+ *
+ * @param env List of environmental variables
+ * @param token Current token in the list to be executed
+ * @param exec Structure containing every data needed to execute execve()
+ * @return Pid of the new child forked
+ */
 pid_t	manage_child(t_env *env, t_token *token, t_exec *exec)
 {
 	pid_t	pid;

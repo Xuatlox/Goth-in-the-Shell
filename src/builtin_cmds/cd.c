@@ -6,12 +6,20 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:13:51 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 10:31:06 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Sets dest to OLDPWD, and prints it
+ *
+ * @param env List of environmental variables
+ * @param dest Pointer to the string containing the destination of the command
+ * @param fd_out Fd where the output must be sent
+ * @return 0 on success, 1 if an error occurred
+ */
 static int	cd_old_wd(t_env *env, char **dest, const int fd_out)
 {
 	char	**path;
@@ -30,6 +38,13 @@ static int	cd_old_wd(t_env *env, char **dest, const int fd_out)
 	return (0);
 }
 
+/**
+ * @brief Sets dest to HOME
+ *
+ * @param env List of environmental variables
+ * @param dest Pointer to the string containing the destination of the command
+ * @return 0 on success, 1 if an error occurred
+ */
 static int	cd_home(t_env *env, char **dest)
 {
 	char	**home;
@@ -44,6 +59,14 @@ static int	cd_home(t_env *env, char **dest)
 	return (1);
 }
 
+/**
+ * @brief Operates the directory change using getcwd() and updates env PWD and
+ * OLDPWD
+ *
+ * @param dest Pointer to the string containing the destination of the command
+ * @param env List of environmental variables
+ * @return 0 on success, 1 if an error occurred
+ */
 static int	change_directory(char *dest, t_env *env)
 {
 	char	*path;
@@ -71,6 +94,14 @@ static int	change_directory(char *dest, t_env *env)
 	return (0);
 }
 
+/**
+ * @brief Mimics the behavior of the cd command in bash
+ *
+ * @param args List of arguments following 'cd' (NULL if no arguments)
+ * @param fd_out Fd where the output must be sent
+ * @param env List of environmental variables
+ * @return 0 on success, 1 if an error occurred
+ */
 int	exec_cd(const t_command *args, const int fd_out, t_env *env)
 {
 	char	*dest;
@@ -78,7 +109,7 @@ int	exec_cd(const t_command *args, const int fd_out, t_env *env)
 
 	if (args)
 		dest = args->str;
-	if (!args && cd_home(env, &dest))
+	if (!args && !cd_home(env, &dest))
 		return (1);
 	if (args && !ft_strncmp(args->str, "-", 2)
 		&& cd_old_wd(env, &dest, fd_out))

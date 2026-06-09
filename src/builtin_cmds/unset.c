@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:51:12 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 13:52:03 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Finds the variable before 'to_find' in env
+ *
+ * @param env List of environmental variables
+ * @param to_find Name of the variable following the one wanted in env
+ * @param size Size of 'to_find'
+ * @return The env variable before 'to_find' in env, NULL if not found
+ */
 static t_env	*find_prev(t_env *env, const char *to_find, const size_t size)
 {
 	if (!env)
@@ -25,6 +33,11 @@ static t_env	*find_prev(t_env *env, const char *to_find, const size_t size)
 	return (NULL);
 }
 
+/**
+ * @brief Free the head of the env list and sets the head to the next node
+ *
+ * @param env List of environmental variables
+ */
 static void	unset_head(t_env **env)
 {
 	t_env	*node;
@@ -36,6 +49,13 @@ static void	unset_head(t_env **env)
 	*env = node;
 }
 
+/**
+ * @brief Free the 'name' variable in env and links back all nodes together
+ *
+ * @param env List of environmental variables
+ * @param name Name of the variable to be removed
+ * @param size Size of name
+ */
 static void	unset_node(t_env **env, const char *name, const size_t size)
 {
 	t_env	*prev_node;
@@ -53,6 +73,13 @@ static void	unset_node(t_env **env, const char *name, const size_t size)
 	prev_node->next = next_node;
 }
 
+/**
+ * @brief Mimics the behavior of the unset command in bash
+ *
+ * @param args Arguments following the 'unset' command
+ * @param env List of environmental variables
+ * @return 0 on success, 1 if an error occurred
+ */
 int	exec_unset(const t_command *args, t_env **env)
 {
 	size_t	size;
