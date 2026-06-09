@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/31 22:19:44 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/01 16:11:08 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 int			check_quotes(char c, t_quote_state *quote_state);
+size_t		quote_counter(char *cmd);
+t_status	str_without_qte(char **str, size_t qte_nb);
 t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_minishell *shell);
 int			pipe_heredoc(char *delimiter, t_minishell *shell);
 void		expand(t_minishell *minishell, t_status *status);
-int			check_expand(char **cmd, t_minishell *shell, t_status *status);
+int			check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex);
 t_status	expander(t_minishell *minishell, char **str, size_t *i);
 void		remove_quotes(t_token *tkn_node, t_status *status);
 char		*make_env_val(t_minishell *minishell, char *env_var);
@@ -99,5 +101,6 @@ void		lst_clear_cmd(t_command **cmd);
 /*---------------------------ERRORS-------------------------------------------*/
 void		error_parsing(char c);
 void		error_heredoc(char *s);
+void		error_file(char *file_name);
 
 #endif

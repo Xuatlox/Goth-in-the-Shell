@@ -28,6 +28,7 @@ SRC_FILES := $(SRC_DIR)minishell.c \
 			 $(SRC_DIR)$(PARSER_DIR)$(LST_DIR)lst_token.c \
 			 $(SRC_DIR)$(PARSER_DIR)$(UTILS_DIR)utils_parsing.c \
 			 $(SRC_DIR)$(PARSER_DIR)$(UTILS_DIR)utils_expand.c \
+			 $(SRC_DIR)$(PARSER_DIR)$(UTILS_DIR)utils_redirection.c \
 			 $(SRC_DIR)$(PARSER_DIR)quote_manager.c \
 			 $(SRC_DIR)$(PARSER_DIR)heredoc.c \
 			 $(SRC_DIR)$(PARSER_DIR)error_manager.c \
@@ -50,7 +51,7 @@ SRC_FILES := $(SRC_DIR)minishell.c \
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC_FILES))
 
 
-all : header $(NAME)
+all : $(NAME)
 
 header:
 	@echo ""
@@ -64,7 +65,7 @@ header:
 	@echo ""
 	@echo ""
 
-$(NAME) : $(OBJ) $(LIBFT)
+$(NAME) : header $(OBJ) $(LIBFT)
 	@echo "𖤐⭒๋࣭ ⭑ Compilation of Minishell finished !"
 	@${CC} ${CFLAGS} -lreadline -I ${INC} -o ${NAME} ${OBJ} ${LIBFT}
 
@@ -92,4 +93,4 @@ fclean : clean
 
 re : header fclean $(NAME)
 
-.PHONY : all clean fclean re
+.PHONY : all clean fclean re header
