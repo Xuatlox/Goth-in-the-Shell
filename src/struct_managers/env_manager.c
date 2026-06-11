@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 14:11:36 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/11 11:01:06 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**get_env(t_env *env, const char *name)
  * @param new_val New value to set to the 'var_name' variable in env
  * @param env List of environmental variables
  */
-void	set_env(const char *var_name, char *new_val, t_env *env)
+void	set_env(char *var_name, char *new_val, t_env *env)
 {
 	char	**var_val;
 
@@ -95,7 +95,10 @@ int	add_env(t_env *env, char *name, char *value)
 		return (1);
 	get = get_env(env, name);
 	if (get)
+	{
 		set_env(name, value, env);
+		free(name);
+	}
 	else
 	{
 		new = new_env(name, value);
