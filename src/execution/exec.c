@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/03 16:24:26 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/11 13:50:37 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ static int	print_cmd_error(char *cmd, char *msg)
 	return (1);
 }
 
+/**
+ * @brief Checks whether 'str' is a directory or not
+ *
+ * @param str Name to check
+ * @return 1 if 'str' is a directory, else 0
+ */
 static int	is_directory(char *str)
 {
 	struct stat stats;
@@ -106,10 +112,11 @@ static int	init_check(t_token *tokens)
 		ret = print_cmd_error(tokens->cmd->str, ": filename argument required\n");
 	else if (is_directory(tokens->cmd->str))
 		ret = print_cmd_error(tokens->cmd->str, ": Is a directory\n");
-	else if ((*tokens->cmd->str == '/' || *tokens->cmd->str == '.')
-		&& access(tokens->cmd->str, F_OK) < 0)
+	else if ((*tokens->cmd->str == '/' || (tokens->cmd->str[0] == '.'
+		&& tokens->cmd->str[1] == '/')) && access(tokens->cmd->str, F_OK) < 0)
 		ret = print_cmd_error(tokens->cmd->str, ": No such file or directory\n");
-	else if (tokens->cmd->str[0] == '.' && access(tokens->cmd->str, X_OK) < 0)
+	else if (tokens->cmd->str[0] == '.' && tokens->cmd->str[1] == '/'
+		&& access(tokens->cmd->str, X_OK) < 0)
 		ret = print_cmd_error(tokens->cmd->str, ": Permission denied\n");
 	return (ret);
 }
