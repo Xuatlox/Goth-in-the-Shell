@@ -6,11 +6,22 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:13:51 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:31:06 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/09 11:13:18 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Prints the last error encountered
+ *
+ * @param dest Argument given after the 'cd' in the command line
+ */
+static void print_cd_error(char *dest)
+{
+	write(2, "goth_in_the_shell: cd: ", 23);
+	perror(dest);
+}
 
 /**
  * @brief Sets dest to OLDPWD, and prints it
@@ -74,12 +85,12 @@ static int	change_directory(char *dest, t_env *env)
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		perror("goth_in_the_shell: cd");
+		print_cd_error(dest);
 		return (1);
 	}
 	if (chdir(dest))
 	{
-		perror("goth_in_the_shell: cd");
+		print_cd_error(dest);
 		free(path);
 		return (1);
 	}
@@ -87,7 +98,7 @@ static int	change_directory(char *dest, t_env *env)
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		perror("goth_in_the_shell: cd");
+		print_cd_error(dest);
 		return (1);
 	}
 	set_env("PWD", path, env);
