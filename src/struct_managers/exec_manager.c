@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 14:00:54 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/11 10:14:38 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,10 @@
  */
 void	free_exec(t_exec *exec)
 {
-	int	i;
-
 	if (exec->absolute_cmd)
 		free(exec->absolute_cmd);
-	if (exec->args)
-	{
-		i = 0;
-		while (exec->args[i])
-		{
-			free(exec->args[i]);
-			++i;
-		}
-		free(exec->args);
-	}
-	if (exec->env)
-	{
-		i = 0;
-		while (exec->env[i])
-		{
-			free(exec->env[i]);
-			++i;
-		}
-		free(exec->env);
-	}
+	free_ar(exec->args);
+	free_ar(exec->env);
 	free(exec);
 }
 
