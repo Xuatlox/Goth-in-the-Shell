@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/10 22:28:45 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/11 16:53:35 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_status	redirect_manager(char *str, t_token *tkn_node,
 	status = SUCCESS;
 	redir_state = check_redirect(&str[*i]);
 	if (redir_state == ERROR_REDIR)
-		return (FAILURE);
+		return (BAD_ARG);
 	if (redir_state == HEREDOC || redir_state == APPEND)
 		(*i)++;
 	(*i)++;
