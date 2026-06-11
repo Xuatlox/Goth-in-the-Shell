@@ -61,7 +61,7 @@ int	exec_echo(t_command *args, const int fd_out)
 		size = ft_strlen(args->str);
 		if (write(fd_out, args->str, size) < 0)
 			return (1);
-		if (args->next)
+		if (args->next && args->str && *args->str)
 			if (write(fd_out, " ", 1) < 0)
 				return (1);
 		args = args->next;
