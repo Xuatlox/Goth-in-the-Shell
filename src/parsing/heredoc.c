@@ -6,13 +6,13 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:30:45 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 16:11:45 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/10 10:41:10 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_expand qte_remove(char **delimiter)
+t_expand	qte_remove(char **delimiter)
 {
 	size_t	count;
 

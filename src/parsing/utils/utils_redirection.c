@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 11:04:55 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/08 15:46:59 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/09 14:58:14 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_redirect	check_redirect(char *str)
 	else
 		redirect = NONE;
 	if (redirect == INPUT || redirect == TRUNC)
-		redirect = is_redirect(str + i + 1, TRUNC);
+		redirect = is_redirect(str + i + 1, redirect);
 	else if (redirect == HEREDOC || redirect == APPEND)
 		redirect = is_redirect(str + i + 2, redirect);
 	return (redirect);

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/09 13:32:10 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/09 16:03:59 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ size_t		quote_counter(char *cmd);
 t_status	str_without_qte(char **str, size_t qte_nb);
 t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_minishell *shell);
 int			pipe_heredoc(char *delimiter, t_minishell *shell);
+t_expand	qte_remove(char **delimiter);
 void		expand(t_minishell *minishell, t_status *status);
 int			check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex);
 t_status	expander(t_minishell *minishell, char **str, size_t *i);

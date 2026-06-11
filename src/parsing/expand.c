@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:00:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 16:21:47 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/10 16:32:57 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int isExpand(char *str, t_quote_state qte_state)
 {
 	if ((ft_isalpha(str[0]) || str[0] == '_' || str[0] == '?' || str[0] == '@'
 	|| str[0] == '*' || str[0] == '#' || str[0] == '$' || str[0] == '!'
-	|| str[0] == '-' || ft_isdigit(str[0])) && qte_state != SIMPLE_QTE)
+	|| str[0] == '-' || (str[0] == '"' && qte_state == NO_QTE)
+	|| (str[0] == '\'' && qte_state == NO_QTE)
+	|| ft_isdigit(str[0])) && qte_state != SIMPLE_QTE)
 		return (1);
 	return (0);
 }
@@ -60,7 +62,6 @@ t_status	expander(t_minishell *minishell, char **str, size_t *i)
 	*str = new_str;
 	*i += ft_strlen(var);
 	free(var);
-
 	return (SUCCESS);
 }
 

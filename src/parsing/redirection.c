@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/08 14:54:29 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/10 22:28:45 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static t_status	redirect_infile(t_token *tkn_node, t_redirect redir,
 
 static t_status	make_word(char **new_word, char *str, size_t *i)
 {
+	while (str[*i] && ft_isspace(str[*i]) == 1)
+		(*i)++;
 	while (str[*i] && ft_isspace(str[*i]) == 0)
 	{
 		if (str_charjoin(new_word, str[*i]) != SUCCESS)
@@ -82,7 +84,7 @@ static t_status	make_word(char **new_word, char *str, size_t *i)
 		}
 		(*i)++;
 	}
-	if (!new_word)
+	if (!*new_word)
 	{
 		error_parsing(0);
 		return (BAD_ARG);
@@ -105,14 +107,17 @@ t_status	redirect_manager(char *str, t_token *tkn_node,
 	if (redir_state == HEREDOC || redir_state == APPEND)
 		(*i)++;
 	(*i)++;
-	while (str[*i] && ft_isspace(str[*i]) == 1)
-		(*i)++;
 	status = make_word(&new_word, str, i);
+	if (redir_state != HEREDOC && status == SUCCESS)
+	{
+		check_expand(&new_word, shell, &status, 1);
+		qte_remove(&new_word);
+	}
 	if (ft_lstlast_command(tkn_node->cmd) == NULL)
 		tkn_node->cmd = lst_newcommand(0, &status);
-	if (redir_state == INPUT || redir_state == HEREDOC)
+	if ((redir_state == INPUT || redir_state == HEREDOC) && !status)
 		status = redirect_infile(tkn_node, redir_state, new_word, shell);
-	else
+	else if ((redir_state == TRUNC || redir_state == APPEND) && !status)
 		status = redirect_outfile(tkn_node, redir_state, new_word);
 	return (status);
 }
