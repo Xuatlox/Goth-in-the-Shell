@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/05/29 11:00:23 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/11 10:42:48 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,28 @@ static void	fill_args(const t_command *cmd, t_exec *exec)
 }
 
 /**
+ * @brief Creates a string to fill the env array
+ *
+ * @param name Name of the env variable
+ * @param val Value of the env variable
+ * @return The string to fill the env array with
+ */
+static char	*get_env_string(char *name, char *val)
+{
+	char	*tmp;
+	char	*res;
+
+	if (!val)
+		return (ft_strdup(name));
+	tmp = ft_strjoin(name, "=");
+	if (!tmp)
+		return (NULL);
+	res = ft_strjoin(tmp, val);
+	free(tmp);
+	return (res);
+}
+
+/**
  *
  * @brief Creates a char **env and stores it in the exec structure
  *
@@ -86,7 +108,6 @@ static void	fill_env(const t_env *env, t_exec *exec)
 {
 	int		i;
 	int		size;
-	char	*tmp;
 
 	size = get_env_size(env);
 	exec->env = ft_calloc(size + 1, sizeof(char *));
@@ -95,15 +116,12 @@ static void	fill_env(const t_env *env, t_exec *exec)
 	i = 0;
 	while (env)
 	{
-		tmp = ft_strjoin(env->name, "=");
-		exec->env[i] = ft_strjoin(tmp, env->val);
+		exec->env[i] = get_env_string(env->name, env->val);
 		if (!exec->env[i])
 		{
 			free_ar(exec->env);
-			free(tmp);
 			return ;
 		}
-		free(tmp);
 		++i;
 		env = env->next;
 	}
