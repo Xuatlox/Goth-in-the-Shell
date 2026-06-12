@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/11 16:53:35 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/12 11:32:19 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static t_status	make_word(char **new_word, char *str, size_t *i)
 {
 	while (str[*i] && ft_isspace(str[*i]) == 1)
 		(*i)++;
-	while (str[*i] && ft_isspace(str[*i]) == 0)
+	while (str[*i] && ft_isspace(str[*i]) == 0 && str[*i] != '<'
+		&& str[*i] != '>' && str[*i] != '|')
 	{
 		if (str_charjoin(new_word, str[*i]) != SUCCESS)
 		{
