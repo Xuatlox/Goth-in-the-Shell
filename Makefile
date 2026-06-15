@@ -52,9 +52,9 @@ SRC_FILES := $(SRC_DIR)minishell.c \
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC_FILES))
 
 
-all : $(NAME)
+all : $(OBJ_DIR).compiled $(NAME)
 
-header:
+$(OBJ_DIR).compiled:
 	@echo ""
 	@printf "%s\n" '   /\\,/\\,                   ,,          ,, ,, '
 	@printf "%s\n" "  /| || ||   '        '       ||          || || "
@@ -66,7 +66,22 @@ header:
 	@echo ""
 	@echo ""
 
-$(NAME) : header $(OBJ) $(LIBFT)
+$(OBJ_DIR).running:
+	@mkdir -p $(OBJ_DIR)
+	@touch $(OBJ_DIR).running
+	@echo ""
+	@printf "%s\n" '   /\\,/\\,                   ,,          ,, ,, '
+	@printf "%s\n" "  /| || ||   '        '       ||          || || "
+	@printf "%s\n" '  || || ||  \\ \\/\\ \\  _-_, ||/\\  _-_  || || '
+	@printf "%s\n" '  ||=|= ||  || || || || ||_.  || || || \\ || || '
+	@printf "%s\n" ' ~|| || ||  || || || ||  ~ || || || ||/   || || '
+	@printf "%s\n" '  |, \\,\\, \\ \\ \\ \\ ,-_-  \\ |/ \\,/  \\ \\ '
+	@printf "%s\n" ' _-                             _/              '
+	@echo ""
+	@echo ""
+
+$(NAME) : $(OBJ) $(LIBFT)
+	@touch $(OBJ_DIR).compiled
 	@echo "𖤐⭒๋࣭ ⭑ Compilation of Minishell finished !"
 	@${CC} ${CFLAGS} -lreadline -I ${INC} -o ${NAME} ${OBJ} ${LIBFT}
 
@@ -81,17 +96,18 @@ $(LIBFT) :
 $(OBJ_DIR) :
 	@mkdir $(OBJ_DIR)
 
-clean :
+clean : $(OBJ_DIR).running
 	@echo "👉🗑️ Cleaning all .o files !"
 	@rm -rf $(OBJ_DIR)
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) clean
 
-fclean : clean
+fclean : $(OBJ_DIR).running clean
 	@echo "💥 Deleting Minishell"
 	@rm -rf $(NAME)
 	@echo "💥 Deleting Libft"
 	@rm -rf $(LIBFT)
 
-re : header fclean $(NAME)
+re : $(OBJ_DIR).running fclean $(NAME)
+	@rm -f $(OBJ_DIR).running
 
-.PHONY : all clean fclean re header
+.PHONY : all clean fclean re
