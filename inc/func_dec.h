@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/15 01:47:00 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/15 02:58:05 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,20 @@ void		sig_inter(void);
 
 /*---------------------------PARSING------------------------------------------*/
 t_token		*parsing(char *line, t_status *status, t_minishell *minishell);
-t_token		*lexer(char* cmd, t_status *status, t_minishell *shell);
+t_token		*lexer(char *cmd, t_status *status, t_minishell *shell);
 t_status	charjoin(t_command *src, char c);
 t_redirect	check_redirect(char *str);
 t_status	str_charjoin(char **src, char c);
 int			check_quotes(char c, t_quote_state *quote_state);
 size_t		quote_counter(char *cmd);
 t_status	str_without_qte(char **str, size_t qte_nb);
-t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i, t_minishell *shell);
+t_status	redirect_manager(char *str, t_token *tkn_node, size_t *i,
+				t_minishell *shell);
 int			pipe_heredoc(char *delimiter, t_minishell *shell);
 t_expand	qte_remove(char **delimiter);
 void		expand(t_minishell *minishell, t_status *status);
-int			check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex);
+int			check_expand(char **cmd, t_minishell *shell, t_status *status,
+				t_expand ex);
 int			ft_is_expand(char *str, t_quote_state qte_state);
 t_status	expander(t_minishell *minishell, char **str, size_t *i);
 void		remove_quotes(t_token *tkn_node, t_status *status);
@@ -96,8 +98,8 @@ t_command	*ft_lstlast_command(t_command *lst);
 t_token		*ft_lstlast_token(t_token *lst);
 void		ft_lstadd_token(t_token **lst, t_status *status);
 void		ft_lstadd_command(t_token *last_tkn, char c, t_status *status);
-void		ft_lstadd_redirect(t_token *last_tkn, char *cmd, t_redirect redirect,
-			t_status *status);
+void		ft_lstadd_redirect(t_token *last_tkn, char *cmd,
+				t_redirect redirect, t_status *status);
 void		lst_clear_tkn(t_token **tkn);
 void		lst_clear_cmd(t_command **cmd);
 

@@ -6,14 +6,14 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/08 14:13:12 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/15 02:58:57 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
 
-#include <unistd.h>
+# include <unistd.h>
 
 /*---------------------------QUOTE STATE--------------------------------------*/
 typedef enum e_quote_state
@@ -60,10 +60,10 @@ typedef struct s_command
 /*---------------------------TOKEN--------------------------------------------*/
 typedef struct s_token
 {
-		int				infile;
-		int				outfile;
-		t_command		*cmd;
-		struct s_token	*next;
+	int				infile;
+	int				outfile;
+	t_command		*cmd;
+	struct s_token	*next;
 }					t_token;
 
 /*---------------------------ENV----------------------------------------------*/
