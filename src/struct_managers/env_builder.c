@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 13:25:08 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 14:02:56 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/15 14:18:26 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_env	*build_env(char **envp)
 	while (*envp)
 	{
 		fail = get_val_name(&name, &val, *envp);
-		if (fail || add_env(env, name, val))
+		if (fail || add_env(&env, name, val))
 		{
 			free_env(env);
 			return (NULL);

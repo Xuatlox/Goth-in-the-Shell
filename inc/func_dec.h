@@ -43,7 +43,7 @@ t_token		*jump_next_token(t_token *token);
 int			get_env_size(const t_env *env);
 char		**get_env(t_env *env, const char *name);
 void		set_env(char *var_name, char *new_val, t_env *env);
-int			add_env(t_env *env, char *name, char *value);
+int			add_env(t_env **env, char *name, char *value);
 void		up_shlvl(t_env *env);
 
 /*---------------------------PID LIST MANAGEMENT------------------------------*/
