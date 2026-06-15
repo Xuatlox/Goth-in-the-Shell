@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:30:45 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/10 10:41:10 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/15 02:21:47 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,26 +26,34 @@ t_expand	qte_remove(char **delimiter)
 		return (EXPAND);
 }
 
+int	heredoc_manager(char *input, char *delimiter)
+{
+	if (g_sig_ind == SIGINT)
+		return (0);
+	if (input == NULL)
+	{
+		error_heredoc(delimiter);
+		return (0);
+	}
+	if (ft_strcmp(input, delimiter) == 0)
+		return (0);
+	return (1);
+}
+
 static int	heredoc(char *delimiter, int fd[2], t_minishell *shell)
 {
 	char		*input;
 	t_status	status;
 	t_expand	expand;
 
+	sig_inter();
 	status = SUCCESS;
 	close(fd[0]);
 	expand = qte_remove(&delimiter);
 	while (1)
 	{
 		input = readline("> ");
-		if (g_sig_ind == SIGINT)
-			break ;
-		if (input == NULL)
-		{
-			error_heredoc(delimiter);
-			break ;
-		}
-		if (ft_strcmp(input, delimiter) == 0)
+		if (heredoc_manager(input, delimiter) == 0)
 			break ;
 		check_expand(&input, shell, &status, expand);
 		write(fd[1], input, ft_strlen(input));

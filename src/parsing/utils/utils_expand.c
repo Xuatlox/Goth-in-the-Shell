@@ -6,11 +6,31 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:17:53 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:47:33 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/15 01:46:09 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Function that compare every char of a string with special char
+ * and return an int which mean if it's expandable (1) or not (0)
+ *
+ * @param str The sended argument.
+ * @param qte_state A structure which describe the actual "quote state"
+ * (simple, double or no quote) of str.
+ * @return int
+ */
+int	ft_is_expand(char *str, t_quote_state qte_state)
+{
+	if ((ft_isalpha(str[0]) || str[0] == '_' || str[0] == '?' || str[0] == '@'
+			|| str[0] == '*' || str[0] == '#' || str[0] == '$' || str[0] == '!'
+			|| str[0] == '-' || (str[0] == '"' && qte_state == NO_QTE)
+			|| (str[0] == '\'' && qte_state == NO_QTE)
+			|| ft_isdigit(str[0])) && qte_state != SIMPLE_QTE)
+		return (1);
+	return (0);
+}
 
 size_t	ft_strlen_bash(char *str)
 {

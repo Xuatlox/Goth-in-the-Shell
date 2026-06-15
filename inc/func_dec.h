@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/09 16:03:59 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/15 01:47:00 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int			pipe_heredoc(char *delimiter, t_minishell *shell);
 t_expand	qte_remove(char **delimiter);
 void		expand(t_minishell *minishell, t_status *status);
 int			check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex);
+int			ft_is_expand(char *str, t_quote_state qte_state);
 t_status	expander(t_minishell *minishell, char **str, size_t *i);
 void		remove_quotes(t_token *tkn_node, t_status *status);
 char		*make_env_val(t_minishell *minishell, char *env_var);

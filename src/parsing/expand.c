@@ -6,32 +6,15 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 14:00:30 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/10 16:32:57 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/15 01:46:06 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Function that compare every char of a string with special char and return an int which mean if it's expandable (1) or not (0)
- *
- * @param str The sended argument.
- * @param qte_state A structure which describe the actual "quote state" (simple, double or no quote) of str.
- * @return int
- */
-int isExpand(char *str, t_quote_state qte_state)
-{
-	if ((ft_isalpha(str[0]) || str[0] == '_' || str[0] == '?' || str[0] == '@'
-	|| str[0] == '*' || str[0] == '#' || str[0] == '$' || str[0] == '!'
-	|| str[0] == '-' || (str[0] == '"' && qte_state == NO_QTE)
-	|| (str[0] == '\'' && qte_state == NO_QTE)
-	|| ft_isdigit(str[0])) && qte_state != SIMPLE_QTE)
-		return (1);
-	return (0);
-}
-
-/**
- * @brief Function that recreate the sended string while replacing the expanded word by his valor in the env.
+ * @brief Function that recreate the sended string
+ * while replacing the expanded word by his valor in the env.
  *
  * @param minishell A structure that contain the token & the env chained list.
  * @param str The string to be replaced.
@@ -46,7 +29,7 @@ t_status	expander(t_minishell *minishell, char **str, size_t *i)
 
 	envar = make_env_var(*str + *i + 1);
 	if (!envar)
-		return	(ALLOCATION_FAILURE);
+		return (ALLOCATION_FAILURE);
 	var = make_env_val(minishell, envar);
 	new_str = ft_calloc(ft_strlen(*str) - ft_strlen(envar) + ft_strlen(var), 1);
 	if (!new_str)
@@ -56,7 +39,8 @@ t_status	expander(t_minishell *minishell, char **str, size_t *i)
 	}
 	ft_strlcpy(new_str, *str, *i + 1);
 	ft_strlcat(new_str, var, ft_strlen(var) + ft_strlen(new_str) + 1);
-	ft_strlcat(new_str, *str + *i + 1 + ft_strlen(envar), ft_strlen(*str) - ft_strlen(envar) + ft_strlen(var) + 1);
+	ft_strlcat(new_str, *str + *i + 1 + ft_strlen(envar),
+		ft_strlen(*str) - ft_strlen(envar) + ft_strlen(var) + 1);
 	free(envar);
 	free(*str);
 	*str = new_str;
@@ -65,7 +49,7 @@ t_status	expander(t_minishell *minishell, char **str, size_t *i)
 	return (SUCCESS);
 }
 
-t_command *lst_word(char* cmd, t_status *status)
+t_command	*lst_word(char *cmd, t_status *status)
 {
 	size_t			i;
 	t_token			*tkn_node;
@@ -99,7 +83,6 @@ void	lst_add_word(t_command **current_cmd, t_status *status)
 	t_command	*new_lst_cmd;
 	t_command	*stock_next;
 
-
 	new_lst_cmd = lst_word((*current_cmd)->str, status);
 	if (*status || !new_lst_cmd)
 		return ;
@@ -111,7 +94,6 @@ void	lst_add_word(t_command **current_cmd, t_status *status)
 	*current_cmd = ft_lstlast_command(*current_cmd);
 	(*current_cmd)->next = stock_next;
 }
-
 
 int	check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex)
 {
@@ -125,7 +107,7 @@ int	check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex)
 	while (cmd && (*cmd)[i])
 	{
 		check_quotes((*cmd)[i], &qte_state);
-		if ((*cmd)[i] == '$' && isExpand(*cmd + i + 1, qte_state) == 1
+		if ((*cmd)[i] == '$' && ft_is_expand(*cmd + i + 1, qte_state) == 1
 			&& ex == EXPAND)
 		{
 			*status = expander(shell, cmd, &i);
@@ -151,7 +133,6 @@ int	check_expand(char **cmd, t_minishell *shell, t_status *status, t_expand ex)
  */
 void	expand(t_minishell *minishell, t_status *status)
 {
-
 	t_command		*current_cmd;
 	t_token			*tkn_node;
 
