@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/15 11:12:55 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/15 13:04:23 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	exec_exit(t_token *token, t_env *env)
 {
 	long long	code;
 
+	if (token->next)
+		return (0);
 	write(1, "exit\n", 5);
 	if (!token->cmd->next || !is_num(token->cmd->next->str))
 		exit_default(token, env);
