@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/04 13:10:25 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/15 14:17:40 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,7 @@ int	exec_export(const t_command *args, const int fd_out, t_env **env)
 		if (!alloc_var(args->str, &name, &val))
 		{
 			fill_name(&name, args);
-			if (*env && add_env(*env, name, val))
-				return (1);
-			if (!*env)
-				*env = new_env(name, val);
-			if (!*env)
+			if (add_env(env, name, val))
 				return (1);
 		}
 		else

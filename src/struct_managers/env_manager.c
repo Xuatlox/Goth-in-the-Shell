@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/11 11:01:06 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/15 14:22:00 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,27 +84,31 @@ void	set_env(char *var_name, char *new_val, t_env *env)
  * @param value Value of the variable to add
  * @return 0 on success, 1 if an error occurred
  */
-int	add_env(t_env *env, char *name, char *value)
+int	add_env(t_env **env, char *name, char *value)
 {
 	char	**get;
 	t_env	*new;
+	t_env	*tmp;
 
-	if (!env)
-		env = new_env(name, value);
-	if (!env)
-		return (1);
-	get = get_env(env, name);
+	if (!*env)
+	{
+		*env = new_env(name, value);
+		return (*env == NULL);
+	}
+	get = get_env(*env, name);
 	if (get)
 	{
-		set_env(name, value, env);
+		if (value)
+			set_env(name, value, *env);
 		free(name);
 	}
 	else
 	{
 		new = new_env(name, value);
-		while (env->next)
-			env = env->next;
-		env->next = new;
+		tmp = *env;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
 	return (0);
 }

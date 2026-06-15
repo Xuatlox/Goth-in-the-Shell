@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:57:59 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/15 13:13:56 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,13 @@ int	exec_echo(t_command *args, const int fd_out)
 	while (args)
 	{
 		size = ft_strlen(args->str);
-		if (write(fd_out, args->str, size) < 0)
-			return (1);
-		if (args->next && args->str && *args->str)
-			if (write(fd_out, " ", 1) < 0)
-				return (1);
+		write(fd_out, args->str, size);
+		if (args->next && args->str && *args->str
+			&& args->next->str && *args->next->str)
+			write(fd_out, " ", 1);
 		args = args->next;
 	}
 	if (newline)
-		if (write(fd_out, "\n", 1) < 0)
-			return (1);
+		write(fd_out, "\n", 1);
 	return (0);
 }
