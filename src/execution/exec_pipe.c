@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/19 13:33:25 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static int	exec_all(t_token *tokens, t_env **env)
 
 	pids = ft_calloc(1, sizeof(t_pid_list));
 	head = pids;
+	ret = 0;
 	while (tokens)
 	{
-		pids->pid = dispatch(tokens, env, &pids->pid);
+		ret = dispatch(tokens, env, &pids->pid, 1);
 		tokens = jump_next_token(tokens);
 		pids->next = ft_calloc(1, sizeof(t_pid_list));
 		pids = pids->next;
@@ -39,11 +40,11 @@ static int	exec_all(t_token *tokens, t_env **env)
 	sig_exec();
 	while (pids)
 	{
-		waitpid(pids->pid, &ret, 0);
+		if (pids->pid)
+			waitpid(pids->pid, NULL, 0);
 		pids = pids->next;
 	}
 	free_pid_list(head);
-	ret = WEXITSTATUS(ret);
 	return (ret);
 }
 

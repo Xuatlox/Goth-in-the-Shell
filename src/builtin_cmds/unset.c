@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:51:12 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 13:52:03 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/18 11:35:18 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,15 @@ static void	unset_node(t_env **env, const char *name, const size_t size)
  *
  * @param args Arguments following the 'unset' command
  * @param env List of environmental variables
+ * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 0 on success, 1 if an error occurred
  */
-int	exec_unset(const t_command *args, t_env **env)
+int	exec_unset(const t_command *args, t_env **env, int is_piped)
 {
 	size_t	size;
 
+	if (!is_piped)
+		return (0);
 	if (!env || !*env)
 		return (1);
 	while (args)

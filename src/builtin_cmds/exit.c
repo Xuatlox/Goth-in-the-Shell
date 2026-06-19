@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/15 13:04:23 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/19 13:24:55 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,21 @@ static long long	get_code(const char *str)
  *
  * @param token List of tokens to free before exit
  * @param env List of environmental variables to free before exit
+ * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 1 if an error occurred
  */
-int	exec_exit(t_token *token, t_env *env)
+int	exec_exit(t_token *token, t_env *env, int is_piped)
 {
 	long long	code;
 
-	if (token->next)
-		return (0);
-	write(1, "exit\n", 5);
+	if (!is_piped)
+		write(2, "exit\n", 5);
 	if (!token->cmd->next || !is_num(token->cmd->next->str))
+	{
+		if (is_piped)
+			return (2);
 		exit_default(token, env);
+	}
 	if (token->cmd->next->next)
 	{
 		write(2, "goth_in_the_shell: exit: too many arguments\n", 44);
@@ -131,6 +135,8 @@ int	exec_exit(t_token *token, t_env *env)
 	}
 	code = get_code(token->cmd->next->str);
 	code %= 256;
+	if (is_piped)
+		return ((int) code);
 	free_env(env);
 	free_tokens(token);
 	rl_clear_history();

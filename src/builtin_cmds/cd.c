@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:13:51 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/09 11:13:18 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/18 11:33:39 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static int	cd_home(t_env *env, char **dest)
  *
  * @param dest Pointer to the string containing the destination of the command
  * @param env List of environmental variables
+
  * @return 0 on success, 1 if an error occurred
  */
 static int	change_directory(char *dest, t_env *env)
@@ -111,9 +112,10 @@ static int	change_directory(char *dest, t_env *env)
  * @param args List of arguments following 'cd' (NULL if no arguments)
  * @param fd_out Fd where the output must be sent
  * @param env List of environmental variables
+ * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 0 on success, 1 if an error occurred
  */
-int	exec_cd(const t_command *args, const int fd_out, t_env *env)
+int	exec_cd(const t_command *args, const int fd_out, t_env *env, int is_piped)
 {
 	char	*dest;
 	int		ret;
@@ -125,6 +127,8 @@ int	exec_cd(const t_command *args, const int fd_out, t_env *env)
 	if (args && !ft_strncmp(args->str, "-", 2)
 		&& cd_old_wd(env, &dest, fd_out))
 		return (1);
-	ret = change_directory(dest, env);
+	ret = 0;
+	if (!is_piped)
+		ret = change_directory(dest, env);
 	return (ret);
 }
