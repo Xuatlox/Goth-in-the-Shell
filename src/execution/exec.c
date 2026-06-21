@@ -21,15 +21,15 @@
  * @param pid Pointer to the eventual pid of the command to be executed
  * @return Return value of the function executed
  */
-int	dispatch(t_token *token, t_env **env, pid_t *pid)
+int	dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped)
 {
 	int		ret;
 
 	ret = 0;
 	if (!ft_strncmp(token->cmd->str, "cd", 3))
-		ret = exec_cd(token->cmd->next, token->outfile, *env);
+		ret = exec_cd(token->cmd->next, token->outfile, *env, is_piped);
 	else if (!ft_strncmp(token->cmd->str, "export", 7))
-		ret = exec_export(token->cmd->next, token->outfile, env);
+		ret = exec_export(token->cmd->next, token->outfile, env, is_piped);
 	else if (!ft_strncmp(token->cmd->str, "pwd", 4))
 		ret = exec_pwd(token->outfile, *env);
 	else if (!ft_strncmp(token->cmd->str, "env", 4))
@@ -37,9 +37,9 @@ int	dispatch(t_token *token, t_env **env, pid_t *pid)
 	else if (!ft_strncmp(token->cmd->str, "echo", 5))
 		ret = exec_echo(token->cmd->next, token->outfile);
 	else if (!ft_strncmp(token->cmd->str, "unset", 6))
-		ret = exec_unset(token->cmd->next, env);
+		ret = exec_unset(token->cmd->next, env, is_piped);
 	else if (!ft_strncmp(token->cmd->str, "exit", 5))
-		ret = exec_exit(token, *env);
+		ret = exec_exit(token, *env, is_piped);
 	else
 		*pid = exec_child(token, *env);
 	return (ret);
@@ -142,7 +142,7 @@ int	execute(t_token *tokens, t_env **env)
 	else
 	{
 		pid = 0;
-		ret = dispatch(tokens, env, &pid);
+		ret = dispatch(tokens, env, &pid, 0);
 		if (pid)
 		{
 			close_fds(tokens);

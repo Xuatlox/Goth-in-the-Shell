@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/19 14:55:16 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/21 14:19:35 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int			execute(t_token *tokens, t_env **env);
 int			exec_pipe(t_token *tokens, t_env **env);
 pid_t		exec_child(t_token *token, t_env *env);
-int			dispatch(t_token *token, t_env **env, pid_t *pid);
+int			dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped);
 
 /*---------------------------EXEC_PIPE UTILS----------------------------------*/
 void		pipe_child_proc(t_token *tokens, t_env *env);
@@ -55,13 +55,13 @@ t_env		*new_env(char *name, char *value);
 void		free_env(t_env *env);
 
 /*---------------------------BUILTIN CMDS-------------------------------------*/
-int			exec_cd(const t_command *args, int fd_out, t_env *env);
+int			exec_cd(const t_command *args, int fd_out, t_env *env, int is_piped);
 int			exec_echo(t_command *args, int fd_out);
-int			exec_export(const t_command *args, int fd_out, t_env **env);
+int			exec_export(t_command *args, int fd_out, t_env **env, int is_piped);
 int			exec_env(int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
-int			exec_unset(const t_command *args, t_env **env);
-int			exec_exit(t_token *token, t_env *env);
+int			exec_unset(const t_command *args, t_env **env, int is_piped);
+int			exec_exit(t_token *token, t_env *env, int is_piped);
 void		print_sorted_env(t_env *env, int fd_out);
 
 /*---------------------------SIGNALS------------------------------------------*/

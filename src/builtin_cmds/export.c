@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/15 14:17:40 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/18 11:29:38 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	is_valid_id(char *str)
 		return (0);
 	}
 	i = 0;
-	while (str[i] && str[i] != '=')
+	while (str[i] && !(str[i] == '=' || (str[i] == '+' && str[i + 1] == '=')))
 	{
 		if (!(str[i] >= '0' && str[i] <= '9')
 			&& !(str[i] >= 'A' && str[i] <= 'Z')
@@ -58,58 +58,67 @@ static int	is_valid_id(char *str)
 }
 
 /**
- * @brief Allocates the new variable to be exported
+ * @brief Creates the name of the new variable to be exported
  *
- * @param str Argument given after the 'export' command
+ * @param str User given input
  * @param name Pointer to the name of the variable to be exported
- * @param val Pointer to the value of the variable to be exported
- * @return 0 on success, 1 if an error occurred, 2 if the id is invalid
+ * @param size Name size
+ * @return 0 on success, 1 if an error occurred
  */
-static int	alloc_var(char *str, char **name, char **val)
+static int	create_name(char *str, char **name, int size)
 {
-	char	*tmp;
-	int		name_size;
+	int		i;
 
-	*val = NULL;
-	name_size = is_valid_id(str);
-	if (!name_size)
+	if (!size)
 		return (1);
-	*name = ft_calloc(name_size + 1, sizeof(char));
+	*name = ft_calloc(size + 1, sizeof(char));
 	if (!*name)
 	{
 		perror("goth_in_the_shell: export");
 		return (1);
 	}
-	tmp = ft_strchr(str, '=');
-	if (tmp)
+	i = 0;
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
-		*val = ft_strdup(tmp + 1);
-		if (!*val)
-		{
-			free(*name);
-			perror("goth_in_the_shell: export");
-			return (1);
-		}
+		(*name)[i] = str[i];
+		++i;
 	}
 	return (0);
 }
 
 /**
- * @brief Fills the "name" variable from the second argument given in "args"
+ * @brief Creates the value of the new variable to be exported
  *
- * @param name Pointer to the string to fill with the name of the variable
- * @param args List of arguments given after "export" command
+ * @param name Pointer to the name of the variable to be exported
+ * @param val Pointer to the value of the variable to be exported
+ * @param str User given input
+ * @param env List of environmental variables
+ * @return 0 on success, 1 if an error occurred
  */
-static void	fill_name(char **name, const t_command *args)
+static int	create_val(char *name, char **val, char *str, t_env *env)
 {
-	int	i;
+	char	*tmp;
+	char	**old;
 
-	i = 0;
-	while (args->str[i] && args->str[i] != '=')
+	*val = NULL;
+	tmp = ft_strchr(str, '=');
+	if (!tmp)
+		return (0);
+	if (*(tmp - 1) == '+')
 	{
-		(*name)[i] = args->str[i];
-		++i;
+		old = get_env(env, name);
+		if (old)
+			*val = ft_strjoin(*old, tmp + 1);
 	}
+	if (!*val)
+		*val = ft_strdup(tmp + 1);
+	if (!*val)
+	{
+		free(name);
+		perror("goth_in_the_shell: export");
+		return (1);
+	}
+	return (0);
 }
 
 /**
@@ -118,27 +127,33 @@ static void	fill_name(char **name, const t_command *args)
  * @param args Argument list following the 'export' command
  * @param fd_out Fd where the output must be sent
  * @param env List of environmental variables
+ * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 0 on success, 1 if an error occurred
  */
-int	exec_export(const t_command *args, const int fd_out, t_env **env)
+int	exec_export(t_command *args, int fd_out, t_env **env, int is_piped)
 {
 	char	*name;
 	char	*val;
 	int		ret;
+	int		size;
 
 	if (!args)
 		print_sorted_env(*env, fd_out);
 	ret = 0;
 	while (args && args->str)
 	{
-		if (!alloc_var(args->str, &name, &val))
+		size = is_valid_id(args->str);
+		if (!is_piped)
 		{
-			fill_name(&name, args);
-			if (add_env(env, name, val))
-				return (1);
+			if (!create_name(args->str, &name, size)
+			&& !create_val(name, &val, args->str, *env))
+			{
+				if (add_env(env, name, val))
+					return (1);
+			}
+			else
+				ret = 1;
 		}
-		else
-			ret = 1;
 		args = args->next;
 	}
 	return (ret);

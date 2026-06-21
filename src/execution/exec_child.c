@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/11 10:42:48 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/06/16 09:43:19 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static void	fill_valid_cmd(char *cmd, t_env *env, t_exec *exec)
 		free(cmd_tmp);
 		++i;
 	}
-	if (!exec->absolute_cmd)
-		exec->absolute_cmd = ft_strdup(cmd);
 	free_ar(paths);
 }
 
@@ -144,6 +142,8 @@ pid_t	exec_child(t_token *token, t_env *env)
 	if (!exec)
 		return (1);
 	fill_valid_cmd(token->cmd->str, env, exec);
+	if (!exec->absolute_cmd)
+		exec->absolute_cmd = ft_strdup(token->cmd->str);
 	fill_args(token->cmd, exec);
 	fill_env(env, exec);
 	if (!exec->absolute_cmd || !exec->env || !exec->args)
