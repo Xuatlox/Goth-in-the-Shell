@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/15 02:58:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/19 14:55:16 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void		print_sorted_env(t_env *env, int fd_out);
 /*---------------------------SIGNALS------------------------------------------*/
 void		sig_exec(void);
 void		sig_inter(void);
+void		sig_inter_heredoc(void);
+void		sig_inter_child_heredoc(void);
 
 /*---------------------------PARSING------------------------------------------*/
 t_token		*parsing(char *line, t_status *status, t_minishell *minishell);
