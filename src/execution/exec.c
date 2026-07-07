@@ -6,44 +6,11 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/11 13:50:37 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/06 20:08:15 by xuatlox          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- *
- * @brief Sends the program to the associated function to execute the command
- *
- * @param token List of tokens to be executed
- * @param env List of environmental variables
- * @param pid Pointer to the eventual pid of the command to be executed
- * @return Return value of the function executed
- */
-int	dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped)
-{
-	int		ret;
-
-	ret = 0;
-	if (!ft_strncmp(token->cmd->str, "cd", 3))
-		ret = exec_cd(token->cmd->next, token->outfile, *env, is_piped);
-	else if (!ft_strncmp(token->cmd->str, "export", 7))
-		ret = exec_export(token->cmd->next, token->outfile, env, is_piped);
-	else if (!ft_strncmp(token->cmd->str, "pwd", 4))
-		ret = exec_pwd(token->outfile, *env);
-	else if (!ft_strncmp(token->cmd->str, "env", 4))
-		ret = exec_env(token->outfile, *env);
-	else if (!ft_strncmp(token->cmd->str, "echo", 5))
-		ret = exec_echo(token->cmd->next, token->outfile);
-	else if (!ft_strncmp(token->cmd->str, "unset", 6))
-		ret = exec_unset(token->cmd->next, env, is_piped);
-	else if (!ft_strncmp(token->cmd->str, "exit", 5))
-		ret = exec_exit(token, *env, is_piped);
-	else
-		*pid = exec_child(token, *env);
-	return (ret);
-}
 
 /**
  *
@@ -75,17 +42,66 @@ static int	print_cmd_error(char *cmd, char *msg)
 /**
  * @brief Checks whether 'str' is a directory or not
  *
- * @param str Name to check
+ * @param token Token node to check
  * @return 1 if 'str' is a directory, else 0
  */
-static int	is_directory(char *str)
+static int	check_tkn(t_token *token)
 {
-	struct stat stats;
+	struct stat	stats;
+	int			ret;
 
-	stat(str, &stats);
-	if (*str == '/' && S_ISDIR(stats.st_mode))
-		return (1);
-	return (0);
+	ret = 0;
+	stat(token->cmd->str, &stats);
+	if (!ft_strncmp(token->cmd->str, ".", 2))
+		ret = print_cmd_error(token->cmd->str,
+				": filename argument required\n");
+	else if (*token->cmd->str == '/' && S_ISDIR(stats.st_mode))
+		ret = print_cmd_error(token->cmd->str, ": Is a directory\n");
+	else if ((*token->cmd->str == '/' || (token->cmd->str[0] == '.'
+				&& token->cmd->str[1] == '/'))
+		&& access(token->cmd->str, F_OK) < 0)
+		ret = print_cmd_error(token->cmd->str,
+				": No such file or directory\n");
+	else if (token->cmd->str[0] == '.' && token->cmd->str[1] == '/'
+		&& access(token->cmd->str, X_OK) < 0)
+		ret = print_cmd_error(token->cmd->str, ": Permission denied\n");
+	return (ret);
+}
+
+/**
+ *
+ * @brief Sends the program to the associated function to execute the command
+ *
+ * @param token List of tokens to be executed
+ * @param env List of environmental variables
+ * @param pid Pointer to the eventual pid of the command to be executed
+ * @param is_piped 1 if the command is part of a pipe, else 0
+ * @return Return value of the function executed
+ */
+int	dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped)
+{
+	int		ret;
+
+	ret = check_tkn(token);
+	if (ret)
+		return (ret);
+	if (!ft_strncmp(token->cmd->str, "cd", 3))
+		ret = exec_cd(token->cmd->next, token->outfile, *env, is_piped);
+	else if (!ft_strncmp(token->cmd->str, "export", 7))
+		ret = exec_export(token->cmd->next, token->outfile, env, is_piped);
+	else if (!ft_strncmp(token->cmd->str, "pwd", 4))
+		ret = exec_pwd(token->outfile, *env);
+	else if (!ft_strncmp(token->cmd->str, "env", 4))
+		ret = exec_env(token->outfile, *env);
+	else if (!ft_strncmp(token->cmd->str, "echo", 5))
+		ret = exec_echo(token->cmd->next, token->outfile);
+	else if (!ft_strncmp(token->cmd->str, "unset", 6))
+		ret = exec_unset(token->cmd->next, env, is_piped);
+	else if (!ft_strncmp(token->cmd->str, "exit", 5))
+		ret = exec_exit(token, *env, is_piped);
+	else
+		*pid = exec_child(token, *env);
+	return (ret);
 }
 
 /**
@@ -97,8 +113,6 @@ static int	is_directory(char *str)
  */
 static int	init_check(t_token *tokens)
 {
-	int	ret;
-
 	if (!tokens || !tokens->cmd || !tokens->cmd->str)
 		return (1);
 	if (tokens->infile == -1)
@@ -107,18 +121,7 @@ static int	init_check(t_token *tokens)
 		tokens = tokens->next;
 	if (tokens->outfile == -1)
 		tokens->outfile = STDOUT_FILENO;
-	ret = 0;
-	if (!ft_strncmp(tokens->cmd->str, ".", 2))
-		ret = print_cmd_error(tokens->cmd->str, ": filename argument required\n");
-	else if (is_directory(tokens->cmd->str))
-		ret = print_cmd_error(tokens->cmd->str, ": Is a directory\n");
-	else if ((*tokens->cmd->str == '/' || (tokens->cmd->str[0] == '.'
-		&& tokens->cmd->str[1] == '/')) && access(tokens->cmd->str, F_OK) < 0)
-		ret = print_cmd_error(tokens->cmd->str, ": No such file or directory\n");
-	else if (tokens->cmd->str[0] == '.' && tokens->cmd->str[1] == '/'
-		&& access(tokens->cmd->str, X_OK) < 0)
-		ret = print_cmd_error(tokens->cmd->str, ": Permission denied\n");
-	return (ret);
+	return (0);
 }
 
 /**
