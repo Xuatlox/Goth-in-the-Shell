@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 06:00:49 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/30 14:18:00 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static t_status	check_input(t_token **lexer)
  */
 t_token	*parsing(char *line, t_status *status, t_minishell *minishell)
 {
-	minishell->tkn_node = lexer(line, status, minishell);
+	lexer(line, status, minishell);
 	if (*status == SUCCESS)
 		*status = check_input(&(minishell->tkn_node));
 	if (!*status)

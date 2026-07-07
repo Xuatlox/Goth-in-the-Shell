@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:30:45 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/19 14:56:08 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/30 14:14:28 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	heredoc(char *delimiter, int fd[2], t_minishell *shell)
 	rl_clear_history();
 	close(fd[0]);
 	sig_inter_child_heredoc();
+	//sig_inter_child_heredoc(delimiter, shell);
 	expand = qte_remove(&delimiter);
 	while (1)
 	{
@@ -65,6 +66,7 @@ static int	heredoc(char *delimiter, int fd[2], t_minishell *shell)
 	free(delimiter);
 	if (input)
 		free(input);
+	lst_clear_tkn(&shell->tkn_node);
 	free_env(shell->env);
 	close(fd[1]);
 	rl_clear_history();

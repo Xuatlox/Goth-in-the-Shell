@@ -37,6 +37,7 @@ static t_status	redirect_outfile(t_token *tkn_node, t_redirect redir,
 			return (FAILURE);
 		}
 	}
+	close(tkn_node->outfile);
 	free(file_nme);
 	return (SUCCESS);
 }

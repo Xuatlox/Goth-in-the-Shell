@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/21 14:13:58 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/30 14:06:08 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	sig_inter(void)
 		perror("goth_in_the_shell: sigaction");
 }
 
-void	sig_inter_child_heredoc(void)
+void	sig_inter_child_heredoc()
 {
 	struct sigaction	action;
 

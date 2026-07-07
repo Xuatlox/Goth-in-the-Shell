@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 03:28:47 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:48:05 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/06/30 14:17:43 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,27 @@
 t_token	*lexer(char *cmd, t_status *status, t_minishell *shell)
 {
 	size_t			i;
-	t_token			*tkn_n;
 	t_quote_state	quote_state;
 
 	i = 0;
 	quote_state = NO_QTE;
-	tkn_n = lst_newtoken(status);
+	shell->tkn_node = lst_newtoken(status);
 	while (cmd && cmd[i] && *status == SUCCESS)
 	{
 		check_quotes(cmd[i], &quote_state);
 		if (cmd[i] == '|' && quote_state == NO_QTE && *status == SUCCESS)
-			ft_lstadd_token(&tkn_n, status);
+			ft_lstadd_token(&shell->tkn_node, status);
 		else if (ft_isspace(cmd[i]) == 1
 			&& quote_state == NO_QTE && *status == SUCCESS)
-			ft_lstadd_command(ft_lstlast_token(tkn_n), 0, status);
+			ft_lstadd_command(ft_lstlast_token(shell->tkn_node), 0, status);
 		else if ((cmd[i] == '<' || cmd[i] == '>') && quote_state == NO_QTE
 			&& *status == SUCCESS)
-			*status = redirect_manager(cmd, ft_lstlast_token(tkn_n), &i, shell);
+			*status = redirect_manager(cmd, ft_lstlast_token(shell->tkn_node), &i, shell);
 		else
-			ft_lstadd_command(ft_lstlast_token(tkn_n), cmd[i], status);
+			ft_lstadd_command(ft_lstlast_token(shell->tkn_node), cmd[i], status);
 		if (cmd && cmd[i] && *status == SUCCESS)
 			i++;
 	}
 	free(cmd);
-	return (tkn_n);
+	return (shell->tkn_node);
 }
