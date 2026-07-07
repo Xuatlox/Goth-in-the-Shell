@@ -83,7 +83,7 @@ $(OBJ_DIR).running:
 $(NAME) : $(OBJ) $(LIBFT)
 	@touch $(OBJ_DIR).compiled
 	@echo "𖤐⭒๋࣭ ⭑ Compilation of Minishell finished !"
-	@${CC} ${CFLAGS} -lreadline -I ${INC} -o ${NAME} ${OBJ} ${LIBFT}
+	@${CC} ${CFLAGS} -I ${INC} -o ${NAME} ${OBJ} ${LIBFT} -lreadline
 
 ${OBJ_DIR}%.o: ${SRC_DIR}%.c
 	@mkdir -p $(dir $@)
