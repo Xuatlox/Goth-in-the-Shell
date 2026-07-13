@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 13:20:58 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 13:34:34 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  */
 int	dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped)
 {
-	int		ret;
+	int			ret;
 	t_pid_list	*last;
 
 	ret = check_tkn(token);

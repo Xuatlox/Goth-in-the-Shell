@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/19 13:24:55 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 13:33:58 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static long long	get_code(const char *str)
 	{
 		if (code > 922337203685477580
 			|| (code == 922337203685477580
-			&& ((sign == 1 && *str > '7') || (sign == -1 && *str > '8'))))
+				&& ((sign == 1 && *str > '7') || (sign == -1 && *str > '8'))))
 			return (2);
 		code = code * 10 + *str - '0';
 		++str;

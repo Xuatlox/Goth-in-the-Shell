@@ -17,7 +17,7 @@
  *
  * @param dest Argument given after the 'cd' in the command line
  */
-static void print_cd_error(char *dest)
+static void	print_cd_error(char *dest)
 {
 	write(2, "goth_in_the_shell: cd: ", 23);
 	perror(dest);

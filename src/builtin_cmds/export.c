@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/18 11:29:38 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 13:34:13 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	exec_export(t_command *args, int fd_out, t_env **env, int is_piped)
 		if (!is_piped)
 		{
 			if (!create_name(args->str, &name, size)
-			&& !create_val(name, &val, args->str, *env))
+				&& !create_val(name, &val, args->str, *env))
 			{
 				if (add_env(env, name, val))
 					return (1);
