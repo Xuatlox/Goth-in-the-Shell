@@ -6,14 +6,30 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/19 13:33:25 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 19:41:04 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief Executes all the token list and waits for every process to end.
+ * @brief Waits for all pids in the list
+ *
+ * @param pids List of pids to wait for
+ */
+static void	wait_pids(t_pid_list *pids)
+{
+	sig_exec();
+	while (pids)
+	{
+		if (pids->pid)
+			waitpid(pids->pid, NULL, 0);
+		pids = pids->next;
+	}
+}
+
+/**
+ * @brief Executes all the token list.
  *
  * @param tokens List of tokens to be executed
  * @param env List of environmental variables
@@ -30,20 +46,14 @@ static int	exec_all(t_token *tokens, t_env **env)
 	ret = 0;
 	while (tokens)
 	{
-		ret = dispatch(tokens, env, head, 1);
+		if (tokens->cmd && tokens->cmd->str)
+			ret = dispatch(tokens, env, head, 1);
 		tokens = jump_next_token(tokens);
 		pids->next = ft_calloc(1, sizeof(t_pid_list));
 		pids = pids->next;
 	}
 	close_fds(tokens);
-	pids = head;
-	sig_exec();
-	while (pids)
-	{
-		if (pids->pid)
-			waitpid(pids->pid, NULL, 0);
-		pids = pids->next;
-	}
+	wait_pids(head);
 	free_pid_list(head);
 	return (ret);
 }
