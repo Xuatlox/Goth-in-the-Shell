@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:11:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 16:05:32 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 18:25:09 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static t_command	*skip_empty_args(t_command *args)
 	t_command	*node;
 	t_command	*tmp;
 
-	if (!args)
-		return (NULL);
 	new = ft_calloc(1, sizeof(t_command));
 	node = new;
 	while (args && args->str)
@@ -64,6 +62,7 @@ static t_command	*skip_empty_args(t_command *args)
 		}
 		args = tmp;
 	}
+	node->next = NULL;
 	tmp = new->next;
 	free(new);
 	return (tmp);

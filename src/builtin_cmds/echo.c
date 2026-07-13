@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/15 13:13:56 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 16:45:40 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int	exec_echo(t_command *args, const int fd_out)
 	int		newline;
 	size_t	size;
 
+	if (!args)
+	{
+		write(fd_out, "\n", 1);
+		return (0);
+	}
 	newline = is_newline(&args);
 	while (args)
 	{
