@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 13:33:58 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 16:09:02 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ static int	is_num(const char *str)
  * @param token List of tokens to free before exit
  * @param env List of environmental variables to free before exit
  */
-static void	exit_default(t_token *token, t_env *env)
+static void	exit_default(t_token *token, t_env *env, t_pid_list *pids)
 {
 	free_env(env);
 	free_tokens(token);
+	free_pid_list(pids);
 	rl_clear_history();
 	exit(2);
 }
@@ -116,7 +117,7 @@ static long long	get_code(const char *str)
  * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 1 if an error occurred
  */
-int	exec_exit(t_token *token, t_env *env, int is_piped)
+int	exec_exit(t_token *token, t_env *env, int is_piped, t_pid_list *pids)
 {
 	long long	code;
 
@@ -126,7 +127,7 @@ int	exec_exit(t_token *token, t_env *env, int is_piped)
 	{
 		if (is_piped)
 			return (2);
-		exit_default(token, env);
+		exit_default(token, env, pids);
 	}
 	if (token->cmd->next->next)
 	{
@@ -137,6 +138,7 @@ int	exec_exit(t_token *token, t_env *env, int is_piped)
 	code %= 256;
 	if (is_piped)
 		return ((int) code);
+	free_pid_list(pids);
 	free_env(env);
 	free_tokens(token);
 	rl_clear_history();

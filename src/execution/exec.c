@@ -44,7 +44,7 @@ int	dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped)
 	else if (!ft_strncmp(token->cmd->str, "unset", 6))
 		ret = exec_unset(token->cmd->next, env, is_piped);
 	else if (!ft_strncmp(token->cmd->str, "exit", 5))
-		ret = exec_exit(token, *env, is_piped);
+		ret = exec_exit(token, *env, is_piped, pids);
 	else
 		last->pid = exec_child(token, *env, pids);
 	return (ret);

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 14:27:43 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 16:07:55 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int			exec_export(t_command *args, int fd_out, t_env **env, int is_piped);
 int			exec_env(int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env **env, int is_piped);
-int			exec_exit(t_token *token, t_env *env, int is_piped);
+int			exec_exit(t_token *token, t_env *env, int is_piped,
+				t_pid_list *pids);
 void		print_sorted_env(t_env *env, int fd_out);
 
 /*---------------------------SIGNALS------------------------------------------*/
