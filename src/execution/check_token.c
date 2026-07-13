@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:11:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 18:25:09 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 19:03:11 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,35 +39,6 @@ static int	print_cmd_error(char *cmd, char *msg)
 	return (1);
 }
 
-static t_command	*skip_empty_args(t_command *args)
-{
-	t_command	*new;
-	t_command	*node;
-	t_command	*tmp;
-
-	new = ft_calloc(1, sizeof(t_command));
-	node = new;
-	while (args && args->str)
-	{
-		tmp = args->next;
-		if (*args->str)
-		{
-			node->next = args;
-			node = node->next;
-		}
-		else
-		{
-			free(args->str);
-			free(args);
-		}
-		args = tmp;
-	}
-	node->next = NULL;
-	tmp = new->next;
-	free(new);
-	return (tmp);
-}
-
 /**
  * @brief Checks whether 'str' is a directory or not
  *
@@ -80,7 +51,6 @@ int	check_tkn(t_token *token)
 	int			ret;
 
 	ret = 0;
-	token->cmd = skip_empty_args(token->cmd);
 	stat(token->cmd->str, &stats);
 	if (!ft_strncmp(token->cmd->str, ".", 2))
 		ret = print_cmd_error(token->cmd->str,
