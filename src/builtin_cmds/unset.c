@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:51:12 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/18 11:35:18 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 10:35:38 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	exec_unset(const t_command *args, t_env **env, int is_piped)
 {
 	size_t	size;
 
-	if (!is_piped)
+	if (is_piped)
 		return (0);
 	if (!env || !*env)
 		return (1);
