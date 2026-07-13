@@ -37,7 +37,8 @@ static int	is_valid_id(char *str)
 {
 	int		i;
 
-	if (!*str || (*str >= '0' && *str <= '9') || *str == '=')
+	if (!*str || (*str >= '0' && *str <= '9') || *str == '='
+		|| (*str == '+' && *(str + 1) == '='))
 	{
 		print_error_export(str);
 		return (0);
