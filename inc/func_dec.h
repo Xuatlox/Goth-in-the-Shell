@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 13:13:05 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 14:27:43 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 int			execute(t_token *tokens, t_env **env);
 int			exec_pipe(t_token *tokens, t_env **env);
 pid_t		exec_child(t_token *token, t_env *env, t_pid_list *pids);
-int			dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped);
+int			dispatch(t_token *token, t_env **env,
+				t_pid_list *pids, int is_piped);
 int			check_tkn(t_token *token);
 
 /*---------------------------EXEC_PIPE UTILS----------------------------------*/
@@ -28,7 +29,8 @@ void		pipe_child_proc(t_token *tokens, t_env *env);
 
 /*---------------------------EXEC_CHILD UTILS---------------------------------*/
 void		clean_child(t_env *env, t_token *token);
-pid_t		new_child(t_env *env, t_token *token, t_exec *exec, t_pid_list *pids);
+pid_t		new_child(t_env *env, t_token *token, t_exec *exec,
+				t_pid_list *pids);
 
 /*---------------------------EXEC MANAGEMENT----------------------------------*/
 void		free_exec(t_exec *exec);
@@ -57,7 +59,8 @@ t_env		*new_env(char *name, char *value);
 void		free_env(t_env *env);
 
 /*---------------------------BUILTIN CMDS-------------------------------------*/
-int			exec_cd(const t_command *args, int fd_out, t_env *env, int is_piped);
+int			exec_cd(const t_command *args, int fd_out, t_env *env,
+				int is_piped);
 int			exec_echo(t_command *args, int fd_out);
 int			exec_export(t_command *args, int fd_out, t_env **env, int is_piped);
 int			exec_env(int fd_out, const t_env *env);
@@ -70,7 +73,7 @@ void		print_sorted_env(t_env *env, int fd_out);
 void		sig_exec(void);
 void		sig_inter(void);
 void		sig_inter_heredoc(void);
-void		sig_inter_child_heredoc();
+void		sig_inter_child_heredoc(void);
 
 /*---------------------------PARSING------------------------------------------*/
 t_token		*parsing(char *line, t_status *status, t_minishell *minishell);

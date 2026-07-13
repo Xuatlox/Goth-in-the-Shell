@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 
-void free_ar(char **ar)
+void	free_ar(char **ar)
 {
 	int	i;
 

@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../inc/minishell.h"
+#include "../inc/minishell.h"
 
 /**
  * @brief Resets readline to a new line after SIGINT in interactive mode
  *
  * @param sig Signal identifier
  */
-static void sigint_inter_handler(int sig, siginfo_t *info, void *other)
+static void	sigint_inter_handler(int sig, siginfo_t *info, void *other)
 {
 	(void)info;
 	(void)other;
@@ -29,7 +29,7 @@ static void sigint_inter_handler(int sig, siginfo_t *info, void *other)
 	rl_redisplay();
 }
 
-static void sigint_inter_heredoc_handler(int sig, siginfo_t *info, void *other)
+static void	sigint_inter_heredoc_handler(int sig, siginfo_t *info, void *other)
 {
 	(void)info;
 	(void)other;
@@ -40,7 +40,6 @@ static void sigint_inter_heredoc_handler(int sig, siginfo_t *info, void *other)
 	rl_on_new_line();
 	close(0);
 }
-
 
 /**
  * @brief Sets SIGINT and SIGQUIT behaviors for interactive mode
@@ -61,7 +60,7 @@ void	sig_inter(void)
 		perror("goth_in_the_shell: sigaction");
 }
 
-void	sig_inter_child_heredoc()
+void	sig_inter_child_heredoc(void)
 {
 	struct sigaction	action;
 
@@ -93,7 +92,7 @@ void	sig_inter_heredoc(void)
  *
  * @param sig Signal identifier
  */
-static void sigint_exec_handler(int sig)
+static void	sigint_exec_handler(int sig)
 {
 	(void) sig;
 	g_sig_ind = SIGINT;
@@ -105,7 +104,7 @@ static void sigint_exec_handler(int sig)
  *
  * @param sig Signal identifier
  */
-static void sigquit_exec_handler(int sig)
+static void	sigquit_exec_handler(int sig)
 {
 	(void) sig;
 	g_sig_ind = SIGQUIT;
