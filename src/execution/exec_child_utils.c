@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 13:26:09 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/13 11:26:45 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,10 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
  * @param env List of environmental variables
  * @param token Current token in the list to be executed
  * @param exec Structure containing every data needed to execute execve()
+ * @param pids List of pids to free in the child
  * @return Pid of the new child forked
  */
-pid_t	manage_child(t_env *env, t_token *token, t_exec *exec)
+pid_t	new_child(t_env *env, t_token *token, t_exec *exec, t_pid_list *pids)
 {
 	pid_t	pid;
 
@@ -96,7 +97,10 @@ pid_t	manage_child(t_env *env, t_token *token, t_exec *exec)
 		return (1);
 	}
 	if (pid == 0)
+	{
+		free_pid_list(pids);
 		child_proc(env, token, exec);
+	}
 	free_exec(exec);
 	return (pid);
 }

@@ -131,9 +131,10 @@ static void	fill_env(const t_env *env, t_exec *exec)
  *
  * @param token List of tokens to be executed
  * @param env List of environmental variables
+ * @param pids List of pids to free in the child
  * @return Pid of the new children created
  */
-pid_t	exec_child(t_token *token, t_env *env)
+pid_t	exec_child(t_token *token, t_env *env, t_pid_list *pids)
 {
 	t_exec	*exec;
 	pid_t	pid;
@@ -151,6 +152,6 @@ pid_t	exec_child(t_token *token, t_env *env)
 		free_exec(exec);
 		return (1);
 	}
-	pid = manage_child(env, token, exec);
+	pid = new_child(env, token, exec, pids);
 	return (pid);
 }

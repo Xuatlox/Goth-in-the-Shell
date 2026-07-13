@@ -32,6 +32,7 @@ SRC_FILES := $(SRC_DIR)minishell.c \
 			 $(SRC_DIR)$(PARSER_DIR)quote_manager.c \
 			 $(SRC_DIR)$(PARSER_DIR)heredoc.c \
 			 $(SRC_DIR)$(PARSER_DIR)error_manager.c \
+			 $(SRC_DIR)$(EXEC_DIR)check_token.c \
 			 $(SRC_DIR)$(EXEC_DIR)exec.c \
 			 $(SRC_DIR)$(EXEC_DIR)exec_child.c \
 			 $(SRC_DIR)$(EXEC_DIR)exec_child_utils.c \

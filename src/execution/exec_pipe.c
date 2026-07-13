@@ -30,7 +30,7 @@ static int	exec_all(t_token *tokens, t_env **env)
 	ret = 0;
 	while (tokens)
 	{
-		ret = dispatch(tokens, env, &pids->pid, 1);
+		ret = dispatch(tokens, env, head, 1);
 		tokens = jump_next_token(tokens);
 		pids->next = ft_calloc(1, sizeof(t_pid_list));
 		pids = pids->next;

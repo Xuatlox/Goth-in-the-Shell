@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/30 14:14:20 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/13 13:13:05 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 /*---------------------------EXEC FUNCTION------------------------------------*/
 int			execute(t_token *tokens, t_env **env);
 int			exec_pipe(t_token *tokens, t_env **env);
-pid_t		exec_child(t_token *token, t_env *env);
-int			dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped);
+pid_t		exec_child(t_token *token, t_env *env, t_pid_list *pids);
+int			dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped);
+int			check_tkn(t_token *token);
 
 /*---------------------------EXEC_PIPE UTILS----------------------------------*/
 void		pipe_child_proc(t_token *tokens, t_env *env);
 
 /*---------------------------EXEC_CHILD UTILS---------------------------------*/
 void		clean_child(t_env *env, t_token *token);
-pid_t		manage_child(t_env *env, t_token *token, t_exec *exec);
+pid_t		new_child(t_env *env, t_token *token, t_exec *exec, t_pid_list *pids);
 
 /*---------------------------EXEC MANAGEMENT----------------------------------*/
 void		free_exec(t_exec *exec);
@@ -48,6 +49,7 @@ void		up_shlvl(t_env *env);
 
 /*---------------------------PID LIST MANAGEMENT------------------------------*/
 void		free_pid_list(t_pid_list *pid_list);
+t_pid_list	*get_last_pid(t_pid_list *pid_list);
 
 /*---------------------------ENV BUILDING-------------------------------------*/
 t_env		*build_env(char **envp);

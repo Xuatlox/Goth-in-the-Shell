@@ -6,7 +6,7 @@
 /*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/06 20:08:15 by xuatlox          ###   ########.fr       */
+/*   Updated: 2026/07/13 13:20:58 by ansimonn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,75 +14,21 @@
 
 /**
  *
- * @brief Prints an error message and returns the associated code
- *
- * @param cmd Invalid command written by the user
- * @param msg Error message to print
- * @return Error code associated to 'msg'
- */
-static int	print_cmd_error(char *cmd, char *msg)
-{
-	size_t	size;
-
-	size = ft_strlen(cmd);
-	write(2, "goth_in_the_shell: ", 19);
-	write(2, cmd, size);
-	size = ft_strlen(msg);
-	write(2, msg, size);
-	if (!ft_strncmp(msg, ": Permission denied\n", 21)
-		|| !ft_strncmp(msg, ": Is a directory\n", 18))
-		return (126);
-	if (!ft_strncmp(msg, ": filename argument required\n", 29))
-		return (2);
-	if (!ft_strncmp(msg, ": No such file or directory\n", 29))
-		return (127);
-	return (1);
-}
-
-/**
- * @brief Checks whether 'str' is a directory or not
- *
- * @param token Token node to check
- * @return 1 if 'str' is a directory, else 0
- */
-static int	check_tkn(t_token *token)
-{
-	struct stat	stats;
-	int			ret;
-
-	ret = 0;
-	stat(token->cmd->str, &stats);
-	if (!ft_strncmp(token->cmd->str, ".", 2))
-		ret = print_cmd_error(token->cmd->str,
-				": filename argument required\n");
-	else if (*token->cmd->str == '/' && S_ISDIR(stats.st_mode))
-		ret = print_cmd_error(token->cmd->str, ": Is a directory\n");
-	else if ((*token->cmd->str == '/' || (token->cmd->str[0] == '.'
-				&& token->cmd->str[1] == '/'))
-		&& access(token->cmd->str, F_OK) < 0)
-		ret = print_cmd_error(token->cmd->str,
-				": No such file or directory\n");
-	else if (token->cmd->str[0] == '.' && token->cmd->str[1] == '/'
-		&& access(token->cmd->str, X_OK) < 0)
-		ret = print_cmd_error(token->cmd->str, ": Permission denied\n");
-	return (ret);
-}
-
-/**
- *
  * @brief Sends the program to the associated function to execute the command
  *
  * @param token List of tokens to be executed
  * @param env List of environmental variables
- * @param pid Pointer to the eventual pid of the command to be executed
+ * @param pids Pid list to eventually fill
  * @param is_piped 1 if the command is part of a pipe, else 0
  * @return Return value of the function executed
  */
-int	dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped)
+int	dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped)
 {
 	int		ret;
+	t_pid_list	*last;
 
 	ret = check_tkn(token);
+	last = get_last_pid(pids);
 	if (ret)
 		return (ret);
 	if (!ft_strncmp(token->cmd->str, "cd", 3))
@@ -100,7 +46,7 @@ int	dispatch(t_token *token, t_env **env, pid_t *pid, int is_piped)
 	else if (!ft_strncmp(token->cmd->str, "exit", 5))
 		ret = exec_exit(token, *env, is_piped);
 	else
-		*pid = exec_child(token, *env);
+		last->pid = exec_child(token, *env, pids);
 	return (ret);
 }
 
@@ -124,6 +70,27 @@ static int	init_check(t_token *tokens)
 	return (0);
 }
 
+static int	exec_no_pipe(t_token *tokens, t_env **env)
+{
+	t_pid_list	*child_pid;
+	int			ret;
+
+	child_pid = ft_calloc(1, sizeof(t_pid_list));
+	if (!child_pid)
+		return (1);
+	ret = dispatch(tokens, env, child_pid, 0);
+	if (child_pid->pid)
+	{
+		close_fds(tokens);
+		sig_exec();
+		waitpid(child_pid->pid, &ret, 0);
+		ret = WEXITSTATUS(ret);
+	}
+	free(child_pid);
+	free_tokens(tokens);
+	return (ret);
+}
+
 /**
  *
  * @brief Main execution function that executes a given token list
@@ -135,7 +102,6 @@ static int	init_check(t_token *tokens)
 int	execute(t_token *tokens, t_env **env)
 {
 	int			ret;
-	int			pid;
 
 	ret = init_check(tokens);
 	if (ret)
@@ -143,18 +109,7 @@ int	execute(t_token *tokens, t_env **env)
 	if (tokens->next)
 		ret = exec_pipe(tokens, env);
 	else
-	{
-		pid = 0;
-		ret = dispatch(tokens, env, &pid, 0);
-		if (pid)
-		{
-			close_fds(tokens);
-			sig_exec();
-			waitpid(pid, &ret, 0);
-			ret = WEXITSTATUS(ret);
-		}
-		free_tokens(tokens);
-	}
+		ret = exec_no_pipe(tokens, env);
 	sig_inter();
 	return (ret);
 }
