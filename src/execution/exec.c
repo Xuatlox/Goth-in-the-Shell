@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 13:34:34 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/15 10:06:30 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,30 @@
  * @param is_piped 1 if the command is part of a pipe, else 0
  * @return Return value of the function executed
  */
-int	dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped)
+int	dispatch(t_token **token, t_env **env, t_pid_list *pids, int is_piped)
 {
 	int			ret;
 	t_pid_list	*last;
 
-	ret = check_tkn(token);
+	ret = check_tkn(*token);
 	last = get_last_pid(pids);
 	if (ret)
 		return (ret);
-	if (!ft_strncmp(token->cmd->str, "cd", 3))
-		ret = exec_cd(token->cmd->next, token->outfile, *env, is_piped);
-	else if (!ft_strncmp(token->cmd->str, "export", 7))
-		ret = exec_export(token->cmd->next, token->outfile, env, is_piped);
-	else if (!ft_strncmp(token->cmd->str, "pwd", 4))
-		ret = exec_pwd(token->outfile, *env);
-	else if (!ft_strncmp(token->cmd->str, "env", 4))
-		ret = exec_env(token->outfile, *env);
-	else if (!ft_strncmp(token->cmd->str, "echo", 5))
-		ret = exec_echo(token->cmd->next, token->outfile);
-	else if (!ft_strncmp(token->cmd->str, "unset", 6))
-		ret = exec_unset(token->cmd->next, env, is_piped);
-	else if (!ft_strncmp(token->cmd->str, "exit", 5))
+	if (!(*token)->cmd)
+		return(0);
+	if (!ft_strncmp((*token)->cmd->str, "cd", 3))
+		ret = exec_cd((*token)->cmd->next, (*token)->outfile, *env, is_piped);
+	else if (!ft_strncmp((*token)->cmd->str, "export", 7))
+		ret = exec_export((*token)->cmd->next, (*token)->outfile, env, is_piped);
+	else if (!ft_strncmp((*token)->cmd->str, "pwd", 4))
+		ret = exec_pwd((*token)->outfile, *env);
+	else if (!ft_strncmp((*token)->cmd->str, "env", 4))
+		ret = exec_env((*token)->outfile, *env);
+	else if (!ft_strncmp((*token)->cmd->str, "echo", 5))
+		ret = exec_echo((*token)->cmd->next, (*token)->outfile);
+	else if (!ft_strncmp((*token)->cmd->str, "unset", 6))
+		ret = exec_unset((*token)->cmd->next, env, is_piped);
+	else if (!ft_strncmp((*token)->cmd->str, "exit", 5))
 		ret = exec_exit(token, *env, is_piped, pids);
 	else
 		last->pid = exec_child(token, *env, pids);
@@ -59,7 +61,8 @@ int	dispatch(t_token *token, t_env **env, t_pid_list *pids, int is_piped)
  */
 static int	init_check(t_token *tokens)
 {
-	if (!tokens || !tokens->cmd || !tokens->cmd->str)
+	if ((!tokens || !tokens->cmd || !tokens->cmd->str) && tokens->infile == -1
+		&& tokens->outfile == -1 && tokens->is_fail == SUCCESS)
 		return (1);
 	if (tokens->infile == -1)
 		tokens->infile = STDIN_FILENO;
@@ -70,25 +73,30 @@ static int	init_check(t_token *tokens)
 	return (0);
 }
 
-static int	exec_no_pipe(t_token *tokens, t_env **env)
+static int	exec_no_pipe(t_token **tokens, t_env **env)
 {
 	t_pid_list	*child_pid;
 	int			ret;
+	int 		status;
 
 	child_pid = ft_calloc(1, sizeof(t_pid_list));
 	if (!child_pid)
 		return (1);
-	ret = dispatch(tokens, env, child_pid, 0);
+	status = dispatch(tokens, env, child_pid, 0);
 	if (child_pid->pid)
 	{
-		close_fds(tokens);
+		close_fds(*tokens);
 		sig_exec();
 		waitpid(child_pid->pid, &ret, 0);
-		ret = WEXITSTATUS(ret);
+		if (WIFEXITED(ret))
+			status = WEXITSTATUS(ret);
+		if (WIFSIGNALED(ret))
+			status = WTERMSIG(ret) + 128;
 	}
 	free(child_pid);
+	close_fds(*tokens);
 	free_tokens(tokens);
-	return (ret);
+	return (status);
 }
 
 /**
@@ -99,14 +107,14 @@ static int	exec_no_pipe(t_token *tokens, t_env **env)
  * @param env List of environmental variables
  * @return Return value of the command executed, 1 if an error occurred
  */
-int	execute(t_token *tokens, t_env **env)
+int	execute(t_token **tokens, t_env **env)
 {
 	int			ret;
 
-	ret = init_check(tokens);
+	ret = init_check(*tokens);
 	if (ret)
-		return (ret);
-	if (tokens->next)
+		return (0);
+	if ((*tokens)->next)
 		ret = exec_pipe(tokens, env);
 	else
 		ret = exec_no_pipe(tokens, env);

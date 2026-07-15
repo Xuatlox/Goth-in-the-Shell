@@ -24,6 +24,7 @@ SRC_FILES := $(SRC_DIR)minishell.c \
 			 $(SRC_DIR)$(PARSER_DIR)redirection.c \
 			 $(SRC_DIR)$(PARSER_DIR)lexer.c \
 			 $(SRC_DIR)$(PARSER_DIR)expand.c \
+			 $(SRC_DIR)$(PARSER_DIR)remove_node.c \
 			 $(SRC_DIR)$(PARSER_DIR)$(LST_DIR)lst_manager.c \
 			 $(SRC_DIR)$(PARSER_DIR)$(LST_DIR)lst_token.c \
 			 $(SRC_DIR)$(PARSER_DIR)$(UTILS_DIR)utils_parsing.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 10:45:19 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 16:45:40 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/14 11:47:34 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ int	exec_echo(t_command *args, const int fd_out)
 	{
 		size = ft_strlen(args->str);
 		write(fd_out, args->str, size);
-		if (args->next && args->str && *args->str
-			&& args->next->str && *args->next->str)
+		if (args->next && args->str && args->next->str)
 			write(fd_out, " ", 1);
 		args = args->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 16:07:55 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/15 10:08:58 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include <stdlib.h>
 
 /*---------------------------EXEC FUNCTION------------------------------------*/
-int			execute(t_token *tokens, t_env **env);
-int			exec_pipe(t_token *tokens, t_env **env);
-pid_t		exec_child(t_token *token, t_env *env, t_pid_list *pids);
-int			dispatch(t_token *token, t_env **env,
+int			execute(t_token **tokens, t_env **env);
+int			exec_pipe(t_token **tokens, t_env **env);
+pid_t		exec_child(t_token **token, t_env *env, t_pid_list *pids);
+int			dispatch(t_token **token, t_env **env,
 				t_pid_list *pids, int is_piped);
 int			check_tkn(t_token *token);
 
@@ -28,8 +28,7 @@ int			check_tkn(t_token *token);
 void		pipe_child_proc(t_token *tokens, t_env *env);
 
 /*---------------------------EXEC_CHILD UTILS---------------------------------*/
-void		clean_child(t_env *env, t_token *token);
-pid_t		new_child(t_env *env, t_token *token, t_exec *exec,
+pid_t		new_child(t_env *env, t_token **token, t_exec *exec,
 				t_pid_list *pids);
 
 /*---------------------------EXEC MANAGEMENT----------------------------------*/
@@ -37,10 +36,10 @@ void		free_exec(t_exec *exec);
 
 /*---------------------------TOKEN MANAGEMENT---------------------------------*/
 int			cmd_len(const t_command *cmd);
-void		free_tokens(t_token *tokens);
+void		free_tokens(t_token **tokens);
 int			tokens_len(const t_token *tokens);
-void		close_fds(const t_token *tokens);
-t_token		*jump_next_token(t_token *token);
+void		close_fds(t_token *tokens);
+void		jump_next_token(t_token **token);
 
 /*---------------------------ENV MANAGEMENT-----------------------------------*/
 int			get_env_size(const t_env *env);
@@ -66,7 +65,7 @@ int			exec_export(t_command *args, int fd_out, t_env **env, int is_piped);
 int			exec_env(int fd_out, const t_env *env);
 int			exec_pwd(int fd_out, t_env *env);
 int			exec_unset(const t_command *args, t_env **env, int is_piped);
-int			exec_exit(t_token *token, t_env *env, int is_piped,
+int			exec_exit(t_token **token, t_env *env, int is_piped,
 				t_pid_list *pids);
 void		print_sorted_env(t_env *env, int fd_out);
 
@@ -94,6 +93,7 @@ int			check_expand(char **cmd, t_minishell *shell, t_status *status,
 				t_expand ex);
 int			ft_is_expand(char *str, t_quote_state qte_state);
 t_status	expander(t_minishell *minishell, char **str, size_t *i);
+void		remove_empty_node(t_minishell *minishell);
 void		remove_quotes(t_token *tkn_node, t_status *status);
 char		*make_env_val(t_minishell *minishell, char *env_var);
 char		*make_env_var(char *str);

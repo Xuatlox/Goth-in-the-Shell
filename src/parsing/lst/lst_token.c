@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:57:02 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/01 10:46:08 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/14 20:11:29 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_token	*lst_newtoken(t_status *status)
 	}
 	token->infile = -1;
 	token->outfile = -1;
+	token->is_fail = SUCCESS;
+	token->redir = 0;
 	token->cmd = NULL;
 	token->next = NULL;
 	return (token);

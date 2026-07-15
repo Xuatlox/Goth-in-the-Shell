@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 09:53:43 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/15 02:58:57 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/14 20:11:20 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_token
 {
 	int				infile;
 	int				outfile;
+	t_status		is_fail;
+	int				redir;
 	t_command		*cmd;
 	struct s_token	*next;
 }					t_token;
@@ -85,6 +87,7 @@ typedef struct s_exec
 /*---------------------------PID LIST-----------------------------------------*/
 typedef struct s_pid_list
 {
+	int					ret;
 	pid_t				pid;
 	struct s_pid_list	*next;
 }						t_pid_list;

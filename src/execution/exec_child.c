@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 15:28:00 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/16 09:43:19 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/14 20:42:51 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static void	fill_env(const t_env *env, t_exec *exec)
  * @param pids List of pids to free in the child
  * @return Pid of the new children created
  */
-pid_t	exec_child(t_token *token, t_env *env, t_pid_list *pids)
+pid_t	exec_child(t_token **token, t_env *env, t_pid_list *pids)
 {
 	t_exec	*exec;
 	pid_t	pid;
@@ -142,10 +142,10 @@ pid_t	exec_child(t_token *token, t_env *env, t_pid_list *pids)
 	exec = ft_calloc(1, sizeof(t_exec));
 	if (!exec)
 		return (1);
-	fill_valid_cmd(token->cmd->str, env, exec);
+	fill_valid_cmd((*token)->cmd->str, env, exec);
 	if (!exec->absolute_cmd)
-		exec->absolute_cmd = ft_strdup(token->cmd->str);
-	fill_args(token->cmd, exec);
+		exec->absolute_cmd = ft_strdup((*token)->cmd->str);
+	fill_args((*token)->cmd, exec);
 	fill_env(env, exec);
 	if (!exec->absolute_cmd || !exec->env || !exec->args)
 	{

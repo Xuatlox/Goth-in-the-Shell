@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:03:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 11:26:45 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/14 20:44:44 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	print_cmd_not_found(t_exec *exec)
  * @param token Current token in the list to be executed
  * @param exec Structure containing every data needed to execute execve()
  */
-static void	child_proc(t_env *env, t_token *token, t_exec *exec)
+static void	child_proc(t_env *env, t_token **token, t_exec *exec)
 {
 	int		ret;
 
@@ -58,10 +58,10 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
 		perror("goth_in_the_shell: sigaction");
 		exit(1);
 	}
-	ret = dup2(token->infile, STDIN_FILENO);
+	ret = dup2((*token)->infile, STDIN_FILENO);
 	if (ret != -1)
-		ret = dup2(token->outfile, STDOUT_FILENO);
-	close_fds(token);
+		ret = dup2((*token)->outfile, STDOUT_FILENO);
+	close_fds(*token);
 	free_env(env);
 	free_tokens(token);
 	if (ret != -1)
@@ -86,7 +86,7 @@ static void	child_proc(t_env *env, t_token *token, t_exec *exec)
  * @param pids List of pids to free in the child
  * @return Pid of the new child forked
  */
-pid_t	new_child(t_env *env, t_token *token, t_exec *exec, t_pid_list *pids)
+pid_t	new_child(t_env *env, t_token **token, t_exec *exec, t_pid_list *pids)
 {
 	pid_t	pid;
 

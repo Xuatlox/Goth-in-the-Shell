@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 16:45:23 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/01 14:49:22 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/15 10:08:25 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,9 @@
  *
  * @param tokens List of tokens to be executed
  */
-void	free_tokens(t_token *tokens)
+void	free_tokens(t_token **tokens)
 {
-	t_token		*tmp_tkn;
-	t_command	*tmp_cmd;
-
-	while (tokens)
-	{
-		tmp_tkn = tokens->next;
-		while (tokens->cmd)
-		{
-			tmp_cmd = tokens->cmd->next;
-			if (tokens->cmd->str)
-				free(tokens->cmd->str);
-			free(tokens->cmd);
-			tokens->cmd = tmp_cmd;
-		}
-		free(tokens);
-		tokens = tmp_tkn;
-	}
+	lst_clear_tkn(tokens);
 }
 
 /**
@@ -81,14 +65,20 @@ int	cmd_len(const t_command *cmd)
  *
  * @param tokens List of tokens to be executed
  */
-void	close_fds(const t_token *tokens)
+void	close_fds(t_token *tokens)
 {
 	while (tokens)
 	{
 		if (tokens->infile > 2)
+		{
 			close(tokens->infile);
+			tokens->infile = -1;
+		}
 		if (tokens->outfile > 2)
+		{
 			close(tokens->outfile);
+			tokens->outfile = -1;
+		}
 		tokens = tokens->next;
 	}
 }
@@ -99,23 +89,16 @@ void	close_fds(const t_token *tokens)
  * @param token Actual token node
  * @return Next token node to execute
  */
-t_token	*jump_next_token(t_token *token)
+void	jump_next_token(t_token **token)
 {
-	t_token		*ret;
-	t_command	*cmd_tmp;
+	t_token	*ret;
 
-	if (token->infile > 2)
-		close(token->infile);
-	if (token->outfile > 2)
-		close(token->outfile);
-	while (token->cmd)
-	{
-		cmd_tmp = token->cmd->next;
-		free(token->cmd->str);
-		free(token->cmd);
-		token->cmd = cmd_tmp;
-	}
-	ret = token->next;
-	free(token);
-	return (ret);
+	if ((*token)->infile > 2)
+		close((*token)->infile);
+	if ((*token)->outfile > 2)
+		close((*token)->outfile);
+	lst_clear_cmd(&(*token)->cmd);
+	ret = (*token)->next;
+	free(*token);
+	*token = ret;
 }

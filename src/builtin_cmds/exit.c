@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 16:09:02 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/14 20:45:14 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	is_num(const char *str)
  * @param token List of tokens to free before exit
  * @param env List of environmental variables to free before exit
  */
-static void	exit_default(t_token *token, t_env *env, t_pid_list *pids)
+static void	exit_default(t_token **token, t_env *env, t_pid_list *pids)
 {
 	free_env(env);
 	free_tokens(token);
@@ -117,24 +117,24 @@ static long long	get_code(const char *str)
  * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 1 if an error occurred
  */
-int	exec_exit(t_token *token, t_env *env, int is_piped, t_pid_list *pids)
+int	exec_exit(t_token **token, t_env *env, int is_piped, t_pid_list *pids)
 {
 	long long	code;
 
 	if (!is_piped)
 		write(2, "exit\n", 5);
-	if (!token->cmd->next || !is_num(token->cmd->next->str))
+	if (!(*token)->cmd->next || !is_num((*token)->cmd->next->str))
 	{
 		if (is_piped)
 			return (2);
 		exit_default(token, env, pids);
 	}
-	if (token->cmd->next->next)
+	if ((*token)->cmd->next->next)
 	{
 		write(2, "goth_in_the_shell: exit: too many arguments\n", 44);
 		return (1);
 	}
-	code = get_code(token->cmd->next->str);
+	code = get_code((*token)->cmd->next->str);
 	code %= 256;
 	if (is_piped)
 		return ((int) code);

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/19 13:16:39 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 10:04:46 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,21 @@ int	g_sig_ind = 0;
  * @param env List of environmental variables
  * @return 0 if 'line' is correct, else 1
  */
-static int	check_line(char **line, t_env *env)
+static int	check_line(char *line)
 {
-	int	i;
+	size_t	i;
 
-	while (*line)
+	i = 0;
+	if (line && line[i])
+		add_history(line);
+	while (line[i] && ft_isspace(line[i]))
+		++i;
+	if (!line[i])
 	{
-		i = 0;
-		if (*line != 0)
-			add_history(*line);
-		while (ft_isspace((*line)[i]))
-			++i;
-		if ((*line)[i])
-			return (0);
-		*line = readline("goth_in_the_shell> ");
+		free(line);
+		return (1);
 	}
-	free_env(env);
-	rl_clear_history();
-	return (1);
+	return (0);
 }
 
 /**
@@ -72,13 +69,22 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("goth_in_the_shell> ");
-		if (check_line(&line, shell.env))
-			return (shell.old_error_code);
 		check_sig(&shell.old_error_code);
+		if (!line)
+		{
+			free_env(shell.env);
+			rl_clear_history();
+			return (shell.old_error_code);
+		}
+		if (check_line(line))
+			continue ;
 		parsing(line, &status, &shell);
 		shell.old_error_code = (int)status;
 		if (status == SUCCESS)
-			shell.old_error_code = execute(shell.tkn_node, &shell.env);
+			shell.old_error_code = execute(&shell.tkn_node, &shell.env);
+		close_fds(shell.tkn_node);
+		free_tokens(&shell.tkn_node);
+		shell.tkn_node = NULL;
 		status = SUCCESS;
 		shell.tkn_node = NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 19:41:04 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/14 21:08:06 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,24 @@
  *
  * @param pids List of pids to wait for
  */
-static void	wait_pids(t_pid_list *pids)
+static void	wait_pids(t_pid_list *pids, int *status)
 {
+	int	ret;
+
+	ret = 0;
 	sig_exec();
 	while (pids)
 	{
 		if (pids->pid)
-			waitpid(pids->pid, NULL, 0);
+		{
+			waitpid(pids->pid, &ret, 0);
+			if (WIFEXITED(ret))
+				*status = WEXITSTATUS(ret);
+			if (WIFSIGNALED(ret))
+				*status = WTERMSIG(ret) + 128;
+		}
+		else
+			*status = pids->ret;
 		pids = pids->next;
 	}
 }
@@ -35,25 +46,33 @@ static void	wait_pids(t_pid_list *pids)
  * @param env List of environmental variables
  * @return Exit status of the last command of the token list
  */
-static int	exec_all(t_token *tokens, t_env **env)
+static int	exec_all(t_token **tokens, t_env **env)
 {
 	int			ret;
 	t_pid_list	*pids;
 	t_pid_list	*head;
+	t_token		**cpy;
 
+	cpy = tokens;
 	pids = ft_calloc(1, sizeof(t_pid_list));
+	if (!pids)
+		return (1);
 	head = pids;
 	ret = 0;
-	while (tokens)
+	while (cpy && *cpy)
 	{
-		if (tokens->cmd && tokens->cmd->str)
-			ret = dispatch(tokens, env, head, 1);
-		tokens = jump_next_token(tokens);
-		pids->next = ft_calloc(1, sizeof(t_pid_list));
-		pids = pids->next;
+		if ((*cpy)->cmd && (*cpy)->cmd->str)
+			pids->ret = dispatch(cpy, env, head, 1);
+		jump_next_token(cpy);
+		if (cpy && *cpy)
+			pids->next = ft_calloc(1, sizeof(t_pid_list));
+		if (!pids->next)
+			break ;
+		else
+			pids = pids->next;
 	}
-	close_fds(tokens);
-	wait_pids(head);
+	close_fds(*tokens);
+	wait_pids(head, &ret);
 	free_pid_list(head);
 	return (ret);
 }
@@ -64,26 +83,28 @@ static int	exec_all(t_token *tokens, t_env **env)
  * @param tokens List of tokens to be executed
  * @return 0 on success, 1 if an error occurred
  */
-static int	pipe_all(t_token *tokens)
+static int	pipe_all(t_token **tokens)
 {
-	int	fds[2];
+	int		fds[2];
+	t_token	**cpy;
 
-	while (tokens->next)
+	cpy = tokens;
+	while ((*cpy)->next)
 	{
 		if (pipe(fds))
 		{
 			free_tokens(tokens);
 			return (1);
 		}
-		if (tokens->outfile < 0)
-			tokens->outfile = fds[1];
+		if ((*cpy)->outfile < 0)
+			(*cpy)->outfile = fds[1];
 		else
 			close(fds[1]);
-		if (tokens->next->infile < 0)
-			tokens->next->infile = fds[0];
+		if ((*cpy)->next->infile < 0)
+			(*cpy)->next->infile = fds[0];
 		else
 			close(fds[0]);
-		tokens = tokens->next;
+		cpy = &(*cpy)->next;
 	}
 	return (0);
 }
@@ -95,12 +116,12 @@ static int	pipe_all(t_token *tokens)
  * @param env List of environmental variables
  * @return The exit status of the piped commands sent
  */
-int	exec_pipe(t_token *tokens, t_env **env)
+int	exec_pipe(t_token **tokens, t_env **env)
 {
 	int		ret;
 	int		failed;
 
-	if (!tokens)
+	if (!tokens || !*tokens)
 		return (0);
 	failed = pipe_all(tokens);
 	if (failed)

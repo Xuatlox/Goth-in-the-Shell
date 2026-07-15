@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ansimonn <ansimonn@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/13 13:11:04 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/13 19:03:11 by ansimonn         ###   ########.fr       */
+/*   Updated: 2026/07/14 21:23:02 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,23 @@ int	check_tkn(t_token *token)
 	int			ret;
 
 	ret = 0;
+	if (!token->cmd || token->is_fail != SUCCESS)
+	{
+		if (token->redir == 1 && token->is_fail == SUCCESS)
+			return (0);
+		return (1);
+	}
 	stat(token->cmd->str, &stats);
 	if (!ft_strncmp(token->cmd->str, ".", 2))
 		ret = print_cmd_error(token->cmd->str,
 				": filename argument required\n");
-	else if (*token->cmd->str == '/' && S_ISDIR(stats.st_mode))
-		ret = print_cmd_error(token->cmd->str, ": Is a directory\n");
 	else if ((*token->cmd->str == '/' || (token->cmd->str[0] == '.'
 				&& token->cmd->str[1] == '/'))
 		&& access(token->cmd->str, F_OK) < 0)
 		ret = print_cmd_error(token->cmd->str,
 				": No such file or directory\n");
+	else if (*token->cmd->str == '/' && S_ISDIR(stats.st_mode))
+		ret = print_cmd_error(token->cmd->str, ": Is a directory\n");
 	else if (token->cmd->str[0] == '.' && token->cmd->str[1] == '/'
 		&& access(token->cmd->str, X_OK) < 0)
 		ret = print_cmd_error(token->cmd->str, ": Permission denied\n");
