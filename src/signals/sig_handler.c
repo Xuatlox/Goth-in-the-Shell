@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 13:36:40 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/06/30 14:06:08 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 11:45:43 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,6 @@ static void	sigint_inter_handler(int sig, siginfo_t *info, void *other)
 	rl_redisplay();
 }
 
-static void	sigint_inter_heredoc_handler(int sig, siginfo_t *info, void *other)
-{
-	(void)info;
-	(void)other;
-	(void)sig;
-	g_sig_ind = SIGINT;
-	write(2, "\n", 1);
-	rl_replace_line("", 1);
-	rl_on_new_line();
-	close(0);
-}
-
 /**
  * @brief Sets SIGINT and SIGQUIT behaviors for interactive mode
  */
@@ -57,33 +45,6 @@ void	sig_inter(void)
 	}
 	action.sa_handler = SIG_IGN;
 	if (sigaction(SIGQUIT, &action, NULL) < 0)
-		perror("goth_in_the_shell: sigaction");
-}
-
-void	sig_inter_child_heredoc(void)
-{
-	struct sigaction	action;
-
-	ft_bzero(&action, sizeof(action));
-	action.sa_sigaction = &sigint_inter_heredoc_handler;
-	if (sigaction(SIGINT, &action, NULL) < 0)
-	{
-		perror("goth_in_the_shell: sigaction");
-		return ;
-	}
-	action.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &action, NULL) < 0)
-		perror("goth_in_the_shell: sigaction");
-}
-
-void	sig_inter_heredoc(void)
-{
-	struct sigaction	action;
-
-	ft_bzero(&action, sizeof(action));
-	action.sa_handler = SIG_IGN;
-	if (sigaction(SIGQUIT, &action, NULL) < 0
-		|| sigaction(SIGINT, &action, NULL) < 0)
 		perror("goth_in_the_shell: sigaction");
 }
 

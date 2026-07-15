@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/28 16:19:28 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/14 21:08:06 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 10:30:06 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,13 @@ static void	wait_pids(t_pid_list *pids, int *status)
 	}
 }
 
-/**
- * @brief Executes all the token list.
- *
- * @param tokens List of tokens to be executed
- * @param env List of environmental variables
- * @return Exit status of the last command of the token list
- */
-static int	exec_all(t_token **tokens, t_env **env)
+void	pids_loop(t_token **tokens, t_env **env, t_pid_list *head)
 {
-	int			ret;
-	t_pid_list	*pids;
-	t_pid_list	*head;
 	t_token		**cpy;
+	t_pid_list	*pids;
 
+	pids = head;
 	cpy = tokens;
-	pids = ft_calloc(1, sizeof(t_pid_list));
-	if (!pids)
-		return (1);
-	head = pids;
-	ret = 0;
 	while (cpy && *cpy)
 	{
 		if ((*cpy)->cmd && (*cpy)->cmd->str)
@@ -71,6 +58,25 @@ static int	exec_all(t_token **tokens, t_env **env)
 		else
 			pids = pids->next;
 	}
+}
+
+/**
+ * @brief Executes all the token list.
+ *
+ * @param tokens List of tokens to be executed
+ * @param env List of environmental variables
+ * @return Exit status of the last command of the token list
+ */
+static int	exec_all(t_token **tokens, t_env **env)
+{
+	int			ret;
+	t_pid_list	*head;
+
+	head = ft_calloc(1, sizeof(t_pid_list));
+	if (!head)
+		return (1);
+	ret = 0;
+	pids_loop(tokens, env, head);
 	close_fds(*tokens);
 	wait_pids(head, &ret);
 	free_pid_list(head);

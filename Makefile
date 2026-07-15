@@ -14,12 +14,14 @@ INC_DIR = inc/
 EXEC_DIR := execution/
 BUILT_DIR := builtin_cmds/
 PARSER_DIR := parsing/
+SIG_DIR := signals/
 STRUCT_DIR := struct_managers/
 LST_DIR := lst/
 UTILS_DIR := utils/
 
 SRC_FILES := $(SRC_DIR)minishell.c \
-			 $(SRC_DIR)sig_handler.c \
+			 $(SRC_DIR)$(SIG_DIR)sig_handler.c \
+			 $(SRC_DIR)$(SIG_DIR)sig_handler_heredoc.c \
 			 $(SRC_DIR)$(PARSER_DIR)parsing.c \
 			 $(SRC_DIR)$(PARSER_DIR)redirection.c \
 			 $(SRC_DIR)$(PARSER_DIR)lexer.c \

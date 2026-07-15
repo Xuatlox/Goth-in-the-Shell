@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 13:32:59 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/07/15 09:58:38 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 11:11:54 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,25 @@ static t_status	make_word(char **new_word, char *str, size_t *i)
 		error_parsing(0);
 		return (BAD_ARG);
 	}
-
 	*i -= 1;
 	return (SUCCESS);
+}
+
+t_status	redirecting(t_minishell *shell, t_token *tkn_node, char *new_word,
+	t_redirect redir)
+{
+	t_status	status;
+
+	status = SUCCESS;
+	if (ft_lstlast_command(tkn_node->cmd) == NULL)
+		tkn_node->cmd = lst_newcommand(0, &status);
+	if ((redir == INPUT || redir == HEREDOC) && !status)
+		tkn_node->is_fail = redirect_infile(tkn_node, redir, new_word, shell);
+	else if ((redir == TRUNC || redir == APPEND) && !status)
+		tkn_node->is_fail = redirect_outfile(tkn_node, redir, new_word);
+	if (status == SUCCESS)
+		tkn_node->redir = 1;
+	return (status);
 }
 
 t_status	redirect_manager(char *str, t_token *tkn_node,
@@ -118,13 +134,7 @@ t_status	redirect_manager(char *str, t_token *tkn_node,
 		check_expand(&new_word, shell, &status, EXPAND);
 		qte_remove(&new_word);
 	}
-	if (ft_lstlast_command(tkn_node->cmd) == NULL)
-		tkn_node->cmd = lst_newcommand(0, &status);
-	if ((redir == INPUT || redir == HEREDOC) && !status)
-		tkn_node->is_fail = redirect_infile(tkn_node, redir, new_word, shell);
-	else if ((redir == TRUNC || redir == APPEND) && !status)
-		tkn_node->is_fail = redirect_outfile(tkn_node, redir, new_word);
 	if (status == SUCCESS)
-		tkn_node->redir = 1;
+		status = redirecting(shell, tkn_node, new_word, redir);
 	return (status);
 }

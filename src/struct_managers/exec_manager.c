@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 14:00:54 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/14 17:35:17 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 10:20:34 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	free_pid_list(t_pid_list *pid_list)
 
 t_pid_list	*get_last_pid(t_pid_list *pid_list)
 {
-	t_pid_list *last;
+	t_pid_list	*last;
 
 	last = pid_list;
 	if (!last)

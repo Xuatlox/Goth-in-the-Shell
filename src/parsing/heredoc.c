@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 17:30:45 by mcrenn            #+#    #+#             */
-/*   Updated: 2026/06/30 14:14:28 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 11:24:09 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ static int	heredoc(char *delimiter, int fd[2], t_minishell *shell)
 
 	status = SUCCESS;
 	rl_clear_history();
-	close(fd[0]);
 	sig_inter_child_heredoc();
-	//sig_inter_child_heredoc(delimiter, shell);
 	expand = qte_remove(&delimiter);
 	while (1)
 	{
@@ -58,10 +56,8 @@ static int	heredoc(char *delimiter, int fd[2], t_minishell *shell)
 		if (heredoc_manager(input, delimiter) == 0)
 			break ;
 		check_expand(&input, shell, &status, expand);
-		write(fd[1], input, ft_strlen(input));
-		write(fd[1], "\n", 1);
-		if (input)
-			free(input);
+		ft_putendl_fd(input, fd[1]);
+		free(input);
 	}
 	free(delimiter);
 	if (input)
@@ -88,7 +84,10 @@ int	pipe_heredoc(char *delimiter, t_minishell *shell)
 		return (-1);
 	}
 	else if (pid == 0)
+	{
+		close(fd[0]);
 		heredoc(delimiter, fd, shell);
+	}
 	close(fd[1]);
 	sig_inter_heredoc();
 	waitpid(pid, NULL, 0);

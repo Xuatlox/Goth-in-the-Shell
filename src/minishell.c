@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 11:07:18 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/15 10:04:46 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/15 11:42:44 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,30 @@ static void	check_sig(int *ret)
 	}
 }
 
+void	minishell(char *line, t_minishell *shell)
+{
+	t_status	status;
+
+	status = SUCCESS;
+	parsing(line, &status, shell);
+	shell->old_error_code = (int)status;
+	if (status == SUCCESS)
+		shell->old_error_code = execute(&shell->tkn_node, &shell->env);
+	close_fds(shell->tkn_node);
+	free_tokens(&shell->tkn_node);
+	status = SUCCESS;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_minishell	shell;
-	t_status	status;
 
 	(void)argc;
 	(void)argv;
 	sig_inter();
 	ft_bzero(&shell, sizeof(t_minishell));
 	shell.env = build_env(envp);
-	status = SUCCESS;
-	line = NULL;
 	while (1)
 	{
 		line = readline("goth_in_the_shell> ");
@@ -78,14 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (check_line(line))
 			continue ;
-		parsing(line, &status, &shell);
-		shell.old_error_code = (int)status;
-		if (status == SUCCESS)
-			shell.old_error_code = execute(&shell.tkn_node, &shell.env);
-		close_fds(shell.tkn_node);
-		free_tokens(&shell.tkn_node);
-		shell.tkn_node = NULL;
-		status = SUCCESS;
-		shell.tkn_node = NULL;
+		minishell(line, &shell);
 	}
+	return (0);
 }
