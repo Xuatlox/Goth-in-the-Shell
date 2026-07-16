@@ -32,7 +32,7 @@ int	dispatch(t_token **token, t_env **env, t_pid_list *pids, int is_pipe)
 	if (ret)
 		return (ret);
 	if ((*token)->cmd && !ft_strncmp((*token)->cmd->str, "cd", 3))
-		ret = exec_cd((*token)->cmd->next, (*token)->outfile, *env, is_pipe);
+		ret = exec_cd((*token)->cmd->next, *env, is_pipe);
 	else if ((*token)->cmd && !ft_strncmp((*token)->cmd->str, "export", 7))
 		ret = exec_export((*token)->cmd->next, (*token)->outfile, env, is_pipe);
 	else if ((*token)->cmd && !ft_strncmp((*token)->cmd->str, "pwd", 4))

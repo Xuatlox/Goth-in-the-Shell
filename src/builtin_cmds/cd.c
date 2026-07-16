@@ -17,36 +17,10 @@
  *
  * @param dest Argument given after the 'cd' in the command line
  */
-static void	print_cd_error(char *dest)
+static void	print_cd_error(const char *dest)
 {
 	write(2, "goth_in_the_shell: cd: ", 23);
 	perror(dest);
-}
-
-/**
- * @brief Sets dest to OLDPWD, and prints it
- *
- * @param env List of environmental variables
- * @param dest Pointer to the string containing the destination of the command
- * @param fd_out Fd where the output must be sent
- * @return 0 on success, 1 if an error occurred
- */
-static int	cd_old_wd(t_env *env, char **dest, const int fd_out)
-{
-	char	**path;
-	size_t	size;
-
-	path = get_env(env, "OLDPWD");
-	if (!path)
-	{
-		write(STDERR_FILENO, "goth_in_the_shell: cd: OLDPWD not set\n", 38);
-		return (1);
-	}
-	*dest = *path;
-	size = ft_strlen(*dest);
-	write(fd_out, *dest, size);
-	write(fd_out, "\n", 1);
-	return (0);
 }
 
 /**
@@ -79,7 +53,7 @@ static int	cd_home(t_env *env, char **dest)
 
  * @return 0 on success, 1 if an error occurred
  */
-static int	change_directory(char *dest, t_env *env)
+static int	change_directory(const char *dest, t_env *env)
 {
 	char	*path;
 
@@ -110,12 +84,11 @@ static int	change_directory(char *dest, t_env *env)
  * @brief Mimics the behavior of the cd command in bash
  *
  * @param args List of arguments following 'cd' (NULL if no arguments)
- * @param fd_out Fd where the output must be sent
  * @param env List of environmental variables
  * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 0 on success, 1 if an error occurred
  */
-int	exec_cd(const t_command *args, const int fd_out, t_env *env, int is_piped)
+int	exec_cd(const t_command *args, t_env *env, int is_piped)
 {
 	char	*dest;
 	int		ret;
@@ -123,9 +96,6 @@ int	exec_cd(const t_command *args, const int fd_out, t_env *env, int is_piped)
 	if (args)
 		dest = args->str;
 	if (!args && !cd_home(env, &dest))
-		return (1);
-	if (args && !ft_strncmp(args->str, "-", 2)
-		&& cd_old_wd(env, &dest, fd_out))
 		return (1);
 	ret = 0;
 	if (!is_piped)

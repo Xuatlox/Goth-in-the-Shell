@@ -58,8 +58,7 @@ t_env		*new_env(char *name, char *value);
 void		free_env(t_env *env);
 
 /*---------------------------BUILTIN CMDS-------------------------------------*/
-int			exec_cd(const t_command *args, int fd_out, t_env *env,
-				int is_piped);
+int			exec_cd(const t_command *args, t_env *env, int is_piped);
 int			exec_echo(t_command *args, int fd_out);
 int			exec_export(t_command *args, int fd_out, t_env **env, int is_piped);
 int			exec_env(int fd_out, const t_env *env);
