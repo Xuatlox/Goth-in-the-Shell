@@ -17,7 +17,7 @@
  *
  * @param dest Argument given after the 'cd' in the command line
  */
-static void	print_cd_error(char *dest)
+static void	print_cd_error(const char *dest)
 {
 	write(2, "goth_in_the_shell: cd: ", 23);
 	perror(dest);
@@ -53,7 +53,7 @@ static int	cd_home(t_env *env, char **dest)
 
  * @return 0 on success, 1 if an error occurred
  */
-static int	change_directory(char *dest, t_env *env)
+static int	change_directory(const char *dest, t_env *env)
 {
 	char	*path;
 
@@ -84,7 +84,6 @@ static int	change_directory(char *dest, t_env *env)
  * @brief Mimics the behavior of the cd command in bash
  *
  * @param args List of arguments following 'cd' (NULL if no arguments)
- * @param fd_out Fd where the output must be sent
  * @param env List of environmental variables
  * @param is_piped Indicates if the command is in a pipe (1) or not (0)
  * @return 0 on success, 1 if an error occurred
