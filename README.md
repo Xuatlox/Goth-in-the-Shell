@@ -16,11 +16,12 @@ For each node created, there will be:
 - A t_command (struct) "*cmd" that corresponds to a chained list for the current command.
 - A s_token (struct) "*next", which is a pointer to the next node.
 
-Le lexer va aussi vérifier si dans certaines commandes, il existe les signes `<` `>` `<<` & `>>`. Ces signes correspondent tous a une redirection, si l'une d'entre elle est détectée, les `input` et `output` de la node correspondante seront open et les comportements de suivants seront observés:
-- Input `<` Ouvre le fichier selectionné.
-- Output `>` Supprimer le contenu d'un fichier pour écrire dedans.
+The lexer will also check whether certain commands contain the characters `<`, `>`, `<<`, and `>>`. \
+These signals all indicate a redirection; if any of them is detected, the `input` and `output` of the corresponding node will be open, and the following behaviors will be observed:
+- Input `<` Open the selected file.
+- Output `>` Delete the contents of a file to write into it.
 - Heredoc `<<` is a form of input that allows inserting multiple lines of text into a command without requiring multiple `echo` statements.
-- Append `>>` Rajoute du contenu dans le fichier sans supprimer son contenu de base.
+- Append `>>` Adds content to the file without deleting its original content.
 
 Once the lexer has finished, the chained list is sent to `expand`. \
 The purpose of the `expand` command is to check whether the character `$` is present in the current command. If that's the case, it will check whether the word after the `$` exists in [env](https://unix.stackexchange.com/questions/103467/what-is-env-command-doing), and if it finds anything, it will replace the name of that environment variable with the result ! \
@@ -80,4 +81,10 @@ Goth_in_the_Shell> echo "Hello World !"
 Goth_in_the_Shell>
 ```
 ## Ressources
+- A quick [guide](https://blog.devgenius.io/lets-build-a-linux-shell-part-i-954c95911501) to uderstand how the parsing work.
+- A [spreadsheet](https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit?pli=1&gid=0#gid=0) containing a lot of minishell test.
+- A guide to understant [Heredoc](https://anju-chaurasiya2012.medium.com/heredocs-in-bash-scripting-5f4d8b7589d1)
+
+
+### Special shout out to our great teacher mperrine !
 
