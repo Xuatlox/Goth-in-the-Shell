@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:15:32 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/15 10:08:58 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/17 10:45:44 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ t_env		*new_env(char *name, char *value);
 void		free_env(t_env *env);
 
 /*---------------------------BUILTIN CMDS-------------------------------------*/
-int			exec_cd(const t_command *args, int fd_out, t_env *env,
-				int is_piped);
+int			exec_cd(const t_command *args, t_env *env, int is_piped);
 int			exec_echo(t_command *args, int fd_out);
 int			exec_export(t_command *args, int fd_out, t_env **env, int is_piped);
 int			exec_env(int fd_out, const t_env *env);

@@ -6,7 +6,7 @@
 /*   By: mcrenn <mcrenn@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:37:37 by ansimonn          #+#    #+#             */
-/*   Updated: 2026/07/14 20:45:14 by mcrenn           ###   ########.fr       */
+/*   Updated: 2026/07/17 10:44:50 by mcrenn           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,29 +84,33 @@ static void	exit_default(t_token **token, t_env *env, t_pid_list *pids)
  * @param str String containing the code to convert
  * @return The converted code, or 2 if it exceeds the long long range
  */
-static long long	get_code(const char *str)
+static long	get_code(const char *str)
 {
-	long long	code;
-	long long	sign;
+	size_t	i;
+	long	code;
+	int		sign;
 
 	sign = 1;
 	code = 0;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		++str;
-	if (*str == '-')
-		sign = -1;
+	i = 0;
+	while (ft_isspace(str[i]))
+		++i;
 	if (*str == '+' || *str == '-')
-		++str;
-	while (*str >= '0' && *str <= '9')
+		sign = (*(str + i++) % 43) * -1 + 1;
+	while (ft_isdigit(str[i]))
 	{
-		if (code > 922337203685477580
-			|| (code == 922337203685477580
-				&& ((sign == 1 && *str > '7') || (sign == -1 && *str > '8'))))
+		if (code * sign <= (LONG_MAX - ((*(str + i)) - '0')) / 10
+			&& code * sign >= (LONG_MIN + ((*(str + i)) - '0')) / 10)
+			code = code * 10 + (*(str + i++) - '0');
+		else
+		{
+			write(2, "goth_in_the_shell: ", 19);
+			write(2, str, ft_strlen(str));
+			write(2, ": numeric argument required\n", 28);
 			return (2);
-		code = code * 10 + *str - '0';
-		++str;
+		}
 	}
-	return (sign * code);
+	return ((long)sign * code);
 }
 
 /**
