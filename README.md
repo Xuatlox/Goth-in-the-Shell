@@ -59,6 +59,10 @@ EXPAND-Y[EXPANDING]
 EXPAND-N(Cannot expand)-->|Check next cmd|EXPAND
 ```
 
+Once these steps are finished we get a list of tokens (1 token for each eventual piped command).
+This list of tokens will go into the execution part were they'll be executed into builtins commands
+(for cd, export, unset, echo, env, pwd and exit) or executed using execve().
+
 ## Instructions
 In order to launch the program correctly, you must first clone the repository #todo(lien).
 ```bash
@@ -84,7 +88,10 @@ Goth_in_the_Shell>
 - A quick [guide](https://blog.devgenius.io/lets-build-a-linux-shell-part-i-954c95911501) to uderstand how the parsing work.
 - A [spreadsheet](https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit?pli=1&gid=0#gid=0) containing a lot of minishell test.
 - A guide to understant [Heredoc](https://anju-chaurasiya2012.medium.com/heredocs-in-bash-scripting-5f4d8b7589d1)
-
+- GNU readline [documentation](https://web.mit.edu/gnu/doc/html/rlman_2.html)
+- Command's behavior [examples](https://docs.google.com/spreadsheets/d/1uJHQu0VPsjjBkR4hxOeCMEt3AOM1Hp_SmUzPFhAH-nA/edit?pli=1&gid=0#gid=0)
+- Global [project management](https://github.com/MarKowPowLow/documentation_minishell_FSI)
+- Minishell [functions descriptions](https://42-cursus.gitbook.io/guide/3-rank-03/minishell/functions)
+- How to manage [signals in C](https://www.codequoi.com/envoyer-et-intercepter-un-signal-en-c/)
 
 ### Special shout out to our great teacher mperrine !
-
